@@ -1,13 +1,12 @@
 @extends('layouts.app')
 @section('content')
-
+<div class=" min-h-screen flex items-center justify-center bg-gray-300">
 <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-4">
+  <h1 class="text-3xl font-extrabold text-gray-800 mb-8 text-center">{{ app()->getLocale() == 'ha' ? 'Ti rajista' : 'Register' }}</h1>
   <form wire:submit.prevent="register" 
     class="bg-white bg-opacity-90 backdrop-blur-md shadow-xl rounded-xl p-10 max-w-md w-full"
     dir="rtl"
   >
-    <h1 class="text-3xl font-extrabold text-gray-800 mb-8 text-center">إنشاء حساب جديد</h1>
-    
     <input
       type="text"
       wire:model="name"
@@ -19,7 +18,7 @@
     <input
       type="email"
       wire:model="email"
-      placeholder="البريد الإلكتروني"
+      placeholder="email"
       class="w-full mb-4 px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-400 transition"
       autocomplete="off"
     />
@@ -27,7 +26,7 @@
     <input
       type="text"
       wire:model="phone"
-      placeholder="رقم الجوال"
+      placeholder="phone"
       class="w-full mb-4 px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-400 transition"
       autocomplete="off"
     />
@@ -35,7 +34,7 @@
     <input
       type="password"
       wire:model="password"
-      placeholder="كلمة المرور"
+      placeholder="password"
       class="w-full mb-4 px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-400 transition"
       autocomplete="new-password"
     />
@@ -56,5 +55,5 @@
     </button>
   </form>
 </div>
-
+</div>
 @endsection

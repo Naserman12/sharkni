@@ -3,6 +3,8 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\Rules\Unique;
+use function Laravel\Prompts\table;
 
 return new class extends Migration
 {
@@ -16,8 +18,13 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('phone')->unique();
             $table->string('password');
-            $table->rememberToken();
+            $table->integer('reputation_points')->default(0);
+            $table->string('language')->default('en');
+            $table->string('address')->nullable();
+            $table->string('national_id')->nullable();
+            $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });
 

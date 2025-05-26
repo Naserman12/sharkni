@@ -1,9 +1,7 @@
-<div>
-    {{-- In work, do what you enjoy. --}}
     @extends('layouts.app')
-@section('content')
-
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-4">
+    @section('content')
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-4">
+    {{-- In work, do what you enjoy. --}}
   <form wire:submit.prevent="login" 
     class="bg-white bg-opacity-90 backdrop-blur-md shadow-xl rounded-xl p-10 max-w-md w-full"
     dir="rtl"
@@ -35,11 +33,11 @@
     
     <p class="mt-6 text-center text-gray-600">
       Do not have account?
-      <a href="{{ route('register') }}" class="text-purple-600 hover:underline font-semibold">سجل هنا</a>
+      <a href="{{ route('register') }}" class="text-purple-600 hover:underline font-semibold"> Register Now</a>
     </p>
   </form>
 </div>
 
 @endsection
 
-</div>
+
