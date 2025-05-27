@@ -74,7 +74,7 @@
                 <!-- Categoty -->
                  <p class=" text-gray-800 mb-1">
                      {{ app()->getLocale() == 'ha' ? 'Lambar Rukuni': 'Category ID' }}:|
-                  <strong>{{ $tool->category_id ??  (app()->getLocale() == 'ha' ? 'Babu': 'None' )}} </strong>
+                  <strong>{{ $tool->category->localized_name??  (app()->getLocale() == 'ha' ? 'Babu': 'None' )}} </strong>
                  </p>
                 <!-- Location -->
                  <p class=" text-gray-800 mb-1">
@@ -86,7 +86,6 @@
                      {{ app()->getLocale() == 'ha' ? 'Adadin Ajiya': 'Deposit' }}:|
                   <strong>{{ $tool->deposit_amountc ? $tool->deposit_amount : (app()->getLocale() == 'ha' ? 'Babu': 'None' )}} </strong>
                  </p>
-
                  <!-- Condition -->
                  <p class=" text-gray-800 mb-1">
                      {{ app()->getLocale() == 'ha' ? 'Yanayi': 'Condition' }}:|
@@ -109,7 +108,7 @@
                      <strong> {{ app()->getLocale() == 'ha' ? 'Babu': 'Unavailable'}} </strong>
                      @endif
                  </p>
-                 <a href="#" class=" block mt-4 bg-blue-500 text-white text-center p-2 rounded hover:bg-blue-700">
+                 <a href="{{ route('tools.show', $tool->id) }}" class=" block mt-4 bg-blue-500 text-white text-center p-2 rounded hover:bg-blue-700">
                     {{ app()->getLocale() == 'ha' ? 'Duba Byanai' : 'View Details'}}
                  </a>
             </div>    

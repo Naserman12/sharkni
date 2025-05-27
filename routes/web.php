@@ -8,6 +8,7 @@ use  App\Livewire\Pages\Auth\Register;
 use  App\Livewire\Pages\Auth\Login;
 use  App\Livewire\Pages\Tool\AddTool;
 use App\Livewire\Pages\Tool\ListTools;
+use App\Livewire\Pages\Tool\ShowTool;
 
 // Logon && logout
 Route::get('/register', Register::class)->middleware('guest')->name('register');
@@ -48,6 +49,7 @@ Route::view('dashboard', 'dashboard')
     // Tools
 Route::get('tools/add', AddTool::class)->middleware('auth', 'verified')->name('tools.add');
 Route::get('tools', ListTools::class)->name('tools.index');
+Route::get('tools/{id}', ShowTool::class)->name('tools.show');
 
 
 require __DIR__.'/auth.php';
