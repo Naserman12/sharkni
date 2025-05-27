@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use  App\Livewire\Pages\Auth\VerifyEmail;
 use  App\Livewire\Pages\Auth\Register;
 use  App\Livewire\Pages\Auth\Login;
+use App\Livewire\Pages\Auth\Profile;
 use  App\Livewire\Pages\Tool\AddTool;
 use App\Livewire\Pages\Tool\ListTools;
 use App\Livewire\Pages\Tool\ShowTool;
@@ -40,16 +41,20 @@ Route::get('/email/verify/{id}/{hash}', function($id, $hash){
     return redirect()->route('dashboard')->with('messagr', app()->getLocale() == 'ha' ? 'An tabbatar da imel qin ka cikin nasara!' : 'Your email has been verified successfully');
 })->middleware('auth','signed')->name('verification.verify');
 
+// Profile
+Route::get('profile', Profile::class)->middleware('auth')->name('profile');
 
 Route::view('/', 'welcome');
 Route::view('/send','livewire.email.send-email-test');
 Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->name('dashboard');
     // Tools
 Route::get('tools/add', AddTool::class)->middleware('auth', 'verified')->name('tools.add');
 Route::get('tools', ListTools::class)->name('tools.index');
 Route::get('tools/{id}', ShowTool::class)->name('tools.show');
+
+
 
 
 require __DIR__.'/auth.php';

@@ -21,6 +21,7 @@
                  <div class="">
                  <a href="{{ route('tools.index') }}" class=" bg-gray-100 mr-4">{{ app()->getLocale() == 'ha' ? 'Kayan Aiki' : 'Tools'  }}</a>|
                  <a href="{{ route('tools.add') }}" class=" mr-4">{{ app()->getLocale() == 'ha' ? 'qrar kayan Aiki' : 'Add Tool'  }}</a>|
+                 <a href="{{ route('profile') }}" class=" mr-4">{{ app()->getLocale() == 'ha' ? 'Bayanan Mutun' : 'Profile'  }}</a>|
                  <a href="{{ route('logout') }}" class=" mr-4">{{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout '   }}</a>
                  </div>
              </div>

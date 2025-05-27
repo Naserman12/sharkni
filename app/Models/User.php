@@ -29,7 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var list<string>
      */
     protected $fillable = [
-        'name', 'email','password', 'phone','reputation_points',
+        'name', 'email','password', 'phone', 'profile_picture', 'reputation_points',
         'language', 'address', 'national_id', 'is_verified'
     ];
 
@@ -39,11 +39,13 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var list<string>
      */
     protected $hidden = [
-        'email_verified_at' => 'datetime',
-        'is_verified' => 'boolean',
         'password',
         'remember_token',
     ];
+    protected $casts =[
+      'email_verified_at' => 'datetime',
+      'is_verified' => 'boolean',
+  ];
     public function sendEmailVerificationNotification(){
         $this->notify(new CustomVerifyEmail);
     }
