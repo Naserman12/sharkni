@@ -18,9 +18,9 @@ Route::get('/logout', function(){
     Auth::logout();
     return redirect('/login');
 })->middleware('auth')->name('logout');
-Route::view('profile', 'profile')
+Route::view('profile/edit', 'profile')
     ->middleware(['auth'])
-    ->name('profile');
+    ->name('profile.edit');
 
 // Verification Email
 Route::get('/email/verify', VerifyEmail::class)
@@ -42,7 +42,7 @@ Route::get('/email/verify/{id}/{hash}', function($id, $hash){
 })->middleware('auth','signed')->name('verification.verify');
 
 // Profile
-Route::get('profile', Profile::class)->middleware('auth')->name('profile');
+Route::get('profile/{id?}', Profile::class)->middleware('auth')->name('profile');
 
 Route::view('/', 'welcome');
 Route::view('/send','livewire.email.send-email-test');

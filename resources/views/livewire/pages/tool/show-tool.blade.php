@@ -2,7 +2,7 @@
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <div class=" container mx-auto py-10">
         <div class=" bg-gray-500 rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
-            <h1 class=" text-3xl font-bold mb-6 flex items-center"><span class="mr-2">#</span>
+            <h1 class=" text-3xl font-bold mb-6 flex items-center"><span class="mr-2"><i class="fas fa-tools"></i></span>
             {{ app()->getLocale() == 'ha' ? 'Bayanai - ' : 'Details - '  }} {{ $tool->name }}
         </h1>
 
@@ -24,12 +24,12 @@
           <div class=" space-y-4">
             <!-- الوصف -->
              <p class=" text-gray-800">
-                <span class=" font-semibold">{{  app()->getLocale() == 'ha' ? 'Bayanin' : 'Description' }}</span>
+                <span class=" font-semibold"><i class="fas fa-file-alt mr-1"></i>{{  app()->getLocale() == 'ha' ? 'Bayanin' : 'Description' }}</span>
                 {{ $tool->description ?? ( app()->getLocale() == 'ha' ? 'Babu Bayanin' : 'No Description') }}
              </p>
              <!-- Price & deposit_amount -->
              <p class=" text-gray-800">
-                <span class=" font-semibold"> {{  app()->getLocale() == 'ha' ? 'Farashin' : 'Price' }}</span>
+                <span class=" font-semibold"><i class="fas fa-money-bill-wave mr-1"></i> {{  app()->getLocale() == 'ha' ? 'Farashin' : 'Price' }}</span>
                 @if ($tool->is_free)
                 {{  app()->getLocale() == 'ha' ? 'Kyauta' : 'Free' }}     
                 @else
@@ -40,12 +40,12 @@
              </p>
              <!-- Location -->
              <p class=" text-gray-800">
-                <span class=" font-semibold"> {{  app()->getLocale() == 'ha' ? 'Wuri' : 'Location' }}:</span>
+                <span class=" font-semibold"> <i class="fas fa-map mr-1"></i>{{  app()->getLocale() == 'ha' ? 'Wuri' : 'Location' }}:</span>
                 {{ $tool->location ?? ( app()->getLocale() == 'ha' ? 'Babu ' : 'None') }}
              </p>
              <!-- condition -->
               <p class=" text-gray-800">
-                <span class=" font-semibold">{{  app()->getLocale() == 'ha' ? 'Yanayi' : 'Condition' }}:</span>
+                <span class=" font-semibold"> <i class="fas fa-wrench  mr-1"></i>{{  app()->getLocale() == 'ha' ? 'Yanayi' : 'Condition' }}:</span>
                 @if ($tool->condition == 'new')
                     {{  app()->getLocale() == 'ha' ? 'Saboni' : 'New' }}
                 @elseif ($tool->condition == 'used')
@@ -56,12 +56,14 @@
               </p>
               <!-- Owner -->
                <p class=" text-gray-800">
-                <span class=" font-semibold">{{  app()->getLocale() == 'ha' ? 'Mai Shi' : 'Owner' }}:</span>
-                {{ $tool->user->name ?? ( app()->getLocale() == 'ha' ? 'Babu Bayanin' : 'No Information') }}
+                <span class=" font-semibold"> <i class="fas fa-user mr-1"></i>{{  app()->getLocale() == 'ha' ? 'Mai Shi' : 'Owner' }}:</span>
+                <a href="{{ route('profile', $tool->user->id) }}" class="  bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-700 hover:underline">
+                    {{ $tool->user->name ?? ( app()->getLocale() == 'ha' ? 'Babu Bayanin' : 'No Information') }}
+                </a>
                </p>
                <!-- Status -->
                 <p class=" text-gray-800">
-                    <span class=" font-semibold"> {{  app()->getLocale() == 'ha' ? 'Mastayi' : 'Status' }}:</span>
+                    <span class=" font-semibold"> <i class="fas fa-calender-check mr-1"></i> {{  app()->getLocale() == 'ha' ? 'Mastayi' : 'Status' }}:</span>
                     @if ($tool->status == 'available')
                         {{  app()->getLocale() == 'ha' ? 'Akwai' : 'Available' }}     
                     @elseif ($tool->status == 'borrowed')
@@ -76,11 +78,11 @@
           <div class="mt-6">
             @if ($tool->status == 'available')
                 <button class=" bg-blue-500 text-white p-3 rounded-lg w-full hover:bg-blue-700">
-                    {{  app()->getLocale() == 'ha' ? 'Neman Aro' : 'Request to Borrow' }}
+                  <i class="fas fa-shopping-cart mr-1"></i>  {{  app()->getLocale() == 'ha' ? 'Neman Aro' : 'Request to Borrow' }}
                 </button>
                 @else
                 <button class=" bg-gray-800 text-white p-3 rounded-lg w-full hover:bg-gray-700 cursor-not-allowed" disabled>
-                    {{  app()->getLocale() == 'ha' ? 'Ba a Samu Ba' : 'Not Available' }}
+                   <i class="fas fa-shoping-cart mr-1"></i> {{  app()->getLocale() == 'ha' ? 'Ba a Samu Ba' : 'Not Available' }}
                 </button>     
             @endif
           </div>
