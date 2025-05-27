@@ -7,7 +7,7 @@ use  App\Livewire\Pages\Auth\VerifyEmail;
 use  App\Livewire\Pages\Auth\Register;
 use  App\Livewire\Pages\Auth\Login;
 use  App\Livewire\Pages\Tool\AddTool;
-
+use App\Livewire\Pages\Tool\ListTools;
 
 // Logon && logout
 Route::get('/register', Register::class)->middleware('guest')->name('register');
@@ -47,6 +47,7 @@ Route::view('dashboard', 'dashboard')
     ->name('dashboard');
     // Tools
 Route::get('tools/add', AddTool::class)->middleware('auth', 'verified')->name('tools.add');
+Route::get('tools', ListTools::class)->name('tools.index');
 
 
 require __DIR__.'/auth.php';

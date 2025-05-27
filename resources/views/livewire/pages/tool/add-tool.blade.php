@@ -73,6 +73,9 @@
                     <label for="is_free" class=" block text-gray-700">
                         {{ app()->getLocale() == 'ha' ? 'Kyauta ': 'Free'}}
                     </label>
+                    @error('is_free')
+                        <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
+                     @enderror
                     </div>
                 <!-- Price per day -->
                 <div class=" mb-4">
@@ -84,7 +87,7 @@
                         <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                         @enderror
                     </div>
-                <!-- Deposit Amount-->
+                    <!-- Deposit Amount-->
                 <div class=" mb-4">
                     <label for="deposit_amount" class=" block text-gray-700">
                         {{ app()->getLocale() == 'ha' ? 'Adadin Ajiya': 'Deposit Amount'}}
@@ -93,7 +96,7 @@
                     @error('deposit_amount')
                         <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                         @enderror
-                    </div>
+                </div>
                     <!-- Status-->
                     <div class=" mb-4">
                         <label for="status" class=" block text-gray-700">

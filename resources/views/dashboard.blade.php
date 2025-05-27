@@ -2,11 +2,13 @@
   <div class="py-12">
     @php
         $user = auth()->user();
+        app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
+        session(['locale' => $user->language]); // تخزين اللغة في الجلسة
     @endphp
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                   <h1 class=""><small>  {{ __("You're logged in!") }}</small> {{ app()->getLocale() == 'ha' ? 'Barka da war haka, ' : 'Hello, '  }}<strong>({{  $user->name  }})</strong></h1> 
+                    <h1 class=""> {{ app()->getLocale() == 'ha' ? 'Barka da war haka, ' : 'Hello, '  }}<strong>({{  $user->name  }})</strong></h1> 
                 </div>
             </div>
         </div>

@@ -19,10 +19,10 @@ class AddTool extends Component
     public $categories;
 
     public function mount(){
-        $this->categories = Category::all();
         $user = Auth::user();
                 app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
                 session(['locale' => $user->language]); // تخزين اللغة في الجلسة
+        $this->categories = Category::all();
     }
     protected $rules =[
         'category_id' => ['required','exists:categories,id'],
@@ -61,7 +61,7 @@ class AddTool extends Component
                 'name' => $this->name,
                 'description' => $this->description,
                 'price' => $this->price,
-                'is_free' => $this->is_free ? null : $this->price,
+                'is_free' => $this->is_free ? 0  : $this->price,
                 'deposit_amount' => $this->deposit_amount,
                 'status' => $this->status,
                 'condition' => $this->condition,

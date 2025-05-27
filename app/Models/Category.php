@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    public $name;
     protected $fillable = [
         'name', 'name_ha', 'slug'
     ];
@@ -14,7 +13,7 @@ class Category extends Model
     public function tools(){
         return $this->hasMany(Tool::class);
     }
-    public function getNameAttribute(){
-        return app()->getLocale() == 'ha' ? $this->name_ha :  $this->name;
+    public function getLocalizedNameAttribute(){
+        return app()->getLocale() == 'ha' ?  $this->name_ha :  $this->name;
     }
 }
