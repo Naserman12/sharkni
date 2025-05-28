@@ -14,26 +14,46 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
     </head>
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased bg-gradient-to-r from-gray-950 via-purple-500 to-pink-500">
+            @php
+            $user = Auth()->user();
+            app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
+            session(['locale' => $user->language]); // تخزين اللغة في الجلسة
+            @endphp
         <div>
         <!-- navbar -->
-         <nav class=" bg-gray-200 p-4 ">
+         <nav class=" bg-gradient-to-r from-gray-500 via-blue-500 to-red-300 p-4 ">
              <div class=" container mx-auto flex justify-between items-center">
                  <a href="{{ route('dashboard') }}" class=" text-xl font-bold">{{ config('app.name', 'Sharkni') }}</a>
                  <div class="">
-                 <a href="{{ route('tools.index') }}" class=" bg-gray-100 mr-4">{{ app()->getLocale() == 'ha' ? 'Kayan Aiki' : 'Tools'  }}</a>|
-                 <a href="{{ route('tools.add') }}" class=" mr-4">{{ app()->getLocale() == 'ha' ? 'qrar kayan Aiki' : 'Add Tool'  }}</a>|
-                 <a href="{{ route('profile') }}" class=" mr-4">{{ app()->getLocale() == 'ha' ? 'Bayanan Mutun' : 'Profile'  }}</a>|
-                 <a href="{{ route('logout') }}" class=" mr-4">{{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout '   }}</a>
+                    <!-- زر القائم الجانية على الجوال -->
+                 <button id="menu-toggle" class=" md:hidden focus:outline-none" >
+                    <i class=" fas fa-bars text-2xl"></i>
+                 </button>
+                 <div id="menu" class=" hidden md:flex md:items-center md:space-x-4 flex-col md:flex-row absolute md:static top-16 left-0 w-full md:w-auto bg-orange-500  md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none ">
+                 <a href="{{ route('tools.index') }}" class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('tools.index') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Kayan Aiki' : 'Tools'  }}</a>
+                 <a href="{{ route('tools.add') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('tools.add') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'qrar kayan Aiki' : 'Add Tool'  }}</a>
+                 <a href="{{ route('rentals.index') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('rentals.index') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Neman Aro' : 'Rentals'  }}</a>
+                 <a href="{{ route('profile') }}"     class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('profile') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Bayanan Mutun' : 'Profile'  }}</a>
+                 <a href="{{ route('logout') }}"      class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('logout') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout '   }}</a>
+                 <div class="mt-2 md:mt-0">
+                    @livewire('components.language-switcher')
+                 </div>
+                 </div>
                  </div>
              </div>
          </nav>
         <!-- Navbar End -->
             <!-- Page Content -->
-            <main class="min-h-screen bg-gray-500">
+            <main class="min-h-screen bg-gradient-to-r from-gray-950 via-purple-500 to-pink-500">
                 {{ $slot }}
             </main>
             </div>
         @livewireScripts
+        <script>
+           window.addEventListener('languageChanged', () =>{
+                    window.location.reload();
+            });
+        </script>
     </body>
 </html>

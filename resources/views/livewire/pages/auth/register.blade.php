@@ -9,7 +9,7 @@
   @endif
   @error('form')
   <div class="mb-4 p-2 bg-red-100 text-red-700 rounded">
-    {{ session('error')}}
+    {{ $message}}
   </div>   
   @enderror
   <form wire:submit.prevent="register">

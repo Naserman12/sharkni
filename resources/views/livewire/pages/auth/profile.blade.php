@@ -6,7 +6,7 @@
      session(['locale' => $user->language]); // تخزين اللغة في الجلسة
     @endphp
     <div class=" container mx-auto py-10">
-        <div class=" bg-slate-500 rounded-lg p-6 max-w-2xl mx-auto">
+        <div class=" bg-gradient-to-r from-blue-600  to-red-300 rounded-lg p-6 max-w-2xl mx-auto">
             <h1 class=" text-3xl font-bold mb-6 flex items-center" >
                 <span class="mr-2"><i class="fas fa-user"></i></span>
                 {{ app()->getLocale() == 'ha' ? 'Bayanan Mutum: ' : 'Profile: '}} {{ $user->name }}
@@ -86,7 +86,7 @@
                     <i class="fas fa-edit bg-yellow-500"></i>  {{ app()->getLocale() == 'ha' ? 'Gyara Bayanan Ka' : 'Edit Profile' }}
                 </a>
                 <a href="{{ route('logout') }}" class=" bg-red-500 text-white p-3 rounded-lg hover:bg-red-700">
-                    <i class="fas fa-sign-out-alt text-red-500 hover:bg-red-700 "></i> {{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout ' }}
+                    <i class="fas fa-sign-out-alt"></i> {{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout ' }}
                 </a>
                 @else
                 <a href="#" class=" bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-700" desabled>

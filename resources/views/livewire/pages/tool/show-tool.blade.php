@@ -77,9 +77,25 @@
           <!-- زر طلب الإستعارة ?Borrowed submit -->
           <div class="mt-6">
             @if ($tool->status == 'available')
+            <form wire:submit.prenent="requestBorrow" class=" space-y-4">
+                <div>
+                    <label for="borrow_date" class=" block text-gray-800 font-semibold">
+                        <i class="fas fa-calender-alt mr-2"></i>{{ app()->getLocale() ==  'ha' ? 'Ranar Aro' : 'Borrow Date' }}
+                    </label>
+                    <input type="date" id="borrow_date" wire:model="borrow_date" class=" w-full p-2 border rounded">
+                    @error('borrow_date') <span class=" text-red-500 bg-red-100 text-sm">{{ $message }}</span> @enderror
+                </div>
+                <div>
+                    <label for="return_date" class=" block text-gray-800 font-semibold">
+                        <i class="fas fa-calender-alt mr-2"></i>{{ app()->getLocale() ==  'ha' ? 'Ranar Mayarwa' : 'Return Date' }}
+                    </label>
+                    <input type="date" id="return_date" wire:model="return_date" class=" w-full p-2 border rounded">
+                    @error('return_date') <span class=" text-red-500 bg-red-100 text-sm">{{ $message }}</span> @enderror
+                </div>
                 <button class=" bg-blue-500 text-white p-3 rounded-lg w-full hover:bg-blue-700">
                   <i class="fas fa-shopping-cart mr-1"></i>  {{  app()->getLocale() == 'ha' ? 'Neman Aro' : 'Request to Borrow' }}
                 </button>
+            </form>
                 @else
                 <button class=" bg-gray-800 text-white p-3 rounded-lg w-full hover:bg-gray-700 cursor-not-allowed" disabled>
                    <i class="fas fa-shoping-cart mr-1"></i> {{  app()->getLocale() == 'ha' ? 'Ba a Samu Ba' : 'Not Available' }}

@@ -10,7 +10,7 @@ use Livewire\Component;
 
 class ListTools extends Component
 {
-    public $category_id, $location, $status = 'available';
+    public $category_id, $location, $status = 'available', $price_max = '';
     public $categories;
      
     public function mount(){
@@ -28,6 +28,7 @@ class ListTools extends Component
             'location' => $this->location,
             'status' => $this->status,
         ]);
+        // $this->resetPage();
     }
     public function updatedCategoryId($value)
         {
@@ -36,7 +37,8 @@ class ListTools extends Component
     public function render()
     {
         $query = Tool::query() // عرض الأدوات الماتحة فقط بشكل افتراضي
-                                ->with(['user', 'category']);
+                        
+                         ->with(['user', 'category']);
         // التنقية بناء على الفئة
         if ($this->category_id) {
             $query->where('category_id', $this->category_id);
@@ -51,6 +53,11 @@ class ListTools extends Component
         }else{
             $query->where('status', 'available');
 
+        }
+        
+        if ($this->price_max) {
+            $query->where('is_free', false)
+                  ->where('price', '<=', $this->price_max);
         }
         $tools = $query->get();
         return view('livewire.pages.tool.list-tools',[

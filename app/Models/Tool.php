@@ -28,6 +28,9 @@ class Tool extends Model
     public function borrowRequests(){
         return $this->hasMany(BorrowRequest::class);
     }
+    public function rentals(){
+        return $this->hasMany(Rental::class);
+    }
       
     public function locations(){
         return $this->belongsToMany(Location::class, 'tool_location');

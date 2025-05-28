@@ -7,6 +7,7 @@ use  App\Livewire\Pages\Auth\VerifyEmail;
 use  App\Livewire\Pages\Auth\Register;
 use  App\Livewire\Pages\Auth\Login;
 use App\Livewire\Pages\Auth\Profile;
+use App\Livewire\Pages\Rentals\RentalRequests;
 use  App\Livewire\Pages\Tool\AddTool;
 use App\Livewire\Pages\Tool\ListTools;
 use App\Livewire\Pages\Tool\ShowTool;
@@ -50,9 +51,12 @@ Route::view('dashboard', 'dashboard')
     ->middleware(['auth'])
     ->name('dashboard');
     // Tools
-Route::get('tools/add', AddTool::class)->middleware('auth', 'verified')->name('tools.add');
+Route::get('tools/add', AddTool::class)->middleware('auth')->name('tools.add');
 Route::get('tools', ListTools::class)->name('tools.index');
 Route::get('tools/{id}', ShowTool::class)->name('tools.show');
+
+// Rentals
+Route::get('/rentals', RentalRequests::class)->middleware('auth')->name('rentals.index');
 
 
 

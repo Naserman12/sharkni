@@ -61,8 +61,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function borrowRequestsAsBorrower(){
         return $this->hasMany(BorrowRequest::class, 'borrower_id');
     }
-    public function borrowRequestsAsLender(){
-        return $this->hasMany(BorrowRequest::class, 'lender_id');
+    public function borrowings(){
+        return $this->hasMany(Rental::class, 'borrower_id');
+        
+    }
+    public function lendings(){
+        return $this->hasMany(Rental::class, 'lender_id');
         
     }
     public function ratingsGiven(){

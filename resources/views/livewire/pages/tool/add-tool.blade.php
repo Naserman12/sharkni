@@ -1,6 +1,6 @@
 
-    <div class=" min-h-screen flex items-center justify-center py-10 bg-gray-300">
-       <div class="w-full max-w-md  mx-auto bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 px-4">
+    <div class=" min-h-screen flex items-center justify-center py-10">
+       <div class="w-full max-w-md  mx-auto bg-gradient-to-r from-blue-300  px-4">
             <h2 class="text-2xl font-bold mb-6 text-center">
                 {{ app()->getLocale() == 'ha' ? 'Qara Kayan Aiki ': 'Add A Tool'}}
             </h2>
@@ -21,7 +21,7 @@
             @csrf
             <!-- Category -->
             <div class=" mb-4">
-                <label for="category_id" class=" block text-gray-700">
+                <label for="category_id" class=" block text-gray-900">
                     {{ app()->getLocale() == 'ha' ? 'Rukuni': 'Category'}}
                 </label>
                 <select wire:model="category_id" id="category_id" class=" w-full p-2 border rounded">
@@ -36,7 +36,7 @@
              </div>
             <!-- Name -->
             <div class=" mb-4">
-                <label for="name" class=" block text-gray-700">
+                <label for="name" class=" block text-gray-900">
                     {{ app()->getLocale() == 'ha' ? 'Suanan kayan aiki ': 'Tool Name'}}
                 </label>
                 <input type="text" wire:model="name" id="name" class=" w-full p-2 border rounded">
@@ -46,7 +46,7 @@
              </div>
              <!-- Description -->
              <div class=" mb-4">
-                <label for="description" class=" block text-gray-700">
+                <label for="description" class=" block text-gray-900">
                     {{ app()->getLocale() == 'ha' ? 'Bayann kayan aiki ': 'Tool description'}} ({{ app()->getLocale() == 'ha' ? 'Na zaqi' : 'Optional' }})
                 </label>
                 <input type="text" wire:model="description" id="description" class=" w-full p-2 border rounded">
@@ -56,7 +56,7 @@
                 </div>
                 <!-- images -->
                 <div class="mb-4">
-                    <label for="images" class=" block text-gray-700">
+                    <label for="images" class=" block text-gray-900">
                         {{ app()->getLocale() == 'ha' ? 'Hotunan kayan aiki ': 'Tool Image'}}
                     </label>
                     <input type="file" id="images" wire:model="images" multiple class=" w-full p-2 border rounded">
@@ -70,7 +70,7 @@
                 <!-- Is Free -->
                 <div class=" mb-4">
                     <input type="checkbox" wire:model="is_free" id="is_free" class="  me-2">
-                    <label for="is_free" class=" block text-gray-700">
+                    <label for="is_free" class=" block text-gray-900">
                         {{ app()->getLocale() == 'ha' ? 'Kyauta ': 'Free'}}
                     </label>
                     @error('is_free')
@@ -79,7 +79,7 @@
                     </div>
                 <!-- Price per day -->
                 <div class=" mb-4">
-                    <label for="price" class=" block text-gray-700">
+                    <label for="price" class=" block text-gray-900">
                         {{ app()->getLocale() == 'ha' ? 'Farashin Kowace Rana ': 'Price Per Day'}}
                     </label>
                     <input type="text" step="0.01" min="0" wire:model="price" id="price" class=" w-full p-2 border rounded">
@@ -89,7 +89,7 @@
                     </div>
                     <!-- Deposit Amount-->
                 <div class=" mb-4">
-                    <label for="deposit_amount" class=" block text-gray-700">
+                    <label for="deposit_amount" class=" block text-gray-900">
                         {{ app()->getLocale() == 'ha' ? 'Adadin Ajiya': 'Deposit Amount'}}
                     </label>
                     <input type="number" min="0" wire:model="deposit_amount" id="deposit_amount" class=" w-full p-2 border rounded">
@@ -99,7 +99,7 @@
                 </div>
                     <!-- Status-->
                     <div class=" mb-4">
-                        <label for="status" class=" block text-gray-700">
+                        <label for="status" class=" block text-gray-900">
                             {{ app()->getLocale() == 'ha' ? 'Matsyi': 'Status'}}
                         </label>
                         <select  wire:model="status" id="status" class=" w-full p-2 border rounded">
@@ -113,7 +113,7 @@
                         </div>
                     <!-- Condition-->
                     <div class=" mb-4">
-                        <label for="condition" class=" block text-gray-700">
+                        <label for="condition" class=" block text-gray-900">
                             {{ app()->getLocale() == 'ha' ? 'Yanayi': 'Condition'}}
                         </label>
                         <select  wire:model="condition" id="condition" class=" w-full p-2 border rounded">
@@ -127,7 +127,7 @@
                     </div>
                     <!-- Location -->
                     <div class=" mb-4">
-                        <label for="location" class=" block text-gray-700">
+                        <label for="location" class=" block text-gray-900">
                             {{ app()->getLocale() == 'ha' ? 'Wurin kayan aiki ': 'Tool location'}}
                         </label>
                         <input type="text" wire:model="location" id="location" class=" w-full p-2 border rounded">
