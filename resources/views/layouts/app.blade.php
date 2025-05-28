@@ -34,6 +34,7 @@
                  <a href="{{ route('tools.index') }}" class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('tools.index') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Kayan Aiki' : 'Tools'  }}</a>
                  <a href="{{ route('tools.add') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('tools.add') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'qrar kayan Aiki' : 'Add Tool'  }}</a>
                  <a href="{{ route('rentals.index') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('rentals.index') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Neman Aro' : 'Rentals'  }}</a>
+                 <a href="{{ route('categories.add') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('categories.add') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Qara Nau\'i ' : 'Add Category'  }}</a>
                  <a href="{{ route('profile') }}"     class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('profile') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Bayanan Mutun' : 'Profile'  }}</a>
                  <a href="{{ route('logout') }}"      class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('logout') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout '   }}</a>
                  <div class="mt-2 md:mt-0">
@@ -46,6 +47,7 @@
         <!-- Navbar End -->
             <!-- Page Content -->
             <main class="min-h-screen bg-gradient-to-r from-gray-950 via-purple-500 to-pink-500">
+                
                 {{ $slot }}
             </main>
             </div>

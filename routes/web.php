@@ -7,6 +7,7 @@ use  App\Livewire\Pages\Auth\VerifyEmail;
 use  App\Livewire\Pages\Auth\Register;
 use  App\Livewire\Pages\Auth\Login;
 use App\Livewire\Pages\Auth\Profile;
+use App\Livewire\Pages\Categories\AddCategory;
 use App\Livewire\Pages\Rentals\RentalRequests;
 use  App\Livewire\Pages\Tool\AddTool;
 use App\Livewire\Pages\Tool\ListTools;
@@ -57,6 +58,9 @@ Route::get('tools/{id}', ShowTool::class)->name('tools.show');
 
 // Rentals
 Route::get('/rentals', RentalRequests::class)->middleware('auth')->name('rentals.index');
+
+// Catefories
+Route::get('categories/add', AddCategory::class)->middleware('auth')->name('categories.add');
 
 
 
