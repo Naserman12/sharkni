@@ -67,10 +67,10 @@ new class extends Component
 
             <div class="mt-6 flex justify-end">
                 <x-secondary-button x-on:click="$dispatch('close')">
-                    {{ __('Cancel') }}
+                    <x-primary-button>{{ app()->getLocale() == 'ha' ? 'Nafasa' : 'Cancel' }}</x-primary-button>
                 </x-secondary-button>
 
-                <x-danger-button class="ms-3">
+                <x-danger-button class="ms-3 mt-2">
                     {{ __('Delete Account') }}
                 </x-danger-button>
             </div>

@@ -23,8 +23,9 @@ Route::get('/logout', function(){
 })->middleware('auth')->name('logout');
 // Profile
 Route::get('profile/{id?}', Profile::class)->middleware('auth')->name('profile');
-Route::view('profile/edit', 'profile')
-    ->middleware(['auth'])
+Route::get('profiles/me', function(){
+ return view('edit-profile');
+})->middleware('auth')
     ->name('profile.edit');
 
 // Verification Email
