@@ -7,41 +7,56 @@ use App\Models\Tool;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ListTools extends Component
 {
-    public $category_id, $location, $status = 'available', $price_max = '';
+    use WithPagination;
+    public  $location, $status = 'available', $price_max = '',
+           $category_slug = '', $selected_category = null;
+    public $perPage = 10; // على الشاشات الكبيرة افتراضي
     public $categories;
      
-    public function mount(){
-       Log::info('ListTools component mounted');
+    public function mount($slug = null){
+       
         $this->categories = Category::all();
                $user = Auth::user();
                 app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
                 session(['locale' => $user->language]); // تخزين اللغة في الجلسة
+        if ($slug) {
+            $this->category_slug = $slug;
+            $this->selected_category = Category::where('slug', $slug)->firstOrFail();
+        }
+        // ضبط عدد  العناصر على حسب حجم الشاشة
+        $this->perPage = request()->header('User-Agent') && preg_match('/Mobile|Android|iPhone|iPad/', request()->header('User-Agent'))? 5 : 10;
         Log::info('Categories loaded' . $this->categories->count());
+    }
+    public function resetCategoryFilter(){
+        $this->category_slug = '';
+        $this->selected_category = null;
+        return redirect()->route('tools.index');
     }
     public function updated($field){
         Log::info('Filter updated',[
             'freld' => $field,
-            'category_id' => $this->category_id,
+            // 'category_id' => $this->category_id,
             'location' => $this->location,
             'status' => $this->status,
         ]);
         // $this->resetPage();
     }
-    public function updatedCategoryId($value)
-        {
-            $this->category_id = (int) $value;
-        }
+    // public function updatedCategoryId($value)
+    //     {
+    //         $this->category_id = (int) $value;
+    //     }
     public function render()
     {
         $query = Tool::query() // عرض الأدوات الماتحة فقط بشكل افتراضي
                         
                          ->with(['user', 'category']);
         // التنقية بناء على الفئة
-        if ($this->category_id) {
-            $query->where('category_id', $this->category_id);
+        if ($this->category_slug && $this->selected_category) {
+            $query->where('category_id', $this->selected_category->id);
         }
         // التنقية بناء على تاالموفع
         if ($this->location) {
@@ -59,9 +74,9 @@ class ListTools extends Component
             $query->where('is_free', false)
                   ->where('price', '<=', $this->price_max);
         }
-        $tools = $query->get();
+        $tools = $query->paginate($this->perPage);
         return view('livewire.pages.tool.list-tools',[
             'tools' => $tools ,
-        ])->layout('layouts.app');
+        ])->layout('layouts.app')->with(['paginationView' => 'vendor.pagination.tailwind']);
     }
 }

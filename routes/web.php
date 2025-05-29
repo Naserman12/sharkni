@@ -20,6 +20,8 @@ Route::get('/logout', function(){
     Auth::logout();
     return redirect('/login');
 })->middleware('auth')->name('logout');
+// Profile
+Route::get('profile/{id?}', Profile::class)->middleware('auth')->name('profile');
 Route::view('profile/edit', 'profile')
     ->middleware(['auth'])
     ->name('profile.edit');
@@ -43,8 +45,6 @@ Route::get('/email/verify/{id}/{hash}', function($id, $hash){
     return redirect()->route('dashboard')->with('messagr', app()->getLocale() == 'ha' ? 'An tabbatar da imel qin ka cikin nasara!' : 'Your email has been verified successfully');
 })->middleware('auth','signed')->name('verification.verify');
 
-// Profile
-Route::get('profile/{id?}', Profile::class)->middleware('auth')->name('profile');
 
 Route::view('/', 'welcome');
 Route::view('/send','livewire.email.send-email-test');
@@ -55,6 +55,7 @@ Route::view('dashboard', 'dashboard')
 Route::get('tools/add', AddTool::class)->middleware('auth')->name('tools.add');
 Route::get('tools', ListTools::class)->name('tools.index');
 Route::get('tools/{id}', ShowTool::class)->name('tools.show');
+Route::get('tools/category/{slug}', ListTools::class)->middleware('auth')->name('tools.by_category');
 
 // Rentals
 Route::get('/rentals', RentalRequests::class)->middleware('auth')->name('rentals.index');
