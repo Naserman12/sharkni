@@ -8,6 +8,7 @@ use  App\Livewire\Pages\Auth\Register;
 use  App\Livewire\Pages\Auth\Login;
 use App\Livewire\Pages\Auth\Profile;
 use App\Livewire\Pages\Categories\AddCategory;
+use App\Livewire\Pages\Damage\ReportDamage;
 use App\Livewire\Pages\Rentals\RentalRequests;
 use  App\Livewire\Pages\Tool\AddTool;
 use App\Livewire\Pages\Tool\ListTools;
@@ -59,6 +60,9 @@ Route::get('tools/category/{slug}', ListTools::class)->middleware('auth')->name(
 
 // Rentals
 Route::get('/rentals', RentalRequests::class)->middleware('auth')->name('rentals.index');
+
+// damage Reports
+Route::get('damage/report', ReportDamage::class)->middleware('auth')->name('damage.report');
 
 // Catefories
 Route::get('categories/add', AddCategory::class)->middleware('auth')->name('categories.add');

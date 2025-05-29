@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('damage_reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('borrow_requests_id')->constrained()->cascadeOnDelete();
+            
+            $table->foreignId('rental_id')->constrained()->cascadeOnDelete();
             $table->text('description')->nullable();
             $table->json('image_paths')->nullable();
             $table->enum('status', ['pending', 'accepted', 'rejected'])->default('pending');

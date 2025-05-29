@@ -8,11 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class DamageReport extends Model
 {
     protected $fillable =[
-        'borrow_request_id', 'description', 'image_paths', 
+        'rental_id', 'description', 'image_paths', 
         'status', 'resolution_amount'];
-    protected $casts =[ 'image_paths' => 'array',];
+    protected $casts =[ 
+        'image_paths' => 'array',
+        'stauts' => 'string',
+        'resolution_amount' => 'decimal',
+    ];
     public function borrowRequest(){
-        return $this->belongsTo(BorrowRequest::class);
+        return $this->belongsTo(Rental::class, 'rental_id');
     }
 
 }
