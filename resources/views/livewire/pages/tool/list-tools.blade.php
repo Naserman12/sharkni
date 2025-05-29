@@ -20,14 +20,18 @@
                          <input type="text" id="location" wire:model.debounce.500ms="location" class=" w-full md:w-48 p-2 border rounded" placeholder="{{ app()->getLocale() == 'ha' ? 'Shiga da wuri' : 'Enter location' }}">
                         </div>
                              <!-- الفئة -->
-                        <div class=" md:flex md:items-center md:space-x-2 ">
-                            <label class="block text-gray-900 font-semibold md:mr-2" for="category_slug"> {{ app()->getLocale() == 'ha' ? 'Rukuni ku Nau\'i' : 'Select Category' }} </label>
-                            <select id="category_slug" @change="if($event.target.value) { window.location.href ='/tools/category/' + $event.target.value} else {window.location.href = '/tools'}" class=" w-full  md:w-48 p-2 border rounded">
-                                <option value="">{{ app()->getLocale() == 'ha' ? 'Zabi rukuni ko duk' : 'Select category or all' }}</option>
-                                @foreach ($categories as $category )
-                                <option value="{{ $category->slug }}">{{ $category->localized_name}}</option>
-                                @endforeach
-                            </select>
+                        <div x-data="{open: false}" class=" md:flex md:items-center md:space-x-2 ">
+                            <button @click="open= !open" class="text-gray-900 p-2 rounded" >{{ app()->getLocale() == 'ha' ? 'Rukuni ku Nau\'i' : 'Select Category' }}</button>
+                            <!-- <label class="block  font-semibold md:mr-2" for="category_slug"> {{ app()->getLocale() == 'ha' ? 'Rukuni ku Nau\'i' : 'Select Category' }} </label> -->
+                             <div class="mt-2 bg-blue-300 p-4 rounded">
+
+                                 <select id="category_slug" @change="if($event.target.value) { window.location.href ='/tools/category/' + $event.target.value} else {window.location.href = '/tools'}" class=" w-full  md:w-48 p-2 border rounded">
+                                     <option value="">{{ app()->getLocale() == 'ha' ? 'Zabi rukuni ko duk' : 'Select category or all' }}</option>
+                                     @foreach ($categories as $category )
+                                     <option value="{{ $category->slug }}">{{ $category->localized_name}}</option>
+                                     @endforeach
+                                 </select>
+                             </div>
                             @if ($category_slug)
                                 <button wire:click="resetCategoryFilter" class=" mt-2 text-red-500 hover:underline">
                                     {{ app()->getLocale() == 'ha' ? 'Soke Nau\'i' : 'Clear Category' }}
