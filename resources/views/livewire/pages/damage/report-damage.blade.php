@@ -45,11 +45,25 @@
                 <label for="images" class=" block text-gray-800 font-semibold">
                     {{ app()->getLocale() == 'ha' ? 'Hoto (idan akwai)' : 'Images (optional) ' }}
                 </label>
-                <input type="file" id="images" wire:model="images" multiple class=" w-full p-2 border rounded">
+                <div class=" relative">
+                    <button type="button" onclick="document.getElementById('images').click()" class=" bg-blue-600 text-gray-200 px-4 py-2 rounded hover:bg-blue-700 flex items-center">
+                        <i class="fas fa-image mr-2"></i>
+                        {{ app()->getLocale() == 'ha' ? 'Zabi Hotuna ' : 'Choose Images ' }}
+                    </button>
+                    <input type="file" id="images" wire:model="images" multiple class="hidden" accept="image/*">
+                </div>
+                <!-- عرض اسما الصور المختارة -->
+                 <div class=" mt-2">
+                    @if ($images)
+                        @foreach ($images as $image)
+                            <p class=" text-gray-700 text-sm">{{ $image->getClientOriginalName() }}</p>
+                        @endforeach
+                    @endif
+                 </div>
                 @error('images.*') <span class="text-red-500 bg-red-200 text-sm"></span>@enderror
             </div>
                 <!-- submit button -->
-                 <button type="submit" class="bg-blue-500 text-gray-200 hover:bg-blue-700">
+                 <button type="submit" class="bg-blue-500 text-gray-200 flex items-center rounded border hover:bg-blue-700">
                     <i class="fas fa-paper-plane mr-2"></i>
                     {{ app()->getLocale() == 'ha' ? 'Qaddamar' : 'Submit' }}
                  </button>

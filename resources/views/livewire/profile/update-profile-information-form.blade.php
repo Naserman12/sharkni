@@ -156,18 +156,27 @@ new class extends Component
                     <img src="{{ asset('storage/' . $user->profile_picture) }}" alt="Profile Picture" class=" w-32 h-32 rounded-full">
                 </div>
             @endif
-           
                 <x-input-label for="profile_picture" />
                 <i class="fas fa-image mr-2"></i>{{ app()->getLocale() == 'ha' ? 'Hoton' : 'profile picture' }}
-                <x-text-input wire:model="profile_picture" id="profile_picture" name="profile_picture" type="file" class="block w-full p-2 border rounded" autofocus autocomplete="profile_picture" />
+                <div class=" relative">
+                     <button type="button" onclick="document.getElementById('images').click()" class=" bg-blue-600 text-gray-200 px-4 py-2 rounded hover:bg-blue-700 flex items-center">
+                            <i class="fas fa-image mr-2"></i>
+                            {{ app()->getLocale() == 'ha' ? 'Zabi Hotuna ' : 'Choose Images ' }}
+                        </button> 
+                <x-text-input wire:model="profile_picture" id="profile_picture" name="profile_picture" type="file" class="hidden" accept="image/*" />
+                </div>
+                    <!-- عرض اسما الصور المختارة -->
+                    <div class=" mt-2">
+                        @if ($images)
+                            @foreach ($images as $image)
+                                <p class=" text-gray-700 text-sm">{{ $image->getClientOriginalName() }}</p>
+                            @endforeach
+                        @endif
+                    </div>
                 <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
             </div>
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
-
-            <x-action-message class="me-3" on="profile-updated">
-                {{ __('Saved.') }}
-            </x-action-message>
+            <x-primary-button>{{ app()->getLocale() == 'ha' ? 'Tabbatar' : 'Submit' }}</x-primary-button>
         </div>
     </form>
 </section>

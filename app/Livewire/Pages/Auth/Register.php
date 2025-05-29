@@ -33,7 +33,7 @@ class Register extends Component
             Auth::login($user);
             app()->setLocale($this->language);
             session()->flash('message', app()->getLocale() == 'ha' ? 'An qieiri asusnka cikin nasara! ka duba imel qin kan don tabbatarwa. ' : 'Your account has created successfully! Check your email for verification.');
-            return redirect()->route('verification.notict');   
+            return redirect()->route('dashboard');   
         } catch (\Exception $e) {
             $this->addError('form', app()->getLocale() == 'ha' ? 'An samu mastala yayin qirqurar asusu: '.$e->getMessage() : 'An error occrred while creating your account: '.$e->getMessage());
         }

@@ -17,7 +17,7 @@ class ReportDamage extends Component
     protected $rules = [
         'rental_id' => 'required:exists:rentals,id',
         'description' => 'nullable|string|min:10',
-        'image.*' => 'nullable|image|max:10240',
+        'images.*' => 'nullable|image|max:10240',
     ];
     public function mount(){
         $this->rentals = Rental::where('lender_id', Auth::id())->orWhere('borrower_id', Auth::id())->get();
