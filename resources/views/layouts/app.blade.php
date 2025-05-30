@@ -34,14 +34,14 @@
                  @auth
                      @livewire('pages.notifications.notifications-list')
                  @endauth
-                 <div id="menu" class=" hidden md:flex md:items-center md:space-x-4 flex-col md:flex-row absolute md:static top-16 left-0 w-full md:w-auto bg-orange-500  md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none ">
+                 <div id="menu" class=" hidden md:flex md:items-center md:space-x-4 flex-col md:flex-row absolute md:static top-16 left-0 w-full md:w-auto bg-blue-200  md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none ">
                  <a href="{{ route('tools.index') }}" class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('tools.index') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Kayan Aiki' : 'Tools'  }}</a>
                  <a href="{{ route('tools.add') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('tools.add') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'qrar kayan Aiki' : 'Add Tool'  }}</a>
                  <a href="{{ route('rentals.index') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('rentals.index') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Neman Aro' : 'Rentals'  }}</a>
                  <a href="{{ route('damage.report') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('damage.report') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Rahoton Lalacewa' : 'Report Damage'  }}</a>
                  <a href="{{ route('categories.add') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('categories.add') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Qara Nau\'i ' : 'Add Category'  }}</a>
                  <a href="{{ route('profile') }}"     class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('profile') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Bayanan Mutun' : 'Profile'  }}</a>
-                 <a href="{{ route('logout') }}"      class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('logout') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout '   }}</a>
+                 <a href="{{ route('logout') }}"      class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 bg-red-500 {{ request()->routeIs('logout') ? ' bg-red-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout '   }}</a>
                  <div class="mt-2 md:mt-0">
                     @livewire('components.language-switcher')
                  </div>

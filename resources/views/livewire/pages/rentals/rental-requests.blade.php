@@ -1,12 +1,12 @@
 <div>
+    {{-- Close your eyes. Count to one. That is how long forever feels. --}}
+<div class=" container mx-auto py-10">
+    <div class=" rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
      @php
             $user = Auth()->user();
             app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
             session(['locale' => $user->language]); // تخزين اللغة في الجلسة
      @endphp
-    {{-- Close your eyes. Count to one. That is how long forever feels. --}}
-<div class=" container mx-auto py-10">
-    <div class=" rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
         <!-- Title -->
          <h1 class=" text-3xl font-bold mb-6 flex items-center">
             <i class="fas fa-shopping-cart mr-2"></i>
@@ -21,7 +21,7 @@
         @endif
 
         <!-- الطلبات -->
-         <div class=" space-y-4">
+        <div class=" space-y-4">
             @forelse ($rentals as $rental )
                 <div class=" border p-4 rounded-lg">
                     <p><strong>{{ app()->getLocale() == 'ha' ? 'Kayan Aiki' : 'Tool' }}</strong> {{ $rental->tool->name }}</p>
@@ -33,6 +33,7 @@
                     <p><strong>{{ app()->getLocale() == 'ha' ? 'Farashin' : 'Total Cost' }}</strong> {{ $rental->total_cost}}</p>
                 </div>
                 <!-- Butttons -->
+                 <div>
                  @if ($rental->status === 'pending')
                      @if ($rental->lender_id === Auth::id())
                      <button wire:click="approve({{ $rental->id }})" class=" bg-green-600 text-nowrap p-2 rounded hover:bg-green-800">
@@ -47,7 +48,7 @@
             @empty
                 <div class=" text-gray-800">{{ app()->getLocale() == 'ha' ? 'Babu neman aro.' : 'No rental requests.' }}</div>
             @endforelse
-
+        </div>
     </div>
 </div>
 </div>
