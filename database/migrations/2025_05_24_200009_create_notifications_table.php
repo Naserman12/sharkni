@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('notifications', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->text('content');
+            $table->uuid('id')->primary();
+            $table->text('content')->nullable();
             $table->text('content_ha')->nullable();
             $table->string('type'); // e.g.,  borrow_request, damage_report
-            $table->morphs('related'); // related_id, related_type
+            $table->morphs('notifiable');
+            $table->text('data');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
         });

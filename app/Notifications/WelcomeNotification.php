@@ -33,11 +33,16 @@ class WelcomeNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toDatabase(){
-       return new DatabaseMessage([
-         'message' => app()->getLocale() == 'ha' ? 'Baraka da zuwa Sharkni! Muna farin cikin ganin ka.' : 'Welcome to Sharkni! We are happy to see you.',
+    public function toDatabase($notifiable){
+       return [
+        'data' => [
+         'message' =>  'Welcome to Sharkni! We are happy to see you.',
+         'message_ha' =>  'Baraka da zuwa Sharkni! Muna farin cikin ganin ka.',
          'url' => route('dashboard'),
-       ]);
+       ],
+       'content' => 'Welcome to Sharkni! We are happy to see you.',
+       'content_ha' => 'Baraka da zuwa Sharkni! Muna farin cikin ganin ka.',
+     ];
     }
     public function toMail(object $notifiable): MailMessage
     {

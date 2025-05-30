@@ -26,7 +26,6 @@ class RentalRequests extends Component
             'tool_id' => $toolId,
             'status' => 'pending',
         ]);
-
         $toolOwner = $tool->user;
         $toolOwner->notify(new rentalNotification($rental));
         session()->flash('message', app()->getLocale() == 'ha' ? 'An qaddamar da neman aro cikin nasara!.' : 'Borrow request submit successfully!');

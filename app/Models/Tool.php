@@ -31,6 +31,9 @@ class Tool extends Model
     public function rentals(){
         return $this->hasMany(Rental::class);
     }
+    public function comments(){
+        return $this->hasMany(Comment::class);
+    }
       
     public function locations(){
         return $this->belongsToMany(Location::class, 'tool_location');

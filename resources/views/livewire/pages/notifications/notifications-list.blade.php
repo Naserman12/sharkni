@@ -1,7 +1,11 @@
 <div>
     {{-- Care about people's approval and you will be their prisoner. --}}
     <div>
-
+            @php
+            $user = Auth()->user();
+            app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
+            session(['locale' => $user->language]); // تخزين اللغة في الجلسة
+            @endphp
 <!-- زر الإشعارات -->
 <div x-data="{ open: false }"
      @click.away="open = false"
@@ -44,6 +48,7 @@
 
         <!-- محتوى الإشعارات -->
         <div class="p-0">
+            
             @forelse (auth()->user()->unreadNotifications as $notification)
             <div wire:key="notification-{{ $notification->id }}"
                     class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer flex items-start">
@@ -55,13 +60,12 @@
                     </div>
 
                     <div class="flex-1">
-                        <p class="text-gray-800 font-medium">{{ $notification->data['message'] }}</p>
+                     
+                        <p class="text-gray-800 font-medium">{{ app()->getLocale() == 'ha' ? $notification->data['data']['message_ha'] : $notification->data['data']['message']  }}</p>
                         <div class="flex justify-between items-center mt-1">
-                            <a href="{{ route('notifications.show', $notification->id) }}"
+                            <a href="#"
                                class="bg-blue-500 text-white px-4 py-2  rounded-lg transition duration-200 hover:bg-blue-900"
-                               @click.stop>عرض</a>
-
-                               
+                               @click.stop>عرض</a>  
                             </div>
                         </div>
                     </div>

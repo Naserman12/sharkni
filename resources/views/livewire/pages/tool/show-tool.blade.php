@@ -77,7 +77,7 @@
           <!-- زر طلب الإستعارة ?Borrowed submit -->
           <div class="mt-6">
             @if ($tool->status == 'available')
-            <form wire:submit.prenent="requestBorrow" class=" space-y-4">
+            <form wire:submit.prenent="requestBorrow({{ $tool->id }})" class=" space-y-4">
                 <div>
                     <label for="borrow_date" class=" block text-gray-800 font-semibold">
                         <i class="fas fa-calender-alt mr-2"></i>{{ app()->getLocale() ==  'ha' ? 'Ranar Aro' : 'Borrow Date' }}
@@ -101,6 +101,32 @@
                    <i class="fas fa-shoping-cart mr-1"></i> {{  app()->getLocale() == 'ha' ? 'Ba a Samu Ba' : 'Not Available' }}
                 </button>     
             @endif
+          </div>
+          <!-- Comments -->
+          <div class="mt-8">
+            <h1 class="text-2xl font-bold mb-4">{{ app()->getLocale() == 'ha' ? 'Sharhi' : 'Cooments' }}</h1>
+            <!-- add comment form -->
+            @if (auth()->check())
+                <form wire:submit.prevent="addComment" class="mb-6" >
+                    <textarea wire:model="newComment" class=" w-full p-2 border rounded" rows="2" placeholder="{{ app()->getLocale() == 'ha' ? 'Rubuta sharhi...' : 'Write a comment...'}}" id=""></textarea>
+                    @error('newComment')  <span class=" text-red-500 bg-red-100 text-sm">{{ $message }}</span>  @enderror
+                    <button type="submit" class=" bg-blue-500 text-white p-2 rounded mt-2 hover:bg-blue-600" >
+                        {{ app()->getLocale() == 'ha' ? 'qara Sharhi' : 'Add Comment' }}
+                    </button>
+                </form>
+            @endif
+            <!-- Show Comments -->
+             @forelse ($tool->comments as $comment )
+                <div class="border-b py-4">
+                    <div class=" flex items-center mt-2">
+                        <p class=" font-semibold">{{ $comment->user->name }}</p>
+                        <small class="text-gray-600 ml-2">{{ $comment->created_at->diffForHumans() }}</small>
+                        <p>{{ $comment->content }}</p>
+                    </div>
+                </div>
+             @empty 
+                 <p class=" text-gray-700">{{ app()->getLocale() == 'ha' ? 'Baba sharhi tukuna.' : 'No Comment' }}</p>
+             @endforelse
           </div>
         </div>
     </div>

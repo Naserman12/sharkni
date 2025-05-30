@@ -40,7 +40,7 @@ class NotificationsList extends Component
         $this->notification->markAsRead();
     }
     }
-    public function markAllAsRead($id){
+    public function markAllAsRead(){
         Auth::user()
         ->unreadNotifications->markAsRead();
         $this->showDropdown = false;

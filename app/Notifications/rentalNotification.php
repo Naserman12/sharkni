@@ -26,7 +26,7 @@ class rentalNotification extends Notification
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
+    public function via( $notifiable)
     {
         return ['database'];
     }
@@ -34,12 +34,16 @@ class rentalNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
-     public function toDatabase(){
-      
-       return new DatabaseMessage([
-         'message' => app()->getLocale() == 'ha' ? 'An samu sabon neman aro akan kayan aikin ka: #{$this->rental->tool_id} .' : 'You have a new borrow request for your tool: #{$this->rental->tool_id}.',
-         'url' => route('rentals.index'),
-       ]);
+     public function toDatabase($notifiable){ 
+       return [
+            'data' => [
+            'message' =>  'You have a new borrow request for your tool: #{$this->rental->tool_id}.',
+            'message_ha' =>  'An samu sabon neman aro akan kayan aikin ka: #{$this->rental->tool_id} .',
+            'url' => route('dashboard'),
+            ],
+            'content' => 'You have a new borrow request for your tool: #{$this->rental->tool_id}.',
+            'content_ha' => 'An samu sabon neman aro akan kayan aikin ka: #{$this->rental->tool_id} .',
+    ];
     }
     public function toMail(object $notifiable): MailMessage
     {

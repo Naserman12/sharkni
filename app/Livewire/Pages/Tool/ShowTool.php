@@ -2,11 +2,13 @@
 
 namespace App\Livewire\Pages\Tool;
 
+use App\Models\Comment;
 use App\Models\Rental;
 use App\Models\Tool;
 use Carbon\Carbon;
 use Illuminate\Support\Carbon as SupportCarbon;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\rentalNotification;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -14,15 +16,32 @@ class ShowTool extends Component
 {
     use WithPagination;
     public $tool, $borrow_date, $return_date;
+    public $newComment;
+    protected $rules =[
+        'newComment' => 'required|string|min:3|max:255',
+    ];
     public function mount($id){
-        $this->tool = Tool::with(['user', 'category'])->findOrFail($id);
+        $this->tool = Tool::with(['user', 'category','comments.user'])->findOrFail($id);
         $this->borrow_date = now()->toDateString();
         $this->return_date = now()->addDays(1)->toDateString();
          $user = Auth::user();
                 app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
                 session(['locale' => $user->language]); // تخزين اللغة في الجلسة
     }
-    public function requestBorrow(){
+  
+    public function addComment(){
+        $this->validate();
+        Comment::create([
+            'tool_id' => $this->tool->id,
+            'user_id' => Auth::id(),
+            'content' => $this->newComment,
+        ]);
+        $this->tool = Tool::with('user', 'category', 'comments.user')->findOrFail($this->tool->id);
+        session()->flash('message', app()->getLocale() == 'ha' ? 'An qara sharhi cikin nasara!' : 'Comment added successfully!');
+        $this->reset(['newComment']);
+    }
+    public function requestBorrow($toolId){
+        $tool = Tool::findOrFail($toolId);
         $this->validate([
             'borrow_date' => 'required|date|after_or_equal:today',
             'return_date' => 'required|date|after:borrow_date',
@@ -30,7 +49,7 @@ class ShowTool extends Component
         $days = Carbon::parse($this->borrow_date)->diffInDays($this->return_date);
         $total_cost = $this->tool->is_free ? 0 : $this->tool->price * $days;
 
-        Rental::create([
+        $rental = Rental::create([
             'tool_id' => $this->tool->id,
             'borrower_id' => Auth::id(),
             'lender_id' => $this->tool->user_id,
@@ -41,6 +60,8 @@ class ShowTool extends Component
             'total_cost' => $total_cost,
             'deposit_status' => 'paid',
         ]);
+        $toolOwner = $tool->user;
+        $toolOwner->notify(new rentalNotification($rental));
         session()->flash('message', app()->getLocale() == 'ha' ? 'An aika da neman aro zowa ga mai kaia.' : 'Rental request sent successfully.');
 
         return redirect()->to('rentals');
