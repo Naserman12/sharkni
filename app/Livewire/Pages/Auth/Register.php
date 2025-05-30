@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Pages\Auth;
 
+use App\Notifications\WelcomeNotification;
 use Livewire\Component;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -30,6 +31,7 @@ class Register extends Component
                 'address' => $this->address,
                 'reputation_points' => 0,
             ]);
+            $user->notify(new WelcomeNotification());
             Auth::login($user);
             app()->setLocale($this->language);
             session()->flash('message', app()->getLocale() == 'ha' ? 'An qieiri asusnka cikin nasara! ka duba imel qin kan don tabbatarwa. ' : 'Your account has created successfully! Check your email for verification.');

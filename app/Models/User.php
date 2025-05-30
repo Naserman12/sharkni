@@ -3,12 +3,6 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Models\Tool;
-use App\Models\BorrowRequest;
-use App\Models\Rating;
-use App\Models\Notification;
-use App\Models\Transaction;
-use App\Models\Message;
 use App\Notifications\CustomVerifyEmail;
 use Dom\Notation;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -76,10 +70,6 @@ class User extends Authenticatable implements MustVerifyEmail
     public function ratingsReceived(){
         return $this->hasMany(Rating::class, 'rated_user_id');
 
-    }
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
     }
     public function transactions(){
         return $this->hasMany(Transaction::class);

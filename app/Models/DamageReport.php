@@ -15,7 +15,7 @@ class DamageReport extends Model
         'stauts' => 'string',
         'resolution_amount' => 'decimal',
     ];
-    public function borrowRequest(){
+    public function rental(){
         return $this->belongsTo(Rental::class, 'rental_id');
     }
 

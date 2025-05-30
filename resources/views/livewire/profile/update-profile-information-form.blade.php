@@ -166,7 +166,7 @@ new class extends Component
                 <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
             </div>
         <div class="flex items-center gap-4 mt-2">
-            <x-primary-button>{{ app()->getLocale() == 'ha' ? 'Tabbatar' : 'Save' }}</x-primary-button>
+            <x-primary-button>{{ app()->getLocale() == 'ha' ? 'An Tabbatar Da canzwa da kayi' : 'Saved' }}</x-primary-button>
         </div>
     </form>
-</section>
+</section> 

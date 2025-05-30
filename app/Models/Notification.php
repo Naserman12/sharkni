@@ -19,6 +19,11 @@ class Notification extends Model
             // يدعم ربط الاشعارات بمختلف الكيانات (Message || BorrowRequest ....)
             return $this->morphTo();
          }
+         public function scopeUnread($query)
+            {
+               return $query->whereNull('read_at');
+            }
+
          public function getContentAttribute(){
             return app()->getLocale() == 'ha' && $this->content_ha ? $this->content_ha : $this->content;
          }

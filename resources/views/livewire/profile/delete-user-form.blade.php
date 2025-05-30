@@ -52,7 +52,6 @@ new class extends Component
 
             <div class="mt-6">
                 <x-input-label for="password" value="{{ __('Password') }}" class="sr-only" />
-
                 <x-text-input
                     wire:model="password"
                     id="password"
@@ -69,9 +68,9 @@ new class extends Component
                 <x-secondary-button x-on:click="$dispatch('close')">
                     <x-primary-button>{{ app()->getLocale() == 'ha' ? 'Nafasa' : 'Cancel' }}</x-primary-button>
                 </x-secondary-button>
-
+                
                 <x-danger-button class="ms-3 mt-2">
-                    {{ __('Delete Account') }}
+                    <x-primary-button>{{ app()->getLocale() == 'ha' ? 'Goge asusu gaba daya' : 'Delete account' }}</x-primary-button>
                 </x-danger-button>
             </div>
         </form>

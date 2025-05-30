@@ -3,6 +3,8 @@
 namespace App\Livewire\Pages\Rentals;
 
 use App\Models\Rental;
+use App\Models\Tool;
+use App\Notifications\rentalNotification;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
@@ -17,6 +19,18 @@ class RentalRequests extends Component
         ->get();
         
     }
+    public function requestBorrow($toolId){
+        $tool = Tool::findOrFail($toolId);
+        $rental = Rental::create([
+            'user_id' => Auth::id(),
+            'tool_id' => $toolId,
+            'status' => 'pending',
+        ]);
+
+        $toolOwner = $tool->user;
+        $toolOwner->notify(new rentalNotification($rental));
+        session()->flash('message', app()->getLocale() == 'ha' ? 'An qaddamar da neman aro cikin nasara!.' : 'Borrow request submit successfully!');
+    } 
     public function approve($rentalId){
         $rental = Rental::findOrFail($rentalId);
         if ($rental->lender_id === Auth::id()&& $rental->status === 'pending' ) {

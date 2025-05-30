@@ -72,7 +72,7 @@ new class extends Component
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
             <x-action-message class="me-3 mt-2" on="password-updated">
-                <x-primary-button>{{ app()->getLocale() == 'ha' ? 'Tabbatar' : 'Save' }}</x-primary-button>
+                <x-primary-button>{{ app()->getLocale() == 'ha' ? 'An Tabbatar Da canza Kalamar Sirri!' : 'Saved changed password!' }}</x-primary-button>
             </x-action-message>
         </div>
     </form>
