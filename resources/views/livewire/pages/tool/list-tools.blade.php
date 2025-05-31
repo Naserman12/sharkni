@@ -7,13 +7,16 @@
      @endif
     </h1>
          <!-- الفلاتر -->    
-            <div class=" space-y-6">
+            <div x-data="filterComponent()" x-init="init()" class="filters-container" class=" space-y-6">
+                  <button @click="toggle()" class="btn-toggle-filters">
+                        <span x-text="isOpen ? 'إخفاء الفلاتر' : 'إظهار الفلاتر'"></span>
+                 </button>
                 <!-- الفلترة )(على الجانب الايسر) -->
                 <div x-data="{open: false}" class=" w-full">
                       <!-- زرالفلترة على الجوال -->
                     <button @click="open = !open" class="md:hidden w-full bg-blue-500 text-yellow-50 p-2 rounded mb-4 flex items-center justify-center"><i class="fas fa-filter mr-2" ></i>{{ app()->getLocale() == 'ha' ? 'Tach' : 'Filter' }} </button>
                     <!-- خيارات الفلترة -->
-                    <div class="bg-blue-300 p-4 rounded-lg block md:flex md:space-x-4 md:space-y-0 mb-4" :class="{'hidden': !open, 'block': open}"><h2 class=" text-xl font-semibold mb-4 flex items-center md:hidden "><i class=" fas fa-compass mr-2"></i> {{ app()->getLocale() == 'ha' ? 'Tace' : 'Filter' }}   </h2>
+                    <div x-show="isOpen" x-transition class="filters-panel" class="bg-blue-300 p-4 rounded-lg block md:flex md:space-x-4 md:space-y-0 mb-4" :class="{'hidden': !open, 'block': open}"><h2 class=" text-xl font-semibold mb-4 flex items-center md:hidden "><i class=" fas fa-compass mr-2"></i> {{ app()->getLocale() == 'ha' ? 'Tace' : 'Filter' }}   </h2>
                         <!-- location الموقع -->
                         <div class="md:flex md:items-center md:space-x-2 "> 
                           <label for="location" class="block text-gray-900 font-semibold md:mr-2">{{ app()->getLocale() == 'ha' ? 'Wuri' : 'Location' }}</label>
@@ -34,7 +37,7 @@
                              </div>
                             @if ($category_slug)
                                 <button wire:click="resetCategoryFilter" class=" mt-2 text-red-500 hover:underline">
-                                    {{ app()->getLocale() == 'ha' ? 'Soke Nau\'i' : 'Clear Category' }}
+                                    {{ app()->getLocale() == 'ha' ? 'Share' : 'Clear Category' }}
                                 </button>
                             @endif
                         </div>

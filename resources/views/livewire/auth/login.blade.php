@@ -1,12 +1,12 @@
     @extends('layouts.app')
     @section('content')
-    <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-4">
+    <div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400  to-pink-200 px-4">
     {{-- In work, do what you enjoy. --}}
   <form wire:submit.prevent="login" 
     class="bg-white bg-opacity-90 backdrop-blur-md shadow-xl rounded-xl p-10 max-w-md w-full"
     dir="rtl"
   >
-    <h1 class="text-3xl font-extrabold text-gray-800 mb-8 text-center">Login</h1>
+    <h1 class="text-3xl font-extrabold text-gray-800 mb-8 text-center">{{ __('messages.login') }}</h1>
     
     <input
       type="email"
@@ -28,12 +28,12 @@
       type="submit"
       class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3 rounded-lg shadow-lg transition"
     >
-      login
+      {{ __('messages.login') }}
     </button>
     
     <p class="mt-6 text-center text-gray-600">
-      Do not have account?
-      <a href="{{ route('register') }}" class="text-purple-600 hover:underline font-semibold"> Register Now</a>
+      {{ __('messages.do_not_have_account') }}
+      <a href="{{ route('register') }}" class="text-purple-600 hover:underline font-semibold">{{ __('messages.register') }}</a>
     </p>
   </form>
 </div>

@@ -48,7 +48,7 @@ Route::get('/email/verify/{id}/{hash}', function($id, $hash){
     return redirect()->route('dashboard')->with('messagr', app()->getLocale() == 'ha' ? 'An tabbatar da imel qin ka cikin nasara!' : 'Your email has been verified successfully');
 })->middleware('auth','signed')->name('verification.verify');
 
-
+// Home Routes
 Route::view('/', 'welcome');
 Route::view('/send','livewire.email.send-email-test');
 Route::view('dashboard', 'dashboard')

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class=" min-h-screen flex items-center justify-center bg-gray-300">
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-4">
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-400  to-pink-200 px-4">
   <h1 class="text-3xl font-extrabold text-gray-800 mb-8 text-center">{{ app()->getLocale() == 'ha' ? 'Ti rajista' : 'Register' }}</h1>
   <form wire:submit.prevent="register" 
     class="bg-white bg-opacity-90 backdrop-blur-md shadow-xl rounded-xl p-10 max-w-md w-full"

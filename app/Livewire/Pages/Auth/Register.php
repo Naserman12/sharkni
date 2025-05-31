@@ -13,8 +13,8 @@ class Register extends Component
     public $name, $email, $phone, $password, $language = 'en', $address, $password_confirmation;
     protected $rules = [
         'name' => ['required', 'string','min:3','max:255'],
-        'email' => ['required','email','string','max:255','unique:users'],
-        'phone' => ['required','string','max:15','unique:users'],
+        'email' => ['required','email','string','max:255','lowercase', 'unique:users'],
+        'phone' => ['nullable','string','max:15','unique:users'],
         'language' => ['required','in:en,ha'],
         'password' => ['required','string','min:8','confirmed'],
     ];

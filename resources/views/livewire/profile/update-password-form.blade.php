@@ -15,6 +15,11 @@ new class extends Component
     /**
      * Update the password for the currently authenticated user.
      */
+    public function mount(){
+         $this->user     = Auth::user();     
+        app()->setLocale($this->user->language); //تعين اللغة بناء على المستخدم
+        session(['locale' => $this->user->language]); // تخزين اللغة في الجلسة
+    }
     public function updatePassword(): void
     {
         try {
@@ -41,35 +46,38 @@ new class extends Component
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Update Password') }}
+           {{ app()->getLocale() == 'ha' ? 'Sabunta Kalamar sirri!' : 'Saved changed password!' }}  {{ __('Update Password') }}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __('Ensure your account is using a long, random password to stay secure.') }}
-        </p>
+           {{ app()->getLocale() == 'ha' ? ' Tabbatar cewa asusunku yana amfani da dogon, Kalamar Sirri bazuwar don zama amintacce' : 'Ensure your account is using a long, random password to stay secure.' }}
     </header>
 
     <form wire:submit="updatePassword" class="mt-6 space-y-6">
         <div>
-            <x-input-label for="update_password_current_password" :value="__('Current Password')" />
+            <x-input-label for="update_password_current_password" />
+            {{ app()->getLocale() == 'ha' ? 'Kalamar Sirri ta yanzu' : 'Current Password' }}
             <x-text-input wire:model="current_password" id="update_password_current_password" name="current_password" type="password" class="mt-1 block w-full" autocomplete="current-password" />
             <x-input-error :messages="$errors->get('current_password')" class="mt-2" />
         </div>
 
         <div>
-            <x-input-label for="update_password_password" :value="__('New Password')" />
+            <x-input-label for="update_password_password"  />
+            {{ app()->getLocale() == 'ha' ? 'Sabuwar Kalamar Sirri' : 'New Password' }}
             <x-text-input wire:model="password" id="update_password_password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
-
+        
         <div>
-            <x-input-label for="update_password_password_confirmation" :value="__('Confirm Password')" />
+            <x-input-label for="update_password_password_confirmation"  />
+            {{ app()->getLocale() == 'ha' ? 'Tabbatar da Kalamar Sirri' : 'Confirm Password' }}
+            
             <x-text-input wire:model="password_confirmation" id="update_password_password_confirmation" name="password_confirmation" type="password" class="mt-1 block w-full" autocomplete="new-password" />
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
+            <x-primary-button>{{ app()->getLocale() == 'ha' ? 'Adana kalmar sirri' : 'Save' }}</x-primary-button>
 
             <x-action-message class="me-3 mt-2" on="password-updated">
                 <x-primary-button>{{ app()->getLocale() == 'ha' ? 'An Tabbatar Da canza Kalamar Sirri!' : 'Saved changed password!' }}</x-primary-button>

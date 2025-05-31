@@ -12,7 +12,7 @@ use Livewire\Volt\Component;
 new class extends Component
 {
     use WithFileUploads;
-    public $user , $phone, $language, $profile_picture , $Orprofile_picture;
+    public $user , $phone, $language, $profile_picture = null , $Orprofile_picture;
     public string $name = '';
     public string $email = '';
 
@@ -24,11 +24,12 @@ new class extends Component
         $this->user     = Auth::user();     
         app()->setLocale($this->user->language); //تعين اللغة بناء على المستخدم
         session(['locale' => $this->user->language]); // تخزين اللغة في الجلسة
+        
         $this->name                 = $this->user->name;
         $this->email                = $this->user->email;
         $this->phone                = $this->user->phone;
         $this->language             = $this->user->language;
-        $this->profile_picture      = $this->user->profile_picture;
+        $this->profile_picture      = null;
         $this->Orprofile_picture    = $this->user->profile_picture;
     }
 
@@ -51,10 +52,10 @@ new class extends Component
 
         ]);
 
-        if ($user->profile_picture = $this->profile_picture) {
-            if (File::exists('Storage/'.$user->profile_picture)) {
-               Storage::disk('public')->delete($user->profile_picture);
-            }
+        if ($this->profile_picture && $this->profile_picture !== $this->Orprofile_picture) {
+              if ($this->Orprofile_picture && Storage::disk('public')->exists($this->Orprofile_picture)) {
+                        Storage::disk('public')->delete($this->Orprofile_picture);
+                    }
             $path = $this->profile_picture->store('profile_picture', 'public');
             $validated['profile_picture'] = $path;
         }
@@ -78,42 +79,31 @@ new class extends Component
     /**
      * Send an email verification notification to the current user.
      */
-    public function sendVerification(): void
-    {
-        $user = Auth::user();
+    // public function sendVerification(): void
+    // {
+    //     $user = Auth::user();
 
-        if ($user->hasVerifiedEmail()) {
-            $this->redirectIntended(default: route('dashboard', absolute: false));
-            return;
-        }
-        $user->sendEmailVerificationNotification();
+    //     if ($user->hasVerifiedEmail()) {
+    //         $this->redirectIntended(default: route('dashboard', absolute: false));
+    //         return;
+    //     }
+    //     $user->sendEmailVerificationNotification();
 
-        session::flash('status', 'verification-link-sent');
-    }
+    //     session::flash('status', 'verification-link-sent');
+    // }
 }; ?>
 
 <section>
     <header>
         <h2 class="text-3xl font-bold flex items-center ">
+            {{__('messages.welcome')}}
             {{ app()->getLocale() == 'ha' ? 'Gyara bayanan mutum' : 'Edit profile '}}
         </h2>
 
         <p class="mt-1 text-sm text-gray-600">
-            {{ __("Update your account's profile information and email address.") }}
+            {{  app()->getLocale() == 'ha' ? 'Gyara bayanan Asusun ka da Imel kalmar' : 'Update your account\'s profile information and email address.' }}
         </p>
     </header>
-
-    <!-- Messages -->
-      @if (session('message'))
-  <div class="mb-4 p-2 bg-green-100 text-green-700 rounded">
-    {{ $message }}
-  </div>   
-  @endif
-  @error('form')
-  <div class="mb-4 p-2 bg-red-100 text-red-700 rounded">
-    {{ $message }}
-  </div>   
-  @enderror
     <form wire:submit.prevent="updateProfileInformation" class="mt-6 space-y-6">
         <!-- name -->
         <div>
@@ -164,9 +154,12 @@ new class extends Component
                 <x-text-input wire:model="profile_picture" id="profile_picture" name="profile_picture" type="file" class="hidden" accept="image/*" />
                 </div>   
                 <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
-            </div>
         <div class="flex items-center gap-4 mt-2">
-            <x-primary-button>{{ app()->getLocale() == 'ha' ? 'An Tabbatar Da canzwa da kayi' : 'Saved' }}</x-primary-button>
+            <x-primary-button>{{ app()->getLocale() == 'ha' ? 'A Tabbatar ' : 'Saved' }}</x-primary-button>
+
+            <x-action-message class="me-3 mt-2" on="updateProfileInformation">
+                {{ app()->getLocale() == 'ha' ? 'An Tabbatar Da canza Byanayi!' : 'Saved changed!' }}
+            </x-action-message>
         </div>
     </form>
 </section> 
