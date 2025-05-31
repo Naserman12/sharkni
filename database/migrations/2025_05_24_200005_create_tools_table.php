@@ -23,6 +23,7 @@ return new class extends Migration
             $table->enum('status', ['available', 'borrowed', 'unavailable'])->default('available');
             $table->enum('condition', ['new', 'used', 'needs_repair'])->default('used');
             $table->json('image_paths')->nullable(); // Store multiple image paths
+            $table->string('location');
             $table->timestamps();
         });
     }

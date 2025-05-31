@@ -93,6 +93,7 @@
                         <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                      @enderror
                     </div>
+                @if(!$is_free)
                 <!-- Price per day -->
                 <div class=" mb-4">
                     <label for="price" class=" block text-gray-900">
@@ -103,6 +104,7 @@
                         <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                         @enderror
                     </div>
+                    @endif
                     <!-- Deposit Amount-->
                 <div class=" mb-4">
                     <label for="deposit_amount" class=" block text-gray-900">

@@ -28,7 +28,7 @@ class AddTool extends Component
         'category_id' => ['required','exists:categories,id'],
         'name' => ['required','string','max:255'],
         'description' => ['nullable','string'],
-        'price' => ['nullable','numeric','min:0'],
+        'price' => ['required:if,is_free:false','numeric','min:0'],
         'is_free' => ['boolean'],
         'deposit_amount' => ['nullable','numeric','min:0'],
         'status' => ['required', 'in:available,borrowed,unavailable'],
@@ -53,7 +53,9 @@ class AddTool extends Component
                     $imagePaths[] = $image->store('tools', 'public');
                 }
             }
-
+            if ($this->is_free) {
+                $this->price = null;
+            }
             // إضافة الاداة
             Tool::create([
                 'user_id' => Auth::id(),
@@ -61,7 +63,7 @@ class AddTool extends Component
                 'name' => $this->name,
                 'description' => $this->description,
                 'price' => $this->price,
-                'is_free' => $this->is_free ? 0  : $this->price,
+                'is_free' => $this->is_free ? 0 : true,
                 'deposit_amount' => $this->deposit_amount,
                 'status' => $this->status,
                 'condition' => $this->condition,
