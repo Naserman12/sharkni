@@ -12,8 +12,10 @@ class Login extends Component
         'email' => ['required', 'email'],
         'password' => ['required'],
     ];
+    public $nam;
     public function login()
     {
+
         try {
             $this->validate();
             if (Auth::attempt(['email' => $this->email, 'password' => $this->password], $this->remember)) {
