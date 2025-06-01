@@ -40,14 +40,14 @@ class ShowTool extends Component
         session()->flash('message', app()->getLocale() == 'ha' ? 'An qara sharhi cikin nasara!' : 'Comment added successfully!');
         $this->reset(['newComment']);
     }
-    public function requestBorrow($toolId){
+    public function rental($toolId){
         $tool = Tool::findOrFail($toolId);
         $this->validate([
             'borrow_date' => 'required|date|after_or_equal:today',
             'return_date' => 'required|date|after:borrow_date',
         ]);
         $days = Carbon::parse($this->borrow_date)->diffInDays($this->return_date);
-        $total_cost = $this->tool->is_free ? 0 : $this->tool->price * $days;
+        $total_cost = $this->tool->is_free ? 0 : $this->tool->rental_price * $days;
 
         $rental = Rental::create([
             'tool_id' => $this->tool->id,
@@ -58,13 +58,14 @@ class ShowTool extends Component
             'return_date' => $this->return_date,
             'is_paid' => $this->tool->is_free,
             'total_cost' => $total_cost,
-            'deposit_status' => 'paid',
+            'deposit_status' => 'pending',
         ]);
         $toolOwner = $tool->user;
         $toolOwner->notify(new rentalNotification($rental));
         session()->flash('message', app()->getLocale() == 'ha' ? 'An aika da neman aro zowa ga mai kaia.' : 'Rental request sent successfully.');
 
-        return redirect()->to('rentals');
+                // إعادة توجيه إلى صفحة الدفع مع معرف الإجارة
+         return redirect()->route('payment.form', ['rental' => $rental->id]);
 
     }
     public function render()

@@ -15,9 +15,9 @@
     <!-- زر الجرس -->
     <button @click="open = !open"
         wire:click="toggleDropdown"
-        class="relative p-2 bg-white text-black rounded-full hover:bg-gray-200 transition"
+        class="relative p-2 bg-gray-100 text-black rounded-full hover:bg-gray-200 transition"
         title="الإشعارات">
-        <i class="fas fa-bell text-xl text-yellow-600"></i>
+        <i class="fas fa-bell text-xl"></i>
         @if (auth()->user()->unreadNotifications->count())
         <span class="absolute -top-1 -right-1 bg-red-500 text-red-50 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
             {{ $unreadCount }}

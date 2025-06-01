@@ -87,7 +87,7 @@
                 <div class=" mb-4">
                     <input type="checkbox" wire:model="is_free" id="is_free" class="  me-2">
                     <label for="is_free" class=" block text-gray-900">
-                        {{ app()->getLocale() == 'ha' ? 'Kyauta ': 'Free'}}
+                        {{ app()->getLocale() == 'ha' ? 'Zaa Byia': 'Is paid'}}
                     </label>
                     @error('is_free')
                         <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
@@ -96,11 +96,11 @@
                 @if(!$is_free)
                 <!-- Price per day -->
                 <div class=" mb-4">
-                    <label for="price" class=" block text-gray-900">
+                    <label for="rental_price" class=" block text-gray-900">
                         {{ app()->getLocale() == 'ha' ? 'Farashin Kowace Rana ': 'Price Per Day'}}
                     </label>
-                    <input type="text" step="0.01" min="0" wire:model="price" id="price" class=" w-full p-2 border rounded">
-                    @error('price')
+                    <input type="text" step="0.01" min="0" wire:model="rental_price" id="rental_price" class=" w-full p-2 border rounded">
+                    @error('rental_price')
                         <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                         @enderror
                     </div>

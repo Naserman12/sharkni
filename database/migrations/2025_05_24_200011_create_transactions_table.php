@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('borrow_request_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('rentel_id')->constrained('rentals')->cascadeOnDelete();
             $table->decimal('amount', 10, 2);
             $table->enum('type', ['deposit', 'rental', 'compensation'])->default('deposit');
             $table->enum('status', ['paid', 'refunded', 'failed'])->default('paid');

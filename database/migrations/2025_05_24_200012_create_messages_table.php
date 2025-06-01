@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('sender_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('receiver_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('bowrrow_request_id')->constrained('borrow_requests')->cascadeOnDelete();
+            // $table->bigInteger('rental_id')->constrained('rentels')->cascadeOnDelete();
             $table->text('content');
             $table->text('content_ha')->nullable();
             $table->timestamp('read_at')->nullable();

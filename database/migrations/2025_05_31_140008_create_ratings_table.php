@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('rater_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('rated_user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('borrow_request_id')->constrained('borrow_requests')->onDelete('cascade');
+            $table->foreignId('rental_id')->constrained('rentals')->onDelete('cascade');
             $table->integer('rating')->unsigned()->between(1, 5);
             $table->text('comment')->nullable();
             $table->timestamps();

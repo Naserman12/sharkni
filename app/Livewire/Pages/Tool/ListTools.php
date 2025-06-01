@@ -72,7 +72,7 @@ class ListTools extends Component
         
         if ($this->price_max) {
             $query->where('is_free', false)
-                  ->where('price', '<=', $this->price_max);
+                  ->where('rental_price', '<=', $this->price_max);
         }
         $tools = $query->paginate($this->perPage);
         return view('livewire.pages.tool.list-tools',[

@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('tools', function (Blueprint $table) {
-            $table->string('location')->after('image_paths');
+        Schema::table('rentals', function (Blueprint $table) {
+              $table->string('payment_status')->nullable()->default('pending'); //pending, comfirmed, awaiting_comfirmation, delivered
         });
     }
 
@@ -21,8 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('tools', function (Blueprint $table) {
-            $table->dropColumn('location');
+        Schema::table('rentals', function (Blueprint $table) {
             //
         });
     }

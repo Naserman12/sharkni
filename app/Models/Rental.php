@@ -36,6 +36,9 @@ class Rental extends Model
     public function transactions(){
         return $this->hasMany(Transaction::class);
     }
+    public function payment(){
+        return $this->hasOne(Rental::class);
+    }
     public function messages(){
         return $this->hasMany(Message::class);
     }

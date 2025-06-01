@@ -14,6 +14,7 @@ use App\Livewire\Pages\Rentals\RentalRequests;
 use  App\Livewire\Pages\Tool\AddTool;
 use App\Livewire\Pages\Tool\ListTools;
 use App\Livewire\Pages\Tool\ShowTool;
+use App\Http\Controllers\Payments\PaymentController;
 
 // Logon && logout
 Route::get('/register', Register::class)->middleware('guest')->name('register');
@@ -71,6 +72,13 @@ Route::get('damage/reports', ManageDamageReports::class)->middleware('auth')->na
 Route::get('categories/add', AddCategory::class)->middleware('auth')->name('categories.add');
 
 
+// payments
+Route::middleware(['auth'])->group(function () {
+    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+    Route::get('/payment/verify/{payment_id}', [PaymentController::class, 'verifyPayment'])->name('payment.verify');
+    Route::get('/payment/{rental}', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+    Route::get('/webhooks/paystack', [PaymentController::class, 'handleWebhook'])->name('paystack.webhook');
+});
 
 
 require __DIR__.'/auth.php';

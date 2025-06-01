@@ -85,6 +85,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->reputation_points += $rating * 2;
         $this->save();
     }
+    // العلاقات مع الدفعات
+    public function payments(){
+        return $this->hasMany(Payment::class);
+    }
+    //  العلاقات مع الحسابات البنكية
+    public function bankAccounts(){
+        return $this->hasMany(ToolOwnerBankAccount::class);
+    }
     protected function casts(): array
     {
         return [

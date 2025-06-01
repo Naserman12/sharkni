@@ -33,7 +33,7 @@
                 @if ($tool->is_free)
                 {{  app()->getLocale() == 'ha' ? 'Kyauta' : 'Free' }}     
                 @else
-                    {{ $tool->price ?? '0.00'  }}/ {{  app()->getLocale() == 'ha' ? 'Rana' : 'Day' }}
+                    {{ $tool->rental_price ?? '0.00'  }}/ {{  app()->getLocale() == 'ha' ? 'Rana' : 'Day' }}
                 @endif
                 |<span class=" font-semibold">{{  app()->getLocale() == 'ha' ? 'Ajiya' : 'Deposit' }} :</span>
                 {{ $tool->deposit_amount ?? '0.00' }}
@@ -76,8 +76,9 @@
 
           <!-- زر طلب الإستعارة ?Borrowed submit -->
           <div class="mt-6">
+          @if (auth()->check())
             @if ($tool->status == 'available')
-            <form wire:submit.prenent="requestBorrow({{ $tool->id }})" class=" space-y-4">
+            <form wire:submit.prenent="rental({{ $tool->id }})" class=" space-y-4">
                 <div>
                     <label for="borrow_date" class=" block text-gray-800 font-semibold">
                         <i class="fas fa-calender-alt mr-2"></i>{{ app()->getLocale() ==  'ha' ? 'Ranar Aro' : 'Borrow Date' }}
@@ -101,6 +102,9 @@
                    <i class="fas fa-shoping-cart mr-1"></i> {{  app()->getLocale() == 'ha' ? 'Ba a Samu Ba' : 'Not Available' }}
                 </button>     
             @endif
+            @else
+              <p class="text-red-500">{{ app()->getLocale() == 'ha' ? 'Da fatan za a shiga don neman aro.' : 'Please login to request a rental.' }}</p>
+           @endauth
           </div>
           <!-- Comments -->
           <div class="mt-8">

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('rentals', function (Blueprint $table) {
-             $table->id();
+            $table->id();
             $table->foreignId('tool_id')->constrained('tools')->onDelete('cascade');
             $table->foreignId('borrower_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('lender_id')->constrained('users')->onDelete('cascade');
@@ -22,8 +22,9 @@ return new class extends Migration
             $table->unsignedBigInteger('damage_report_id')->nullable()->constrained('damage_reports')->onDelete('set null');
             $table->boolean('is_paid')->default(false);
             $table->decimal('total_cost', 10, 2)->nullable();
-            $table->decimal('deposit_paid', 10, 2)->nullable();
-            $table->enum('deposit_status', ['paid', 'returned', 'deducted'])->default('paid');
+            $table->decimal('deposit_amount', 10, 2)->nullable();
+            $table->enum('deposit_status', ['ped', 'returned', 'deducted',  'pending'])->default('paid');
+            // $table->string('payment_status')->nullable()->default('pending'); //pending, comfirmed, awaiting_comfirmation, delivered
             $table->timestamps();
         });
     }

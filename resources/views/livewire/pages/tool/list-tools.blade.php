@@ -79,7 +79,7 @@
                 <h3 class="text-lg font-semibold flex items-center">
                     <i class="fas fa-tools mr-2"></i>
                     {{ $tool->name }} 
-                    ({{ $tool->is_free ? (app()->getLocale() == 'ha' ? 'Kyauta' : 'Free') : 'N' . $tool->price . '/' . (app()->getLocale() == 'ha' ? 'Rana' : 'Day') }})
+                    ({{ $tool->is_free ? (app()->getLocale() == 'ha' ? 'Kyauta' : 'Free') : 'N' . $tool->rental_price . '/' . (app()->getLocale() == 'ha' ? 'Rana' : 'Day') }})
                 </h3>
 
                 <a href="{{ route('tools.show', $tool->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-800 inline-flex items-center">

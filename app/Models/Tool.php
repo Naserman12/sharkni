@@ -7,14 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 class Tool extends Model
 {
     protected $fillable = [
-        'user_id', 'category_id', 'name', 'description', 'price',
+        'user_id', 'category_id', 'name', 'description', 'rental_price',
         'is_free', 'deposit_amount', 'status', 'condition', 'image_paths', 'location',
     ];
 
     protected  $casts = [
         'image_paths' => 'array',
         'is_free' => 'boolean',
-        'price' => 'decimal:2',
+        'rental_price' => 'decimal:2',
         'deposit_amount' => 'decimal:2',
     ];
 
@@ -34,7 +34,9 @@ class Tool extends Model
     public function comments(){
         return $this->hasMany(Comment::class);
     }
-      
+     public function payments(){
+        return $this->hasMany(Rental::class);
+    }   
     public function locations(){
         return $this->belongsToMany(Location::class, 'tool_location');
     }

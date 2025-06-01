@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained()->cascadeOnDelete();
             $table->string('name');
             $table->text('description')->nullable();
-            $table->decimal('price', 10, 2)->nullable();
+            $table->decimal('rental_price', 10, 2)->nullable();
             $table->boolean('is_free')->default(false);
             $table->decimal('deposit_amount', 10, 2);
             $table->enum('status', ['available', 'borrowed', 'unavailable'])->default('available');
