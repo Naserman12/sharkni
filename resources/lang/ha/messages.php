@@ -6,6 +6,7 @@ return [
     'logout' => 'Fita',
     'name' => 'Suna',
     'email' => 'Imel',
+    'Payment for Tool Rental' => 'Biyan Hayar Kayan Aiki',
     'password' => 'Kalmar sirri',
     'confirm_password' => 'Tabbatar da kalmar sirri',
     'phone' => 'Lambar waya',

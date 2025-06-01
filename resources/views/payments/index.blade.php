@@ -3,14 +3,14 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
-                    <h1 class="text-2xl font-bold mb-6">{{ __('Your Payments') }}</h1>
+                    <h1 class="text-2xl font-bold mb-6">{{ __('messages.Your Payments') }}</h1>
                     <table class="w-full border">
                         <thead>
                             <tr class="bg-gray-100">
-                                <th class="border p-2">{{ __('Payment ID') }}</th>
-                                <th class="border p-2">{{ __('Tool') }}</th>
-                                <th class="border p-2">{{ __('Amount') }}</th>
-                                <th class="border p-2">{{ __('Status') }}</th>
+                                <th class="border p-2">{{ __('messages.Payment ID') }}</th>
+                                <th class="border p-2">{{ __('messages.Tool') }}</th>
+                                <th class="border p-2">{{ __('messages.Amount') }}</th>
+                                <th class="border p-2">{{ __('messages.Status') }}</th>
                             </tr>
                         </thead>
                         <tbody>
