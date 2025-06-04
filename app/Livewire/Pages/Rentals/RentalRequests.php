@@ -21,10 +21,12 @@ class RentalRequests extends Component
     }
     public function requestBorrow($toolId){
         $tool = Tool::findOrFail($toolId);
+        
         $rental = Rental::create([
             'user_id' => Auth::id(),
             'tool_id' => $toolId,
             'status' => 'pending',
+            // 'total_cost' => $tool->rental_price +  $tool->deposit_amount,
         ]);
         $toolOwner = $tool->user;
         $toolOwner->notify(new rentalNotification($rental));

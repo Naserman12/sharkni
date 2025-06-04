@@ -23,7 +23,7 @@ return new class extends Migration
             $table->boolean('is_paid')->default(false);
             $table->decimal('total_cost', 10, 2)->nullable();
             $table->decimal('deposit_amount', 10, 2)->nullable();
-            $table->enum('deposit_status', ['ped', 'returned', 'deducted',  'pending'])->default('paid');
+            $table->enum('deposit_status', ['paid', 'returned', 'deducted',  'pending'])->default('paid');
             // $table->string('payment_status')->nullable()->default('pending'); //pending, comfirmed, awaiting_comfirmation, delivered
             $table->timestamps();
         });

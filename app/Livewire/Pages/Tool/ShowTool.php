@@ -63,9 +63,8 @@ class ShowTool extends Component
         $toolOwner = $tool->user;
         $toolOwner->notify(new rentalNotification($rental));
         session()->flash('message', app()->getLocale() == 'ha' ? 'An aika da neman aro zowa ga mai kaia.' : 'Rental request sent successfully.');
-
                 // إعادة توجيه إلى صفحة الدفع مع معرف الإجارة
-         return redirect()->route('payment.form', ['rental' => $rental->id]);
+         return redirect()->route('payment.form', [ 'rentalId'=>$rental->id, 'toolId' => $toolId]);
 
     }
     public function render()

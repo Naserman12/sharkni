@@ -2,103 +2,155 @@
 
 namespace App\Livewire;
 
-use App\Models\Setting;
-use App\Models\Rental;
-use App\Models\payment;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Livewire\Component;
+use App\Models\Payment;
+use App\Models\PaystackTransaction;
+use App\Models\Rental;
+use Illuminate\Support\Str;
 use App\Services\PaystackService;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Livewire\WithFileUploads;
+use Unicodeveloper\Paystack\Paystack;
 
 class PaymentForm extends Component
 {
     use WithFileUploads;
-    public  $rentalId, 
-            $paymentType = 'paystack', 
-            $payment_method,
-            $proofOfPayment, 
-            $amount, 
-            $depositAmount,
-            $rentalAmount,
-            $processingFee,
-            $virtualAccountDetails;
+    public $rental;
+    public $amount;
+    public $email;
 
-            protected $rules =[
+    public  $toolId, 
+            $rentalId,
+            $paymentType = 'full', 
+            $paymentMethod = 'paystack',
+            $showBankDetails = false,
+            $paymentCompleted = false,
+            $bankReceipt,
+            $payment;
+    protected $paystackService;
 
-                'paymentType' => 'required|in:paystack,virtual_account',
-                'proofOfPayment' => 'required_if:paymentType,virtual_account|image|max:2048',
+    protected $rules =[
+                'paymentType' => 'required|in:full,deposit',
+                'paymentMethod' => 'required|in:paystack,bank_transfer',
+                'bankReceipt' => 'nullable|file|image|max:2048',
             ];
-    public function mount($rentalId){
-        // تحميل طلب الإجار
-        $rental = Rental::with('tool')->findOrFail($rentalId);
-        $this->rentalId = $rentalId;
-        $this->rentalAmount = $rental->tool->rental_price ?? 0;
-        $this->depositAmount = $rental->amount * 0.02;
-        $this->amount = $this->rentalAmount  + $this->depositAmount ;
-        $this->processingFee = $this->paymentType === 'paystack' ? $this->rentalAmount * 0.015 : min($this->amount * 0.01, 300);
-        $this->amount += $this->processingFee;
-
-        // جلب تفاصيل الأفتراضي من الإعدادت
-        $this->virtualAccountDetails = Setting::where('name', 'virtual_account')->first();
-        $this->virtualAccountDetails= $this->virtualAccountDetails->value ?? [];
-    }
-    public function updatePatmentType(){
-        // $this->processingFee = $this->paymentType === 'paystack'? $this->rentalAmount * 0.0015 :  min($this->amount * 0.01, 300);
-        // $this->amount = $this->rentalAmount + $this->depositAmount + $this->processingFee;
-        $this->calculateAmount();
-    }
-       protected function calculateAmount()
+      //     dd('user_id ='.Auth::id(),
+         
+               
+    //         'rental_id = '. $this->rentalId,  // الربط مع الطلب
+    //         'tool_id =' .$this->toolId,  // الربط مع الأداة
+    //         'amount ='.$totalAmount,  // المبلغ الإجمالي
+    //         'deposit_amount ='. $depositAmount,  // مبلغ التأمين
+    //         'rental_amount ='.$rentalAmount,  // مبلغ الإيجار
+    //         'processing_fee ='. $processingFee,  // رسوم المعالجة
+    //         'payment_type ='. $this->paymentType,  // نوع الدفع (في هذه الحالة Paystack)
+    //         'status =' .Payment::STATUS_AWAITING_COMFIRMATION,  // حالة الدفع (معلق)
+    //         'payment_method ='.$this->paymentMethod,  // وسيلة الدفع
+    //         'delivery_code =' . Str::random(6),  // إذا كان موجودًا
+    //         'refund_status =' .'not_requested'
+    // );
+    public function boot(PaystackService $paystackService)
     {
-        $this->amount = $this->rentalAmount + $this->depositAmount;
-        $this->processingFee = $this->paymentType === 'paystack'
-            ? $this->amount * 0.025
-            : min($this->amount * 0.01, 300);
-        $this->amount += $this->processingFee;
+        $this->paystackService = $paystackService;
     }
-    public function submitPayment(){
+    public function mount( $rentalId, $toolId)
+    {
+       
+        $this->toolId = $toolId;
+        $this->rentalId = $rentalId;
+        $this->showBankDetails = !$this->showBankDetails;
+    }
+
+    public function initiatePayment()
+    {
         $this->validate();
-        $rental = Rental::findOrFail($this->rentalId);
-        
-            // انشاء سجل دفع
-            $payment = Payment::create([
+        // dd($this->paystackService);
+        $rentalAmount = 1000;
+        $depositAmount = $rentalAmount  + 10 * 0.02;
+        $processingFee = $rentalAmount * 0.03;
+        $totalAmount = $depositAmount ?? $rentalAmount  + $depositAmount + $processingFee ;
+        // إنشاء السجل في جدول المدفوعات
+        try {
+            $this->payment = Payment::create([
                 'user_id' => Auth::id(),
-                'tool_id' => $rental->tool_id,
-                'rental_id' => $this->rentalId,
-                'amount' => $this->amount,
-                'deposit_amount' => $this->depositAmount,
-                'rental_amount' => $this->rentalAmount,
-                'processingFee' => $this->processingFee,
-                'payment_type' => $this->paymentType,
-                'status' => $this->paymentType === 'paystack' ? 'pending' : 'awaiting_confirmation',
-                'delivery_code' => Str::random(6),  // كود تسليم عشوائي
+                'rental_id' => $this->rentalId,  // الربط مع الطلب
+                'tool_id' => $this->toolId,  // الربط مع الأداة
+                'amount' => $totalAmount,  // المبلغ الإجمالي
+                'deposit_amount' => $depositAmount,  // مبلغ التأمين
+                'rental_amount' => $rentalAmount,  // مبلغ الإيجار
+                'processing_fee' => $processingFee,  // رسوم المعالجة
+                'payment_type' => $this->paymentType,  // نوع الدفع (في هذه الحالة Paystack)
+                'status' => Payment::STATUS_AWAITING_COMFIRMATION,  // حالة الدفع (معلق)
+                'payment_method' => $this->paymentMethod,  // وسيلة الدفع
+                'delivery_code' => Str::random(6),  // إذا كان موجودًا
+                'refund_status' => 'not_requested',  // حالة الاسترداد
             ]);
-            if ($this->paymentType === 'paystack') {
-                // Route To Paystack Checkout
-                $paystackService = new PaystackService();
-                $paymentUrl = $paystackService->initiatePayment(
-                    $payment->id,
-                       $this->amount * 100,
-                        Auth::user()->email,
-                        route('payment.verify', ['payment_id' => $payment->id])
-                );
-                return redirect()->away($paymentUrl);
-            }else{
-                // حفظ إثبات الدفع للتحويل البنكي
-                $path = $this->proofOfPayment->store('proof_of_payment', 'public');
-                $payment->update(['proof_of_payment' => $path]);
-
-                // ارسال اشعار لتاكيد المعاملة
-                \Mail::to('tgza0533@gmail.com')->queue(new \App\Mail\PaymentProofUploaded($payment));
-
-                session()->flash('message', app()->getLocale() == 'ha' ? 'An tura da  Payment. yana jirar tabbatarwaa.' : 'Payment submit. Please wait for confirmation.');
+            if ($this->paymentMethod === 'paystack') {
+                return $this->initiatePaystackPayment();
             }
-            $rental->update(['is_paid' => true, 'payment_status' => 'awaiting_comfirmation']);
-
-            return redirect()->route('payments.index');
+            $this->showBankDetails = true;
+        } catch (\Exception $e) {
+            Log::error('Payment initiation failed: ' . $e->getMessage());
+            session()->flash('error', __('Failed to initiate payment.'));
+        }
     }
+    private function initiatePaystackPayment(){
+        // try {
+        //     $result = $this->paystackService->initiatePayment(
+        //         $this->payment, 
+        //       Auth::user()->email,
+        // );
+        // if ($result['status']) {
+        //     return redirect()->away($result['authorization_url']);
+        // }
+        // $this->addError('payment', $result['message']);
+        // } catch (\Exception $e) {
+        //     $this->payment->update(['status', Payment::STATUS_FAILED]);
+        //     $this->addError('payment', 'Error payment failed'.$e->getMessage());
+        // }
+        try {
+
+            $result = $this->paystackService->initiatePayment($this->payment, Auth::user()->email);
+            dd('result = ',$result);
+             if ($result['status']) {
+            // إعادة توجيه المستخدم إلى رابط الدفع
+            return redirect()->away($result['authorization_url']);
+            }else {
+            // إضافة رسالة خطأ إلى الـ Livewire component
+            $this->addError('payment', $result['message'] ?? 'فشل في الدفع عبر Paystack');
+            // تحديث حالة الدفع كفاشل
+            $this->payment->update(['status' => Payment::STATUS_FAILED]);
+            }
+            // حفظ المرجع في الجلسة
+            // session()->put('paystack_reference', $data['reference']);
+            // $this->dispatch('redirect-to-paystack',[
+            //     'url' => $paysack->getAuthorizationUrl($data)->url
+            //  ]);
+            // return redirect()->away($response->url);
+        } catch (\Exception $e) {
+           $this->payment->update(['status' => Payment::STATUS_FAILED]);
+           $this->addError('payment', 'Failed to payment '.$e->getMessage());
+        }
+    }
+    public function uploadBankReceipt(){
+        if (!$this->payment) {
+            echo'payment record not found. Please try again.';
+            return;
+        }
+        $this->validate(['bankReceipt' => 'required|image|max:2048']);
+        // dd($this->payment);
+        $path = $this->bankReceipt->store('receipts', 'public');
+        $this->payment->update([
+            'proof_of_payment' => $path,
+            'status' => Payment::STATUS_AWAITING_COMFIRMATION
+        ]);
+        $this->paymentCompleted = true;
+        session()->flash('success', 'Receipt uploaded successfully! We will verify payment soon');
+    }
+
     public function render()
     {
-        return view('livewire.payment-form');
+        return view('livewire.payment-form')->layout('layouts.app');
     }
 }

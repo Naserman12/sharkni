@@ -54,9 +54,7 @@
                     <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                     @enderror
                 </div>
-
-             
-                <!-- images -->
+         <!-- images -->
                 <div class="mb-4">
                     <label for="images" class=" block text-gray-900">
                         {{ app()->getLocale() == 'ha' ? 'Hotunan kayan aiki ': 'Tool Image'}}
@@ -85,7 +83,7 @@
                 </div>
                 <!-- Is Free -->
                 <div class=" mb-4">
-                    <input type="checkbox" wire:model="is_free" id="is_free" class="  me-2">
+                    <input type="checkbox" wire:model.lazy="is_free" id="is_free" class="  me-2">
                     <label for="is_free" class=" block text-gray-900">
                         {{ app()->getLocale() == 'ha' ? 'Zaa Byia': 'Is paid'}}
                     </label>
@@ -93,17 +91,23 @@
                         <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                      @enderror
                     </div>
-                @if(!$is_free)
+                @if($is_free === false)
                 <!-- Price per day -->
                 <div class=" mb-4">
                     <label for="rental_price" class=" block text-gray-900">
                         {{ app()->getLocale() == 'ha' ? 'Farashin Kowace Rana ': 'Price Per Day'}}
                     </label>
-                    <input type="text" step="0.01" min="0" wire:model="rental_price" id="rental_price" class=" w-full p-2 border rounded">
+                    <input type="number" step="0.01" min="0" wire:model="rental_price" id="rental_price" class=" w-full p-2 border rounded">
                     @error('rental_price')
                         <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                         @enderror
                     </div>
+                    @else
+                    <!-- Price per day -->
+                        <input type="number" step="0.01" min="0" wire:model="rental_price" id="rental_price" value="0" class="hidden">
+                        @error('rental_price')
+                            <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
+                            @enderror   
                     @endif
                     <!-- Deposit Amount-->
                 <div class=" mb-4">
@@ -162,4 +166,3 @@
          </form>
         </div>
     </div>
-

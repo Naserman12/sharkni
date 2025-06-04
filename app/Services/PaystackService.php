@@ -1,39 +1,121 @@
 <?php 
 namespace App\Services;
 
+use App\Models\Payment;
+use App\Models\PaystackTransaction;
 use Illuminate\Support\Facades\Log;
-use Unicodeveloper\Paystack\Paystack;
+use Unicodeveloper\Paystack\Facades\Paystack;
 
-class PaystackService{
-    protected $paystack;
+class PaystackService {
 
-    public function __construct(){
-        $this->paystack = new Paystack();
-    }
-    public function initiatePayment($paymentId, float $amount, $email, string $callbackUrl){
-        $data = [
-            'amount' => $amount,
-            'email' => $email,
-            'callbackUrl'=> $callbackUrl,
-            'metadata' => [
-               'payment_id' => $paymentId,
-            ],
-        ];
+    // لم نعد نحتاج __construct
+
+    public function initiatePayment(Payment $payment, string $email){
         try {
-            $response = $this->paystack->transaction->initialiaze($data);
-            return $response->data->authorization_url;
+            $reference = Paystack::genTranxRef();
+
+            // إنشاء سجل معاملة
+            PaystackTransaction::create([
+                'payment_id' => $payment->id,
+                'reference' => $reference,
+                'email' => $email
+            ]);
+
+            $data = [
+                'amount' => $payment->amount * 100,
+                'email' => $email,
+                'reference' => $reference,
+                'callback_url' => route('paystack.callback', ['payment_id' => $payment->id]),
+                'metadata' => [
+                    'payment_id' => $payment->id,
+                    'tool_id' => $payment->tool_id,
+                    'rental_id' => $payment->rental_id,
+                    'user_id' => $payment->user_id,
+                ],
+            ];
+
+            $authorizationUrl = Paystack::getAuthorizationUrl($data);
+            dd('authorizationUrl =',$authorizationUrl);
+
+            return [
+                'status' => true,
+                'authorization_url' => $authorizationUrl->url,
+                'reference' => $reference,
+            ];
+
         } catch (\Exception $e) {
             Log::error('Paystack Payment Initiation Failed: ' .$e->getMessage());
-            throw new \Exception(__('Failed to initiate payment.'));
+            return [
+                'status' => false,
+                'message' => 'Paystack Payment Initiation Failed',
+                'error' => $e->getMessage()
+            ];
         }
     }
-    public function verfyPayment($reference){
+
+    public function verifyPayment(string $reference){
         try {
-            $response = $this->paystack->transaction->verify(['reference' => $reference]);
-            return $response->data;
+            $paymentDetails = Paystack::getPaymentData($reference);
+
+            if (!$paymentDetails['status']) {
+                return[
+                    'status' => false,
+                    'message' => 'Payment verification failed'
+                ];
+            }
+
+            $data = $paymentDetails['data'];
+
+            return [
+                'status' => true,
+                'payment_status' => $data['status'],
+                'amount' => $data['amount'] / 100,
+                'reference' => $data['reference'],
+                'transaction_id' => $data['id'],
+                'paid_at' => $data['paid_at'],
+                'customer' => $data['customer'],
+                'metadata' => $data['metadata'],
+            ];
         } catch (\Exception $e) {
             Log::error('Payment Verification Failed: ' .$e->getMessage());
-            throw new \Exception(__('Failed to verify payment.'));
+            return [
+                'status' => false,
+                'message' => 'Error Verifing payment',
+                'error' => $e->getMessage()
+            ];
         }
+    }
+
+    public function handCallback(){
+        $paymentDetails = $this->verifyPayment(request()->reference);
+
+        if (!$paymentDetails['status']) {
+            return $paymentDetails;
+        }
+
+        $payment = Payment::whereHas('paystackTransaction', function($query) use ($paymentDetails) {
+            $query->where('reference', $paymentDetails['reference']);
+        })->first();
+
+        if (!$payment) {
+            return [
+                'status' => false,
+                'message' => 'Payment record not found'
+            ];
+        }
+
+        $payment->paystackTrans()->update([
+            'transaction_id' => $paymentDetails['transaction_id'],
+            'metadat'=> $paymentDetails['metadata'],
+            'customer'=> $paymentDetails['customer'],
+            'paid_at' => $paymentDetails['paid_at'],
+            'gateway_response' => json_encode($paymentDetails),
+        ]);
+
+        return [
+            'status' => true,
+            'payment' => $payment,
+            'message' => 'Payment processed successfully',
+        ];
     }
 }

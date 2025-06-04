@@ -21,6 +21,10 @@ class PaymentProofUploaded extends Mailable
     {
         return $this->subject(__('New Payment Proof Uploaded'))
                     ->view('emails.payment-proof-uploaded')
-                    ->with(['payment' => $this->payment]);
+                    ->with([
+                        'payment' => $this->payment,
+                        'rental'=> $this->payment->rental,
+                        'tool'=> $this->payment->tool,
+                    ]);
     }
 }

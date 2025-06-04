@@ -14,6 +14,7 @@ use App\Livewire\Pages\Rentals\RentalRequests;
 use  App\Livewire\Pages\Tool\AddTool;
 use App\Livewire\Pages\Tool\ListTools;
 use App\Livewire\Pages\Tool\ShowTool;
+use App\Livewire\PaymentForm;
 use App\Http\Controllers\Payments\PaymentController;
 
 // Logon && logout
@@ -71,13 +72,42 @@ Route::get('damage/reports', ManageDamageReports::class)->middleware('auth')->na
 // Catefories
 Route::get('categories/add', AddCategory::class)->middleware('auth')->name('categories.add');
 
+// test SSL 
 
+
+Route::get('/test-curl', function () {
+    $ch = curl_init();
+
+    curl_setopt($ch, CURLOPT_URL, "https://api.paystack.co");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        return 'cURL Error: ' . curl_error($ch);
+    }
+
+    curl_close($ch);
+
+    return '✅ تم الاتصال بنجاح بدون التحقق من الشهادة';
+});
+
+//End Test SSL
 // payments
+Route::prefix('payments')->group(function(){
+    Route::get('/', [PaymentController::class, 'index'])->name('payments.index');
+    Route::post('/initiate', [PaymentController::class, 'initiatePayment'])->name('paystack.initiate');
+    Route::get('/callback', [PaymentController::class, 'callback'])->name('paystack.callback');
+    Route::post('/verify', [PaymentController::class, 'verifyPayment'])->name('paystack.verify');
+    Route::get('/redirect/{payment}', [PaymentController::class, 'redirectToPayment'])->name('paystack.redirect');
+});
+Route::get('/payment/{rentalId}/{toolId}', PaymentForm::class)->name('payment.form');
+Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment/failed', [PaymentController::class, 'paymentfailed'])->name('payment.failed');
+
 Route::middleware(['auth'])->group(function () {
-    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
-    Route::get('/payment/verify/{payment_id}', [PaymentController::class, 'verifyPayment'])->name('payment.verify');
-    Route::get('/payment/{rental}', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
-    Route::get('/webhooks/paystack', [PaymentController::class, 'handleWebhook'])->name('paystack.webhook');
+    // Route::get('/payment/{rental}', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+ Route::get('/webhooks/paystack', [PaymentController::class, 'handleWebhook'])->name('paystack.webhook');
 });
 
 

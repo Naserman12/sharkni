@@ -14,7 +14,7 @@ class AddTool extends Component
     use WithFileUploads;
 
     public $category_id, $name, $description, $location, $images = [], $rental_price,
-           $is_free = false, $deposit_amount,
+           $is_free, $deposit_amount,
             $status = 'available', $condition = 'used';
     public $categories;
 
@@ -28,8 +28,8 @@ class AddTool extends Component
         'category_id' => ['required','exists:categories,id'],
         'name' => ['required','string','max:255'],
         'description' => ['nullable','string'],
-        'rental_price' => ['required:if,is_free:false','numeric','min:0'],
         'is_free' => ['boolean'],
+        'rental_price' => ['required_if:is_free,false','numeric','min:0'], //'rental_price' => ['required_if:is_free,false', 'numeric', 'min:0'],
         'deposit_amount' => ['nullable','numeric','min:0'],
         'status' => ['required', 'in:available,borrowed,unavailable'],
         'condition' => ['required', 'in:new,used,needs_repair'],
@@ -42,7 +42,7 @@ class AddTool extends Component
             
             $this->validate();
             // اذا كان مجاني السعر غير مطلوب
-            if (!$this->is_free && is_null($this->rental_price)) {
+            if ($this->is_free === false && is_null($this->rental_price)) {
                 $this->addError('rental_price', app()->getLocale() == 'ha' ? 'Farashin kowace rana yana da mahimmanci idan ba kyauta ba ne' : 'Price per day is required if the tool is not free.');
                 return;
             }
@@ -53,8 +53,8 @@ class AddTool extends Component
                     $imagePaths[] = $image->store('tools', 'public');
                 }
             }
-            if ($this->is_free) {
-                $this->rental_price = null;
+            if ($this->is_free === true) {
+                $this->rental_price = 0;
             }
             // إضافة الاداة
             Tool::create([
@@ -63,7 +63,7 @@ class AddTool extends Component
                 'name' => $this->name,
                 'description' => $this->description,
                 'rental_price' => $this->rental_price,
-                'is_free' => $this->is_free ? 0 : true,
+                'is_free' => $this->is_free,
                 'deposit_amount' => $this->deposit_amount,
                 'status' => $this->status,
                 'condition' => $this->condition,

@@ -12,10 +12,9 @@ return [
     | other UI elements where an application name needs to be displayed.
     |
     */
-    'locale' => 'en',
-
+    
     'name' => env('APP_NAME', 'Laravel'),
-
+    
     /*
     |--------------------------------------------------------------------------
     | Application Environment
@@ -28,7 +27,7 @@ return [
     */
 
     'env' => env('APP_ENV', 'production'),
-
+    
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode
@@ -41,7 +40,7 @@ return [
     */
 
     'debug' => (bool) env('APP_DEBUG', false),
-
+    
     /*
     |--------------------------------------------------------------------------
     | Application URL
@@ -52,9 +51,9 @@ return [
     | the application so that it's available within Artisan commands.
     |
     */
-
+    
     'url' => env('APP_URL', 'http://localhost'),
-
+    
     /*
     |--------------------------------------------------------------------------
     | Application Timezone
@@ -65,9 +64,9 @@ return [
     | is set to "UTC" by default as it is suitable for most use cases.
     |
     */
-
+    
     'timezone' => env('APP_TIMEZONE', 'UTC'),
-
+    
     /*
     |--------------------------------------------------------------------------
     | Application Locale Configuration
@@ -78,8 +77,8 @@ return [
     | set to any locale for which you plan to have translation strings.
     |
     */
-
-    'locale' => env('APP_LOCALE', 'en'),
+    
+    'locale' => 'en',
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 
@@ -161,6 +160,9 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Unicodeveloper\Paystack\PaystackServiceProvider::class,
+       
+
 
         /*
          * Package Service Providers...
@@ -173,9 +175,9 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
-        // أضف مزود خدمة اللغة هنا إذا كان لديك واحد
-        // مثال: App\Providers\LocaleServiceProvider::class,
     ],
+    'aliases' => [
+    'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
+],
 
 ];
