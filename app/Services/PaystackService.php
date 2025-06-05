@@ -33,9 +33,9 @@ class PaystackService {
             ],
             ]);
             // ✅ ثم طلب رابط التفويض
-            dd('Url = ', Paystack::getAuthorizationUrl()->url);
+            // dd('Url = ', Paystack::getAuthorizationUrl()->url);
             $url = Paystack::getAuthorizationUrl()->url;
-            
+             dd($url);
             return [
                 'status' => true,
                 'authorization_url' => $url,

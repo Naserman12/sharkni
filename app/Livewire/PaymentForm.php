@@ -100,10 +100,13 @@ class PaymentForm extends Component
         try {
             // dd('paystackService->initiatePayment = ',$this->paystackService->initiatePayment($this->payment, Auth::user()->email));
             $result = $this->paystackService->initiatePayment($this->payment, Auth::user()->email);
-            dd($result);
+            // dd($result);
             if ($result['status']) {
                 return redirect()->away($result['authorization_url']);
-            }
+            }else {
+            $this->addError('payment', $result['message']);
+            $this->payment->update(['status' => Payment::STATUS_FAILED]);
+           }
         } catch (\Exception $e) {
            $this->payment->update(['status' => Payment::STATUS_FAILED]);
            $this->addError('payment', 'Failed to payment '.$e->getMessage());
