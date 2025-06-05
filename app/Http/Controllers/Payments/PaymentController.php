@@ -99,29 +99,19 @@ class PaymentController extends Controller
             ],500);
         }
     }
-    public function callback(Request $request){
-        try {
-            if (!$request->has('reference')) {
-                return redirect()->route('payment.failed')->with('error', 'Payment Id not found');
-            }
-            $callbackResult  = $this->paystackService->handCallback();
-            if (!$callbackResult['status']) {
-                return redirect()->route('payment.failed')->with('error', $callbackResult['message']);
-            }
-            return redirect()->route('payment.success')->with([
-                'success' => 'Payment has successfully',
-                'payment' => $callbackResult['payment']
-            ]);
-        } catch (\Exception $e) {
-            return redirect()->route('payment.failed')->with('error', 'Payment has Failed');
-        }
+ public function handlePaystackCallback(PaystackService $paystackService)
+{
+    $result = $paystackService->handCallback();
+
+    if ($result['status']) {
+        session()->flash('success', 'تم الدفع بنجاح');
+        return view('payments.success', ['payment' => $result['payment']]);
     }
-    public function redirectToPayment(Payment $payment){
-        return view('payments.paystack',[
-            'payment' => $payment,
-            'paystackTransaction' => $payment->paystackTransaction,
-        ]);
-    }
+
+    session()->flash('error', $result['message']);
+    return redirect()->route('tools.index');
+}
+
     public function paymentSuccess(){
         if (!session()->has('success')) {
            return redirect()->route('tools.index');

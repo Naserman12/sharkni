@@ -101,14 +101,17 @@ class PaystackService {
                 'message' => 'Payment record not found'
             ];
         }
-
         $payment->paystackTrans()->update([
             'transaction_id' => $paymentDetails['transaction_id'],
-            'metadat'=> $paymentDetails['metadata'],
+            'metadata'=> $paymentDetails['metadata'],
             'customer'=> $paymentDetails['customer'],
             'paid_at' => $paymentDetails['paid_at'],
             'gateway_response' => json_encode($paymentDetails),
         ]);
+
+        $payment->update([
+        'status' => Payment::STATUS_CONFIRMED
+         ]);
 
         return [
             'status' => true,

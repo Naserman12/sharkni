@@ -39,7 +39,7 @@ class payment extends Model
     public function rental(){
         return $this->belongsTo(Rental::class);
     }
-    public function paystackTrans(){
+    public function paystackTransaction(){
         return $this->hasOne(PaystackTransaction::class, 'payment_id');
     }
 }
