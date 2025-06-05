@@ -87,7 +87,7 @@ class PaymentForm extends Component
                 'refund_status' => 'not_requested',  // حالة الاسترداد
             ]);
             if ($this->paymentMethod === 'paystack') {
-                return $this->initiatePaystackPayment();
+                return $this->initiatePaystackPayment($this->payment);
             }
             $this->showBankDetails = true;
         } catch (\Exception $e) {
@@ -95,11 +95,12 @@ class PaymentForm extends Component
             session()->flash('error', __('Failed to initiate payment.'));
         }
     }
-    private function initiatePaystackPayment(){
+    private function initiatePaystackPayment(Payment $payment){
+        
 
         try {
             // dd('paystackService->initiatePayment = ',$this->paystackService->initiatePayment($this->payment, Auth::user()->email));
-            $result = $this->paystackService->initiatePayment($this->payment, Auth::user()->email);
+            $result = $this->paystackService->initiatePayment($payment, Auth::user()->email);
             // dd($result);
             if ($result['status']) {
                 return redirect()->away($result['authorization_url']);
