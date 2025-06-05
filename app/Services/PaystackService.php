@@ -10,6 +10,7 @@ class PaystackService {
 
     public $payment;
     public function initiatePayment(Payment $payment, string $email){
+        dd(config('app.url') . '/payments/callback?payment_id=' . $payment->id,);
         $this->payment = $payment;
         try {
             $reference = Paystack::genTranxRef();
