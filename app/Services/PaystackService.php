@@ -13,7 +13,6 @@ class PaystackService {
         $this->payment = $payment;
         try {
             $reference = Paystack::genTranxRef();
-
             // إنشاء سجل معاملة
             PaystackTransaction::create([
                 'payment_id' => $this->payment->id,
@@ -34,7 +33,6 @@ class PaystackService {
             ],
             ]);
                 dd(session('paystack_payment'));
-
         // ✅ ثم طلب رابط التفويض
         return Paystack::getAuthorizationUrl()->redirectNow();
 
