@@ -32,10 +32,14 @@ class PaystackService {
                 'user_id' => $payment->user_id,
             ],
             ]);
-                dd(session('paystack_payment'));
-        // ✅ ثم طلب رابط التفويض
-        return Paystack::getAuthorizationUrl()->redirectNow();
-
+            // ✅ ثم طلب رابط التفويض
+            dd('Url = ', Paystack::getAuthorizationUrl()->url);
+            $url = Paystack::getAuthorizationUrl()->url;
+            
+            return [
+                'status' => true,
+                'authorization_url' => $url,
+            ];
         } catch (\Exception $e) {
             Log::error('Paystack Payment Initiation Failed: ' .$e->getMessage());
             return [

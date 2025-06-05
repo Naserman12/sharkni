@@ -142,8 +142,11 @@ class PaymentController extends Controller
             if (!$payment) {
                 return redirect()->back()->with('error', 'الدفع غير موجود');
             }
-            $email = Auth::user()->email;
-        return $this->paystackService->initiatePayment($payment, $email);
+             $result = $this->paystackService->initiatePayment($payment, Auth::user()->email);
+            // dd($result);
+            if ($result['status']) {
+                return redirect()->away($result['authorization_url']);
+            }
         }catch(\Exception $e) {
             return redirect()->back()->withMessage(['msg'=>'The paystack token has expired. Please refresh the page and try again.', 'type'=>'error']);
         }        
