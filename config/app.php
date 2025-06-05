@@ -160,7 +160,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-       'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
+        Unicodeveloper\Paystack\PaystackServiceProvider::class,
+
 
        
 
