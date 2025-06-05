@@ -98,7 +98,7 @@ class PaymentForm extends Component
     private function initiatePaystackPayment(){
 
         try {
-            dd('paystackService->initiatePayment = ',$this->paystackService->initiatePayment($this->payment, Auth::user()->email));
+            // dd('paystackService->initiatePayment = ',$this->paystackService->initiatePayment($this->payment, Auth::user()->email));
             return $this->paystackService->initiatePayment($this->payment, Auth::user()->email);
         } catch (\Exception $e) {
            $this->payment->update(['status' => Payment::STATUS_FAILED]);
