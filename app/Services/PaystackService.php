@@ -10,8 +10,8 @@ class PaystackService {
 
     public $payment;
     public function initiatePayment(Payment $payment, string $email){
-        dd(config('app.url') . '/payments/callback?payment_id=' . $payment->id,);
         $this->payment = $payment;
+        // dd(config('app.url') . '/payments/callback?payment_id=' . $payment->id,);
         try {
             $reference = Paystack::genTranxRef();
             // إنشاء سجل معاملة
