@@ -135,6 +135,20 @@ class PaymentController extends Controller
             'error' => session('error')
         ]);
     }
+      public function redirectToGateway($paymentId)
+    {
+        try{
+            $payment = Payment::find($paymentId); // 🔍 جلب السجل من قاعدة البيانات
+            if (!$payment) {
+                return redirect()->back()->with('error', 'الدفع غير موجود');
+            }
+            $email = Auth::user()->email;
+        return $this->paystackService->initiatePayment($payment, $email);
+        }catch(\Exception $e) {
+            return redirect()->back()->withMessage(['msg'=>'The paystack token has expired. Please refresh the page and try again.', 'type'=>'error']);
+        }        
+    }
+
 
        public function handleWebhook(Request $request)
     {

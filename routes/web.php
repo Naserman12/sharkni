@@ -75,25 +75,26 @@ Route::get('categories/add', AddCategory::class)->middleware('auth')->name('cate
 // test SSL 
 
 
-Route::get('/test-curl', function () {
-    $ch = curl_init();
+// Route::get('/test-curl', function () {
+//     $ch = curl_init();
 
-    curl_setopt($ch, CURLOPT_URL, "https://api.paystack.co");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     curl_setopt($ch, CURLOPT_URL, "https://api.paystack.co");
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-    $response = curl_exec($ch);
+//     $response = curl_exec($ch);
 
-    if (curl_errno($ch)) {
-        return 'cURL Error: ' . curl_error($ch);
-    }
+//     if (curl_errno($ch)) {
+//         return 'cURL Error: ' . curl_error($ch);
+//     }
 
-    curl_close($ch);
+//     curl_close($ch);
 
-    return '✅ تم الاتصال بنجاح بدون التحقق من الشهادة';
-});
+//     return '✅ تم الاتصال بنجاح بدون التحقق من الشهادة';
+// });
 
 //End Test SSL
 // payments
+Route::get('/pay/{paymentId}', [PaymentController::class,"redirectToGateway"])->name('pay');
 Route::prefix('payments')->group(function(){
     Route::get('/', [PaymentController::class, 'index'])->name('payments.index');
     Route::post('/initiate', [PaymentController::class, 'initiatePayment'])->name('paystack.initiate');

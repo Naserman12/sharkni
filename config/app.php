@@ -160,7 +160,8 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        Unicodeveloper\Paystack\PaystackServiceProvider::class,
+       'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
+
        
 
 
@@ -175,6 +176,7 @@ return [
         App\Providers\AuthServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
     ],
     'aliases' => [
     'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,

@@ -8,40 +8,34 @@ use Unicodeveloper\Paystack\Facades\Paystack;
 
 class PaystackService {
 
-    // لم نعد نحتاج __construct
-
+    public $payment;
     public function initiatePayment(Payment $payment, string $email){
+        $this->payment = $payment;
         try {
             $reference = Paystack::genTranxRef();
 
             // إنشاء سجل معاملة
             PaystackTransaction::create([
-                'payment_id' => $payment->id,
+                'payment_id' => $this->payment->id,
                 'reference' => $reference,
                 'email' => $email
             ]);
 
-            $data = [
-                'amount' => $payment->amount * 100,
-                'email' => $email,
-                'reference' => $reference,
-                'callback_url' => route('paystack.callback', ['payment_id' => $payment->id]),
-                'metadata' => [
-                    'payment_id' => $payment->id,
-                    'tool_id' => $payment->tool_id,
-                    'rental_id' => $payment->rental_id,
-                    'user_id' => $payment->user_id,
-                ],
-            ];
+            session()->put('paystack_payment', [
+            'amount' => $payment->amount * 100,
+            'email' => $email,
+            'reference' => $reference,
+            'callback_url' => route('paystack.callback', ['payment_id' => $payment->id]),
+            'metadata' => [
+                'payment_id' => $payment->id,
+                'tool_id' => $payment->tool_id,
+                'rental_id' => $payment->rental_id,
+                'user_id' => $payment->user_id,
+            ],
+            ]);
 
-            $authorizationUrl = Paystack::getAuthorizationUrl($data);
-            dd('authorizationUrl =',$authorizationUrl);
-
-            return [
-                'status' => true,
-                'authorization_url' => $authorizationUrl->url,
-                'reference' => $reference,
-            ];
+        // ✅ ثم طلب رابط التفويض
+        return Paystack::getAuthorizationUrl()->redirectNow();
 
         } catch (\Exception $e) {
             Log::error('Paystack Payment Initiation Failed: ' .$e->getMessage());
@@ -51,6 +45,7 @@ class PaystackService {
                 'error' => $e->getMessage()
             ];
         }
+        
     }
 
     public function verifyPayment(string $reference){

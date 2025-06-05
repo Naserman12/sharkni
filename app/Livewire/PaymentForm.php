@@ -96,38 +96,10 @@ class PaymentForm extends Component
         }
     }
     private function initiatePaystackPayment(){
-        // try {
-        //     $result = $this->paystackService->initiatePayment(
-        //         $this->payment, 
-        //       Auth::user()->email,
-        // );
-        // if ($result['status']) {
-        //     return redirect()->away($result['authorization_url']);
-        // }
-        // $this->addError('payment', $result['message']);
-        // } catch (\Exception $e) {
-        //     $this->payment->update(['status', Payment::STATUS_FAILED]);
-        //     $this->addError('payment', 'Error payment failed'.$e->getMessage());
-        // }
-        try {
 
-            $result = $this->paystackService->initiatePayment($this->payment, Auth::user()->email);
-            dd('result = ',$result);
-             if ($result['status']) {
-            // إعادة توجيه المستخدم إلى رابط الدفع
-            return redirect()->away($result['authorization_url']);
-            }else {
-            // إضافة رسالة خطأ إلى الـ Livewire component
-            $this->addError('payment', $result['message'] ?? 'فشل في الدفع عبر Paystack');
-            // تحديث حالة الدفع كفاشل
-            $this->payment->update(['status' => Payment::STATUS_FAILED]);
-            }
-            // حفظ المرجع في الجلسة
-            // session()->put('paystack_reference', $data['reference']);
-            // $this->dispatch('redirect-to-paystack',[
-            //     'url' => $paysack->getAuthorizationUrl($data)->url
-            //  ]);
-            // return redirect()->away($response->url);
+        try {
+            dd('paystackService->initiatePayment = ',$this->paystackService->initiatePayment($this->payment, Auth::user()->email));
+            return $this->paystackService->initiatePayment($this->payment, Auth::user()->email);
         } catch (\Exception $e) {
            $this->payment->update(['status' => Payment::STATUS_FAILED]);
            $this->addError('payment', 'Failed to payment '.$e->getMessage());
