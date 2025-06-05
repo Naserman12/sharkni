@@ -16,7 +16,7 @@ class PaystackService {
             $reference = Paystack::genTranxRef();
             // إنشاء سجل معاملة
             PaystackTransaction::create([
-                'payment_id' => $this->payment->id,
+                'payment_id' => $payment->id,
                 'reference' => $reference,
                 'email' => $email
             ]);
