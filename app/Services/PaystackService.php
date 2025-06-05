@@ -19,7 +19,7 @@ class PaystackService {
                 'reference' => $reference,
                 'email' => $email
             ]);
-
+            
             session()->put('paystack_payment', [
             'amount' => $payment->amount * 100,
             'email' => $email,
@@ -32,6 +32,8 @@ class PaystackService {
                 'user_id' => $payment->user_id,
             ],
             ]);
+            dd(session('paystack_payment'));
+
             // ✅ ثم طلب رابط التفويض
             // dd('Url = ', Paystack::getAuthorizationUrl()->url);
             $url = Paystack::getAuthorizationUrl()->url;
