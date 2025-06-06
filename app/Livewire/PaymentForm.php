@@ -45,19 +45,19 @@ class PaymentForm extends Component
         $this->toolId = $toolId;
         $this->rentalId = $rentalId;
         $this->showBankDetails = !$this->showBankDetails;
+        $this->rentalAmount = $this->rental->deposit_amount;
         $this->amount = $this->rental->total_cost;
-        // dd('This Amoun = ',$this->amount);
         // $this->paymentType ; 
         // $this->paymentMethod;
         $this->recalculateAmount();
+        dd('This Amoun = '.$this->amount);
     }
-
+    
     public function initiatePayment()
     {
         $this->validate();
         // dd($this->paystackService);
-        $this->rentalAmount = $this->amount;
-        $depositAmount = $this->rentalAmount  + 10 * 0.02;
+        $depositAmount = $this->amount  + 10 * 0.02;
         $processingFee = $this->rentalAmount * 0.03;
         $totalAmount = $depositAmount ?? $this->rentalAmount  + $depositAmount + $processingFee ;
         // إنشاء السجل في جدول المدفوعات
@@ -86,6 +86,7 @@ class PaymentForm extends Component
         }
     }
     private function initiatePaystackPayment(){
+        dd('This Amoun = '.$this->amount);
         try {
             // dd('paystackService->initiatePayment = ',$this->paystackService->initiatePayment($this->payment, Auth::user()->email));
             $result = $this->paystackService->initiatePayment($this->payment, Auth::user()->email);
@@ -95,14 +96,15 @@ class PaymentForm extends Component
             }else {
             $this->addError('payment', $result['message']);
             $this->payment->update(['status' => Payment::STATUS_FAILED]);
-           }
-        } catch (\Exception $e) {
-            dd('Error' .$e->getMessage());
-           $this->payment->update(['status' => Payment::STATUS_FAILED]);
-           $this->addError('payment', 'Failed to payment '.$e->getMessage());
         }
+    } catch (\Exception $e) {
+        dd('Error' .$e->getMessage());
+        $this->payment->update(['status' => Payment::STATUS_FAILED]);
+        $this->addError('payment', 'Failed to payment '.$e->getMessage());
     }
+}
     public function uploadBankReceipt(){
+        dd('This Amoun = '.$this->amount);
         if (!$this->payment) {
             echo'payment record not found. Please try again.';
             return;
@@ -117,22 +119,20 @@ class PaymentForm extends Component
         $this->paymentCompleted = true;
         session()->flash('success', 'Receipt uploaded successfully! We will verify payment soon');
     }
-    public function updatedPaymentType()
-{
+    public function updatedPaymentType()    {
     $this->recalculateAmount();
     }
 
-    public function updatedPaymentMethod()
-    {
+    public function updatedPaymentMethod(){
         $this->recalculateAmount();
     }
 
     private function recalculateAmount()
     {
         if ($this->paymentType === 'deposit') {
-            $this->amount = $this->rentalAmount + 10 + ($this->rentalAmount * 0.03);
+            $this->amount = 50000;
         } else {
-            $this->amount = $this->rentalAmount + ($this->rentalAmount * 0.03);
+            $this->amount = 60000;
         }
     }
 
