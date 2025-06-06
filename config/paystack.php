@@ -15,13 +15,13 @@ return [
      * Public Key From Paystack Dashboard
      *
      */
-    'publicKey' => env('PAYSTACK_PUBLIC_KEY'),
+    'publicKey' => env('PAYSTACK_PUBLIC_KEY', 'pk_test_a1afe3532a741cb7fd47a4263172134110661c01'),
 
     /**
      * Secret Key From Paystack Dashboard
      *
      */
-    'secretKey' => env('PAYSTACK_SECRET_KEY'),
+    'secretKey' => env('PAYSTACK_SECRET_KEY', 'sk_test_6103e5e0e2ec834940ef8a4f8316080977de01bc'),
 
     /**
      * Paystack Payment URL
