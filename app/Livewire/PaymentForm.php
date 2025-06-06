@@ -16,14 +16,14 @@ use Unicodeveloper\Paystack\Paystack;
 class PaymentForm extends Component
 {
     use WithFileUploads;
-    public $rental;
+    public $rental, $rentalAmount;
     public $amount;
     public $email;
 
     public  $toolId, 
             $rentalId,
             $paymentType = 'full', 
-            $paymentMethod = 'paystack',
+            $paymentMethod  = 'paystack',
             $showBankDetails = false,
             $paymentCompleted = false,
             $bankReceipt,
@@ -35,41 +35,31 @@ class PaymentForm extends Component
                 'paymentMethod' => 'required|in:paystack,bank_transfer',
                 'bankReceipt' => 'nullable|file|image|max:2048',
             ];
-      //     dd('user_id ='.Auth::id(),
-         
-               
-    //         'rental_id = '. $this->rentalId,  // الربط مع الطلب
-    //         'tool_id =' .$this->toolId,  // الربط مع الأداة
-    //         'amount ='.$totalAmount,  // المبلغ الإجمالي
-    //         'deposit_amount ='. $depositAmount,  // مبلغ التأمين
-    //         'rental_amount ='.$rentalAmount,  // مبلغ الإيجار
-    //         'processing_fee ='. $processingFee,  // رسوم المعالجة
-    //         'payment_type ='. $this->paymentType,  // نوع الدفع (في هذه الحالة Paystack)
-    //         'status =' .Payment::STATUS_AWAITING_COMFIRMATION,  // حالة الدفع (معلق)
-    //         'payment_method ='.$this->paymentMethod,  // وسيلة الدفع
-    //         'delivery_code =' . Str::random(6),  // إذا كان موجودًا
-    //         'refund_status =' .'not_requested'
-    // );
     public function boot(PaystackService $paystackService)
     {
         $this->paystackService = $paystackService;
     }
     public function mount( $rentalId, $toolId)
     {
-       
+        $this->rental = Rental::findOrFail($rentalId);
         $this->toolId = $toolId;
         $this->rentalId = $rentalId;
         $this->showBankDetails = !$this->showBankDetails;
+        $this->amount = $this->rental->total_cost;
+        // dd('This Amoun = ',$this->amount);
+        // $this->paymentType ; 
+        // $this->paymentMethod;
+        $this->recalculateAmount();
     }
 
     public function initiatePayment()
     {
         $this->validate();
         // dd($this->paystackService);
-        $rentalAmount = 1000;
-        $depositAmount = $rentalAmount  + 10 * 0.02;
-        $processingFee = $rentalAmount * 0.03;
-        $totalAmount = $depositAmount ?? $rentalAmount  + $depositAmount + $processingFee ;
+        $this->rentalAmount = $this->amount;
+        $depositAmount = $this->rentalAmount  + 10 * 0.02;
+        $processingFee = $this->rentalAmount * 0.03;
+        $totalAmount = $depositAmount ?? $this->rentalAmount  + $depositAmount + $processingFee ;
         // إنشاء السجل في جدول المدفوعات
         try {
             $this->payment = Payment::create([
@@ -78,7 +68,7 @@ class PaymentForm extends Component
                 'tool_id' => $this->toolId,  // الربط مع الأداة
                 'amount' => $totalAmount,  // المبلغ الإجمالي
                 'deposit_amount' => $depositAmount,  // مبلغ التأمين
-                'rental_amount' => $rentalAmount,  // مبلغ الإيجار
+                'rental_amount' => $this->rentalAmount,  // مبلغ الإيجار
                 'processing_fee' => $processingFee,  // رسوم المعالجة
                 'payment_type' => $this->paymentType,  // نوع الدفع (في هذه الحالة Paystack)
                 'status' => Payment::STATUS_AWAITING_COMFIRMATION,  // حالة الدفع (معلق)
@@ -127,6 +117,25 @@ class PaymentForm extends Component
         $this->paymentCompleted = true;
         session()->flash('success', 'Receipt uploaded successfully! We will verify payment soon');
     }
+    public function updatedPaymentType()
+{
+    $this->recalculateAmount();
+    }
+
+    public function updatedPaymentMethod()
+    {
+        $this->recalculateAmount();
+    }
+
+    private function recalculateAmount()
+    {
+        if ($this->paymentType === 'deposit') {
+            $this->amount = $this->rentalAmount + 10 + ($this->rentalAmount * 0.03);
+        } else {
+            $this->amount = $this->rentalAmount + ($this->rentalAmount * 0.03);
+        }
+    }
+
 
     public function render()
     {

@@ -1,5 +1,5 @@
 <div class=" max-w-md mx-auto bg-gray-300 rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6"
-x-data="{paymentMethod: 'paystack'}">
+x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
 <!-- title -->
 <h2 class="text-2xl font-bold text-gray-800 mb-6">إتمام عملية الدفع</h2>
         <!-- messages -->
@@ -78,7 +78,6 @@ x-data="{paymentMethod: 'paystack'}">
                     <p><span class="font-medium">Bank Name: </span>Wema</p>
                     <p><span class="font-medium">Acount Name:</span>Sharkni</p>
                     <p><span class="font-medium">Account No:</span> 0000000000</p>
-                    <p><span class="font-medium">Amount: </span>{{ number_format($payment->amount ?? 0, 2)}}  NGN </p>
                 </div>
                 @if ($showBankDetails && $paymentMethod === 'bank_transfer')   
                 <!-- Upload Proof -->
@@ -91,13 +90,14 @@ x-data="{paymentMethod: 'paystack'}">
                            @error('bankReceipt')  <span class="text-red-500 bg-red-100">{{$message}}</span> @enderror
                  </div>
                  <button wire:click="uploadBankReceipt"
-                         class=" mt-4 w-full bg-indigo-600 text-gray-20 py-2 px-4 rounded-md hover:bg-indigo-700 transition">
-                         Upload
+                 class=" mt-4 w-full bg-indigo-600 text-gray-20 py-2 px-4 rounded-md hover:bg-indigo-700 transition">
+                 Upload
                 </button>
                 @endif 
-         </div>
+            </div>
             <!-- Cuntenue to pay -->
-             @if (!$showBankDetails ||  $paymentMethod !== 'bank_transfer')   
+            <p><span class="font-medium">Amount: </span>{{ number_format($rental->total_cost?? 0, 2)}}  NGN </p>
+            @if (!$showBankDetails ||  $paymentMethod !== 'bank_transfer')   
              <button wire:click="initiatePayment"
              class=" mt-4 w-full bg-indigo-600 text-gray-20 py-2 px-4 rounded-md hover:bg-indigo-700 transition">
              Contenue To Pay 
