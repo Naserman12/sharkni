@@ -47,10 +47,8 @@ class PaymentForm extends Component
         $this->showBankDetails = !$this->showBankDetails;
         $this->rentalAmount = $this->rental->deposit_amount;
         $this->amount = $this->rental->total_cost;
-        // $this->paymentType ; 
-        // $this->paymentMethod;
         $this->recalculateAmount();
-        dd('This Amoun = '.$this->amount);
+        // dd('This Amoun = '.$this->amount);
     }
     
     public function initiatePayment()
@@ -86,11 +84,10 @@ class PaymentForm extends Component
         }
     }
     private function initiatePaystackPayment(){
-        dd('This Amoun = '.$this->amount);
+        // dd('This Amoun = '.$this->amount);
         try {
-            // dd('paystackService->initiatePayment = ',$this->paystackService->initiatePayment($this->payment, Auth::user()->email));
             $result = $this->paystackService->initiatePayment($this->payment, Auth::user()->email);
-            // dd($result);
+           
             if ($result['status']) {
                 return redirect()->away($result['authorization_url']);
             }else {
@@ -98,13 +95,12 @@ class PaymentForm extends Component
             $this->payment->update(['status' => Payment::STATUS_FAILED]);
         }
     } catch (\Exception $e) {
-        dd('Error' .$e->getMessage());
+        dd('سبب الخطـأ. ' .$e->getMessage());
         $this->payment->update(['status' => Payment::STATUS_FAILED]);
         $this->addError('payment', 'Failed to payment '.$e->getMessage());
     }
 }
     public function uploadBankReceipt(){
-        dd('This Amoun = '.$this->amount);
         if (!$this->payment) {
             echo'payment record not found. Please try again.';
             return;
