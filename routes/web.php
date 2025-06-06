@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LangController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -51,7 +52,10 @@ Route::get('/email/verify/{id}/{hash}', function($id, $hash){
 })->middleware('auth','signed')->name('verification.verify');
 
 // Home Routes
-Route::view('/', 'welcome');
+Route::get('/', function(){
+    // dd(app()->getLocale());
+    return view('welcome');
+})->name('home');
 Route::view('/send','livewire.email.send-email-test');
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth'])
@@ -72,27 +76,8 @@ Route::get('damage/reports', ManageDamageReports::class)->middleware('auth')->na
 // Catefories
 Route::get('categories/add', AddCategory::class)->middleware('auth')->name('categories.add');
 
-// test SSL 
-
-
-// Route::get('/test-curl', function () {
-//     $ch = curl_init();
-
-//     curl_setopt($ch, CURLOPT_URL, "https://api.paystack.co");
-//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-//     $response = curl_exec($ch);
-
-//     if (curl_errno($ch)) {
-//         return 'cURL Error: ' . curl_error($ch);
-//     }
-
-//     curl_close($ch);
-
-//     return '✅ تم الاتصال بنجاح بدون التحقق من الشهادة';
-// });
-
-//End Test SSL
+// languages
+Route::get('/lang/{lang}', [LangController::class,'changeLang']);
 // payments
 Route::get('/pay/{paymentId}', [PaymentController::class,"redirectToGateway"])->name('pay');
 Route::prefix('payments')->group(function(){

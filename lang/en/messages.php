@@ -1,7 +1,9 @@
 <?php
 return [
     'welcome' => 'Welcome',
+    'your payments' => 'Your Payments',
     'login' => 'Login',
+    'status' => 'Status',
     'register' => 'Register',
     'logout' => 'Logout',
     'name' => 'Name',

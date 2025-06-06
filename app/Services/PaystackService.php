@@ -31,7 +31,7 @@ class PaystackService {
             'amount' => $payment->amount * 100,
             'email' => $email,
             'reference' => $reference,
-            'callback_url' => config('app.url') . '/payments/callback?payment_id=' . $payment->id,
+            'callback_url' => url('/payments/callback?payment_id=' . $payment->id),
             'metadata' => [
                 'payment_id' => $payment->id,
                 'tool_id' => $payment->tool_id,
@@ -39,7 +39,7 @@ class PaystackService {
                 'user_id' => $payment->user_id,
             ],
             ]);
-            // dd(session('paystack_payment'));
+            dd(session('paystack_payment'));
 
             // ✅ ثم طلب رابط التفويض
             // dd('Url = ', Paystack::getAuthorizationUrl()->url);

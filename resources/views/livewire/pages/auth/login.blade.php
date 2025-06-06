@@ -1,7 +1,7 @@
 
 <div class=" min-h-screen flex items-center justify-center bg-gray-300">
     <div class="w-full max-w-md  mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-4">
-  <h1 class="text-3xl  font-bold  mb-8 text-center">{{ app()->getLocale() == 'ha' ? 'Shiga' : 'Login' }}</h1>
+  <h1 class="text-3xl  font-bold  mb-8 text-center">{{__( 'messages.login' )}}</h1>
   @if (session('message'))
   <div class="mb-4 p-2 bg-green-100 text-green-700 rounded">
     {{ $message }}
@@ -57,7 +57,7 @@
               type="submit"
               class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3 rounded-lg shadow-lg transition"
             >
-            {{ app()->getLocale() == 'ha' ? 'Shiga ' : 'Login' }}  
+            {{ __( 'messages.login' ) }}  
             </button>
          </div>
 

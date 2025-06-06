@@ -35,7 +35,7 @@
                 <!-- Butttons -->
                  <div>
                  @if ($rental->status === 'pending')
-                     @if ($rental->lender_id === Auth::id())
+                     @if ($rental->lender_id === auth()->id())
                      <button wire:click="approve({{ $rental->id }})" class=" bg-green-600 text-nowrap p-2 rounded hover:bg-green-800">
                         {{ app()->getLocale() == 'ha' ? 'Amince' : 'Approve' }}
                      </button>

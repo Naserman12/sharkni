@@ -16,9 +16,9 @@
     </head>
     <body class="font-sans antialiased bg-gradient-to-r from-gray-950 via-purple-500 to-pink-500">
             @php
-            $user = Auth()->user();
-            app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
-            session(['locale' => $user->language]); // تخزين اللغة في الجلسة
+            if(session()->has('language')){
+            app()->setLocale(session('language'));
+            }
             @endphp
         <div>
         <!-- navbar -->

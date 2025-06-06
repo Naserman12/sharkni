@@ -21,6 +21,7 @@ return [
     'send_password_reset_link' => 'Aika hanyar sake saita kalmar sirri',
     'dashboard' => 'Dashboard',
     'home' => 'Gida',
+    'Your Payments' => 'Gida1',
     'do_not_have_account' => 'Babu asusun? Yi rijista yanzu!',
      
     "Make Payment" => "Yi Biyan Kuɗi",
