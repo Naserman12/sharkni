@@ -98,7 +98,7 @@ Route::get('/pay/{paymentId}', [PaymentController::class,"redirectToGateway"])->
 Route::prefix('payments')->group(function(){
     Route::get('/', [PaymentController::class, 'index'])->name('payments.index');
     Route::post('/initiate', [PaymentController::class, 'initiatePayment'])->name('paystack.initiate');
-    Route::get('/callback', [PaymentController::class, 'handlePaystackCallback'])->name('paystack.callback');
+    Route::get('/callback/{payment}', [PaymentController::class, 'handlePaystackCallback'])->name('paystack.callback');
     Route::post('/verify', [PaymentController::class, 'verifyPayment'])->name('paystack.verify');
     Route::get('/redirect/{payment}', [PaymentController::class, 'redirectToPayment'])->name('paystack.redirect');
 });

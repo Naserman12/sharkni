@@ -3,14 +3,20 @@ namespace App\Services;
 
 use App\Models\Payment;
 use App\Models\PaystackTransaction;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Unicodeveloper\Paystack\Facades\Paystack;
 
 class PaystackService {
 
-    public $payment;
-    public function initiatePayment(Payment $payment, string $email){
+    public  $payment, $email;
+
+    public function mount(Payment $payment){
         $this->payment = $payment;
+        $this->email = Auth::user()->email;
+    }
+    public function initiatePayment(Payment $payment, string $email){
+        
         // dd(config('app.url') . '/payments/callback?payment_id=' . $payment->id,);
         try {
             $reference = Paystack::genTranxRef();
@@ -21,7 +27,7 @@ class PaystackService {
                 'email' => $email
             ]);
             
-            session()->put('paystack_transactions', [
+            session()->put('paystack_payment', [
             'amount' => $payment->amount * 100,
             'email' => $email,
             'reference' => $reference,
@@ -33,7 +39,7 @@ class PaystackService {
                 'user_id' => $payment->user_id,
             ],
             ]);
-            dd(session('paystack_transactions'));
+            // dd(session('paystack_payment'));
 
             // ✅ ثم طلب رابط التفويض
             // dd('Url = ', Paystack::getAuthorizationUrl()->url);
