@@ -50,7 +50,7 @@ class PaystackService {
                 'authorization_url' => $url,
             ];
         } catch (\Exception $e) {
-                // dd('سبب الخطـأ \' ' .$e->getMessage());
+                dd('سبب الخطـأ \' ' .$e->getMessage());
             Log::error('Paystack Payment Initiation Failed: ' .$e->getMessage());
             return [
                 'status' => false,
