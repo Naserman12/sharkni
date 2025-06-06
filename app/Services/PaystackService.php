@@ -39,18 +39,18 @@ class PaystackService {
                 'user_id' => $payment->user_id,
             ],
             ]);
-            dd(session('paystack_payment'));
+            // dd(session('paystack_payment'));
 
             // ✅ ثم طلب رابط التفويض
             // dd('Url = ', Paystack::getAuthorizationUrl()->url);
             $url = Paystack::getAuthorizationUrl()->url;
-             dd($url);
+            //  dd($url);
             return [
                 'status' => true,
                 'authorization_url' => $url,
             ];
         } catch (\Exception $e) {
-                dd('سبب الخطـأ \' ' .$e->getMessage());
+                // dd('سبب الخطـأ \' ' .$e->getMessage());
             Log::error('Paystack Payment Initiation Failed: ' .$e->getMessage());
             return [
                 'status' => false,
