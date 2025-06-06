@@ -34,7 +34,7 @@ return [
      *
      */
     'merchantEmail' => getenv('MERCHANT_EMAIL'),
-    'verify_ssl'=> false,
+    // 'verify_ssl'=> false,
 
 
 ];
