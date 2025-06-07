@@ -27,10 +27,11 @@ class PaystackService {
                 'email' => $email
             ]);
        
-            session()->put('paystack_payment', [
-            'amount' => 700 * 100,
+             // إعداد بيانات الدفع
+        $data = [
+            'amount' => (int) (floatval($payment->amount) * 100), // تحويل المبلغ إلى كوبو
             'email' => $email,
-            "currency" => "NGN",
+            'currency' => 'NGN',
             'reference' => $reference,
             'callback_url' => url('/payments/callback?payment_id=' . $payment->id),
             'metadata' => [
@@ -39,15 +40,32 @@ class PaystackService {
                 'rental_id' => $payment->rental_id,
                 'user_id' => $payment->user_id,
             ],
-            'quantity' => 1,
-            ]);
+            'quantity' => 1, // إضافة الكمية
+        ];
+        
+        // session()->put('paystack_payment', [
+            // 'amount' => 700 * 100,
+            // 'email' => $email,
+            // "currency" => "NGN",
+            // 'reference' => $reference,
+            // 'callback_url' => url('/payments/callback?payment_id=' . $payment->id),
+            // 'metadata' => [
+            //     'payment_id' => $payment->id,
+            //     'tool_id' => $payment->tool_id,
+            //     'rental_id' => $payment->rental_id,
+            //     'user_id' => $payment->user_id,
+            // ],
+            // 'quantity' => 1,
+            // ]);
             // dd(session('paystack_payment'));
             //  dd('Original Amount: ' . $payment->amount, 'Converted Amount: ' . ((int) $payment->amount * 100));
 
-            // ✅ ثم طلب رابط التفويض
-            // dd('Url = ', Paystack::getAuthorizationUrl()->url);
-            $url = Paystack::getAuthorizationUrl()->url;
-            //  dd($url);
+             // تخزين البيانات في الجلسة بنفس القيم
+            //  session()->put('paystack_payment', $data);
+        
+            // طلب رابط التفويض باستخدام $data مباشرة
+            // $url = Paystack::getAuthorizationUrl($data)->url;
+            dd('Url = '.Paystack::getAuthorizationUrl($data)->url);
             return [
                 'status' => true,
                 'authorization_url' => $url,
