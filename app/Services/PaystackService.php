@@ -16,7 +16,7 @@ class PaystackService {
         $this->email = Auth::user()->email;
     }
     public function initiatePayment(Payment $payment, string $email){
-        dd($payment->amount * 100);
+        // dd($payment->amount * 100);
         // dd(config('app.url') . '/payments/callback?payment_id=' . $payment->id,);
         try {
             $reference = Paystack::genTranxRef();
