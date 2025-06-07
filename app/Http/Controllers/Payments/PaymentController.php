@@ -102,12 +102,10 @@ class PaymentController extends Controller
  public function handlePaystackCallback(PaystackService $paystackService)
 {
     $result = $paystackService->handCallback();
-
     if ($result['status']) {
         session()->flash('success', 'تم الدفع بنجاح');
         return view('payments.success', ['payment' => $result['payment']]);
     }
-
     session()->flash('error', $result['message']);
     return redirect()->route('tools.index');
 }
