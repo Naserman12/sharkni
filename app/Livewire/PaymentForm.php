@@ -45,7 +45,7 @@ class PaymentForm extends Component
         $this->toolId = $toolId;
         $this->rentalId = $rentalId;
         $this->showBankDetails = !$this->showBankDetails;
-        $this->rentalAmount = $this->rental->deposit_amount;
+        $this->rentalAmount = $this->rental->deposit_amount ?? 5000;
         $this->amount = 50000;
         $this->recalculateAmount();
         // dd('This Amoun = '.$this->amount);
@@ -75,6 +75,7 @@ class PaymentForm extends Component
                 'delivery_code' => Str::random(6),  // إذا كان موجودًا
                 'refund_status' => 'not_requested',  // حالة الاسترداد
             ]);
+            dd($this->payment);
             if ($this->paymentMethod === 'paystack') {
                 return $this->initiatePaystackPayment();
             }

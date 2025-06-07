@@ -96,7 +96,7 @@ x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
                 @endif 
             </div>
             <!-- Cuntenue to pay -->
-            <p><span class="font-medium">Amount: </span>{{ number_format($rental->total_cost?? 0, 2)}}  NGN </p>
+            <p><span class="font-medium">Amount: </span>{{ number_format($amount ?? 0, 2)}}  NGN </p>
             @if (!$showBankDetails ||  $paymentMethod !== 'bank_transfer')   
              <button wire:click="initiatePayment"
              class=" mt-4 w-full bg-indigo-600 text-gray-20 py-2 px-4 rounded-md hover:bg-indigo-700 transition">
