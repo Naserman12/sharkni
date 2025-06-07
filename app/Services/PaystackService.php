@@ -55,10 +55,11 @@ class PaystackService {
             ];
         } 
     }
-    public function verifyPayment(string $reference){
+    public function verifyPayment(){
         try {
-            $paymentDetails = Paystack::getPaymentData($reference);
-
+            
+            $paymentDetails = Paystack::getPaymentData();
+            $paymentDetails = json_decode(json_encode($paymentDetails), true); // تحويل إلى مصفوفة
             if (!$paymentDetails['status']) {
                 return[
                     'status' => false,
@@ -87,7 +88,7 @@ class PaystackService {
         }
     }
     public function handCallback(){
-        $paymentDetails = $this->verifyPayment(request()->reference);
+        $paymentDetails = $this->verifyPayment();
         if (!$paymentDetails['status']) {
             return $paymentDetails;
         }
