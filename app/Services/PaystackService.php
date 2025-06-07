@@ -30,7 +30,7 @@ class PaystackService {
             'email' => $email,
             'currency' => 'NGN',
             'reference' => $reference,
-            'callback_url' => route('/payments/callback', '?payment_id=' . $payment->id),
+            'callback_url' => route('paystack.callback', '?payment_id=' . $payment->id),
             'metadata' => [
                 'payment_id' => $payment->id,
                 'tool_id' => $payment->tool_id,
