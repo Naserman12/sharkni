@@ -21,35 +21,80 @@
             }
             @endphp
         <div>
-        <!-- navbar -->
-         <nav class=" bg-gradient-to-r from-red-600 via-orange-600 to-yellow-400 p-4 ">
-             <div class=" container mx-auto flex justify-between items-center">
-                 <a href="{{ route('dashboard') }}" class=" text-xl font-bold">{{ config('app.name', 'Sharkni') }}</a>
-                 <div class="">
-                    <!-- زر القائم الجانية على الجوال -->
-                 <button id="menu-toggle" class=" md:hidden focus:outline-none" >
-                    <i class=" fas fa-bars text-2xl"></i>
-                 </button>
-                 <!-- Notifications -->
-                 <div id="menu" class=" hidden md:flex md:items-center md:space-x-4 flex-col md:flex-row absolute md:static top-16 left-0 w-full md:w-auto bg-blue-200  md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none ">
-                     <a href="{{ route('tools.index') }}" class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('tools.index') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Kayan Aiki' : 'Tools'  }}</a>
-                     <a href="{{ route('tools.add') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('tools.add') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'qrar kayan Aiki' : 'Add Tool'  }}</a>
-                     <a href="{{ route('rentals.index') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('rentals.index') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Neman Aro' : 'Rentals'  }}</a>
-                     <a href="{{ route('damage.report') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('damage.report') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Rahoton Lalacewa' : 'Report Damage'  }}</a>
-                     <a href="{{ route('categories.add') }}"   class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('categories.add') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Qara Nau\'i ' : 'Add Category'  }}</a>
-                     <a href="{{ route('profile') }}"     class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 {{ request()->routeIs('profile') ? ' bg-gray-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Bayanan Mutun' : 'Profile'  }}</a>
-                     <a href="{{ route('logout') }}"      class=" block md:inline-block py-2 md:py-0 hover:underline text-center md:text-left mr-4 bg-red-500 {{ request()->routeIs('logout') ? ' bg-red-500 p-2 rounded' : '' }}">{{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout '   }}</a>
-                     <div class="mt-2 md:mt-0">
-                         @livewire('components.language-switcher')
-                     </div>
-                     @auth
-                      @livewire('pages.notifications.notifications-list')
-                     @endauth
-                 </div>
-                 </div>
-             </div>
-         </nav>
-        <!-- Navbar End -->
+            <!-- navbar -->
+            <nav class="bg-gradient-to-r from-red-600 via-orange-600 to-yellow-400 p-4 relative z-50">
+                <div class="container mx-auto flex justify-between items-center">
+                    <a href="{{ route('dashboard') }}" class="text-xl font-bold text-white">{{ config('app.name', 'Sharkni') }}</a>
+
+                    <!-- Mobile Menu Button -->
+                    <div class="flex items-center space-x-4">
+                        @auth
+                            <!-- Notifications (Visible on all screens) -->
+                            <div class="relative">
+                                @livewire('pages.notifications.notifications-list')
+                            </div>
+                        @endauth
+
+                        <button id="menu-toggle" @click="open = !open" class="md:hidden focus:outline-none text-white text-2xl">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+
+                    <!-- Menu -->
+                    <div x-data="{ open: false }" :class="{'block': open, 'hidden': !open}" class="hidden md:flex md:items-center md:space-x-4 flex-col md:flex-row absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent p-4 md:p-0 shadow-md md:shadow-none transition-all duration-300">
+
+                        <!-- Tools Dropdown -->
+                        <div x-data="{ toolsOpen: false }" class="relative group">
+                            <button @click="toolsOpen = !toolsOpen" class="text-xl font-bold text-gray-800 hover:underline focus:outline-none">
+                                {{ app()->getLocale() == 'ha' ? 'Kayan Aiki' : 'Tools' }}
+                            </button>
+                            <div x-show="toolsOpen" @click.outside="toolsOpen = false" class="absolute bg-white shadow-lg rounded mt-2 p-2 min-w-[160px] z-50">
+                                <a href="{{ route('tools.index') }}" class="block px-4 py-2 hover:bg-gray-100">عرض الأدوات</a>
+                                <a href="{{ route('tools.add') }}" class="block px-4 py-2 hover:bg-gray-100">إضافة أداة</a>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">تعديل أداة</a>
+                            </div>
+                        </div>
+
+                        <!-- Categories Dropdown -->
+                        <div x-data="{ catOpen: false }" class="relative group">
+                            <button @click="catOpen = !catOpen" class="text-xl font-bold text-gray-800 hover:underline focus:outline-none">
+                                {{ app()->getLocale() == 'ha' ? 'Nau\'i' : 'Categories' }}
+                            </button>
+                            <div x-show="catOpen" @click.outside="catOpen = false" class="absolute bg-white shadow-lg rounded mt-2 p-2 min-w-[160px] z-50">
+                                <a href="{{ route('categories.add') }}" class="block px-4 py-2 hover:bg-gray-100">إضافة تصنيف</a>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">تعديل التصنيفات</a>
+                            </div>
+                        </div>
+
+                        <!-- Rentals -->
+                        <a href="{{ route('rentals.index') }}" class="text-xl font-bold text-gray-800 hover:underline">
+                            {{ app()->getLocale() == 'ha' ? 'Neman Aro' : 'Rentals' }}
+                        </a>
+
+                        <!-- Report Damage -->
+                        <a href="{{ route('damage.report') }}" class="text-xl font-bold text-gray-800 hover:underline">
+                            {{ app()->getLocale() == 'ha' ? 'Rahoton Lalacewa' : 'Report Damage' }}
+                        </a>
+
+                        <!-- Profile -->
+                        <a href="{{ route('profile') }}" class="text-xl font-bold text-gray-800 hover:underline">
+                            {{ app()->getLocale() == 'ha' ? 'Bayanan Mutun' : 'Profile' }}
+                        </a>
+
+                        <!-- Logout -->
+                        <a href="{{ route('logout') }}" class="text-xl font-bold text-red-600 hover:underline">
+                            {{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout' }}
+                        </a>
+
+                        <!-- Language Switcher -->
+                        <div class="mt-2 md:mt-0">
+                            @livewire('components.language-switcher')
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            <!-- Navbar End -->
+
             <!-- Page Content -->
             <main class="min-h-screen bg-gradient-to-r from-red-400 via-orange-300 to-yellow-200">
                 
