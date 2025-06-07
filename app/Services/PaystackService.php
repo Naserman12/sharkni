@@ -64,8 +64,8 @@ class PaystackService {
             //  session()->put('paystack_payment', $data);
         
             // طلب رابط التفويض باستخدام $data مباشرة
-            // $url = Paystack::getAuthorizationUrl($data)->url;
-            dd('Url = '.Paystack::getAuthorizationUrl($data)->url);
+            $url = Paystack::getAuthorizationUrl($data)->url;
+            // dd('Url = '.Paystack::getAuthorizationUrl($data)->url);
             return [
                 'status' => true,
                 'authorization_url' => $url,
