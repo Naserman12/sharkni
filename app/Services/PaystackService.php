@@ -93,8 +93,7 @@ class PaystackService {
             ];
         }
     }
-    public function handCallback(){
-        $reference = request()->get('reference') ?? request()->get('trxref');
+    public function handCallback(string $reference){
         $paymentDetails = $this->verifyPayment($reference);
         if (!$paymentDetails['status']) {
             return $paymentDetails;
@@ -110,11 +109,11 @@ class PaystackService {
             ];
         }
         $payment->paystackTrans()->update([
-            'transaction_id' => $paymentDetails['transaction_id'],
-            'metadata'=> $paymentDetails['metadata'],
-            'customer'=> $paymentDetails['customer'],
-            'paid_at' => $paymentDetails['paid_at'],
-            'gateway_response' => json_encode($paymentDetails),
+            'transaction_id'  => $paymentDetails['transaction_id'],
+            'metadata'        => $paymentDetails['metadata'],
+            'customer'        => $paymentDetails['customer'],
+            'paid_at'         => $paymentDetails['paid_at'],
+            'gateway_response'=> json_encode($paymentDetails),
         ]);
         $payment->update([
         'status' => Payment::STATUS_CONFIRMED
