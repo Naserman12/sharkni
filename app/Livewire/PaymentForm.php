@@ -45,7 +45,7 @@ class PaymentForm extends Component
         $this->toolId = $toolId;
         $this->rentalId = $rentalId;
         $this->showBankDetails = !$this->showBankDetails;
-        $this->rentalAmount = $this->rental->deposit_amount ?? 5000;
+        $this->rentalAmount = $this->rental->deposit_amount ?? 500;
         $this->amount = 50000;
         $this->recalculateAmount();
         // dd('This Amoun = '.$this->amount);
