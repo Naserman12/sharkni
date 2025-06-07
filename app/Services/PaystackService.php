@@ -86,6 +86,7 @@ class PaystackService {
         } catch (\Exception $e) {
             Log::error('Payment Verification Failed: ' .$e->getMessage());
             return [
+                 dd('سبب الخطـأ \' ' .$e->getMessage());
                 'status' => false,
                 'message' => 'Error Verifing payment',
                 'error' => $e->getMessage()
@@ -115,11 +116,9 @@ class PaystackService {
             'paid_at' => $paymentDetails['paid_at'],
             'gateway_response' => json_encode($paymentDetails),
         ]);
-
         $payment->update([
         'status' => Payment::STATUS_CONFIRMED
          ]);
-
         return [
             'status' => true,
             'payment' => $payment,
