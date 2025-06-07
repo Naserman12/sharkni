@@ -55,18 +55,23 @@ class PaystackService {
             ];
         } 
     }
-    public function verifyPayment(){
+    public function verifyPayment(string $reference){
         try {
-            
             $paymentDetails = Paystack::getPaymentData();
             $paymentDetails = json_decode(json_encode($paymentDetails), true); // تحويل إلى مصفوفة
-            if (!$paymentDetails['status']) {
+            $data = $paymentDetails['data'];
+            if (!$paymentDetails['reference'] !== $reference ) {
                 return[
                     'status' => false,
                     'message' => 'Payment verification failed'
                 ];
             }
-            $data = $paymentDetails['data'];
+            if($data['status'] !== 'success'){
+                return[
+                    'status' => false,
+                    'message' => 'Payment not successful!',
+                ];        
+            }
             return [
                 'status' => true,
                 'payment_status' => $data['status'],
@@ -88,7 +93,8 @@ class PaystackService {
         }
     }
     public function handCallback(){
-        $paymentDetails = $this->verifyPayment();
+        $reference = request()->get('reference') ?? request()->get('trxref');
+        $paymentDetails = $this->verifyPayment($reference);
         if (!$paymentDetails['status']) {
             return $paymentDetails;
         }

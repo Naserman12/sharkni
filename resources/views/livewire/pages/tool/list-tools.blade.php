@@ -1,11 +1,28 @@
 <div class=" container mx-auto py-10">
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     <div class="p-6 rounded-lg shadow-lg">
+
     <h1 class=" text-3xl font-bold mb-6 text-center "><i class="fas fa-search mr-2"></i> {{ app()->getLocale() == 'ha' ? 'Ado Available don Aro/Kira' : 'Tools availabel for Borrowing/Reting' }}
      @if ($selected_category)
             <span class=" text-xl ml-2">- {{ app()->getLocale() == 'ha' ? $selected_category->name_ha : $selected_category->name }}</span>
      @endif
     </h1>
+              <!-- messages -->
+        @if (session('message'))
+        <div class=" mb-4 p-2 bg-green-200 text-green-700">
+        {{ session('message') }} 
+        </div>
+        @endif
+        @if (session('success'))
+        <div class=" mb-4 p-2 bg-green-200 text-green-700">
+        {{ session('success') }} 
+        </div>
+        @endif
+        @if (session('error'))
+        <div class=" mb-4 p-2 bg-red-200 text-red-700">
+        {{ session('error') }} 
+        </div>
+        @endif
          <!-- الفلاتر -->    
             <div x-data="filterComponent()" x-init="init()" class="filters-container" class=" space-y-6">
                   <button @click="toggle()" class="btn-toggle-filters">

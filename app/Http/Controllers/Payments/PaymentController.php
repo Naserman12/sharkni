@@ -99,15 +99,14 @@ class PaymentController extends Controller
             ],500);
         }
     }
- public function handlePaystackCallback()
+ public function handlePaystackCallback(PaystackService $paystackService)
 {
-    $reference = request()->get('reference');
-
+    $reference = request()->get('reference') ?? request()->get('trxref');
     if (!$reference) {
         session()->flash('error', 'Reference not found');
         return redirect()->route('tools.index');
     }
-    $result = $this->paystackService->handCallback();
+    $result = $paystackService->handCallback();
     if ($result['status']) {
         session()->flash('success', 'تم الدفع بنجاح');
         return view('payments.success', ['payment' => $result['payment']]);
