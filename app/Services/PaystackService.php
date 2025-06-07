@@ -28,7 +28,7 @@ class PaystackService {
             ]);
             
             session()->put('paystack_payment', [
-            'amount' => (int) $payment->amount * 100,
+            'amount' => (int) ($payment->amount * 100),
             'email' => $email,
             'reference' => $reference,
             'callback_url' => url('/payments/callback?payment_id=' . $payment->id),

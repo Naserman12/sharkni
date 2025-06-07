@@ -46,7 +46,7 @@ class PaymentForm extends Component
         $this->rentalId = $rentalId;
         $this->showBankDetails = !$this->showBankDetails;
         $this->rentalAmount = $this->rental->deposit_amount;
-        $this->amount = $this->rental->total_cost;
+        $this->amount = 50000;
         $this->recalculateAmount();
         // dd('This Amoun = '.$this->amount);
     }
@@ -55,9 +55,10 @@ class PaymentForm extends Component
     {
         $this->validate();
         // dd($this->paystackService);
-        $depositAmount = $this->amount  + 10 * 0.02;
-        $processingFee = $this->rentalAmount * 0.03;
-        $totalAmount = $depositAmount ?? $this->rentalAmount  + $depositAmount + $processingFee ;
+        $depositAmount = $this->amount  +100;
+        $processingFee = $this->rentalAmount + 200;
+        $totalAmount = $this->rentalAmount + $depositAmount + $processingFee;
+
         // إنشاء السجل في جدول المدفوعات
         try {
             $this->payment = Payment::create([
