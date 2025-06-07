@@ -84,9 +84,9 @@ class PaystackService {
                 'metadata' => $data['metadata'],
             ];
         } catch (\Exception $e) {
+            dd('سبب الخطـأ \' ' .$e->getMessage());
             Log::error('Payment Verification Failed: ' .$e->getMessage());
             return [
-                 dd('سبب الخطـأ \' ' .$e->getMessage());
                 'status' => false,
                 'message' => 'Error Verifing payment',
                 'error' => $e->getMessage()
