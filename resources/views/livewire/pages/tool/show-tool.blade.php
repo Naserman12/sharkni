@@ -1,7 +1,7 @@
 <div>
     {{-- Nothing in the world is as soft and yielding as water. --}}
     <div class=" container mx-auto py-10">
-        <div class=" bg-gray-500 rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
+        <div class=" bg-gradient-to-r from-orange-200 to-yellow-100 rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
             <h1 class=" text-3xl font-bold mb-6 flex items-center"><span class="mr-2"><i class="fas fa-tools"></i></span>
             {{ app()->getLocale() == 'ha' ? 'Bayanai - ' : 'Details - '  }} {{ $tool->name }}
         </h1>
@@ -98,7 +98,7 @@
                 </button>
             </form>
                 @else
-                <button class=" bg-gray-800 text-white p-3 rounded-lg w-full hover:bg-gray-700 cursor-not-allowed" disabled>
+                <button class=" bg-yellow-800 text-gray-50 py-2 px-4  hover:bg-yellow-950  p-3 rounded-lg w-full cursor-not-allowed" disabled>
                    <i class="fas fa-shoping-cart mr-1"></i> {{  app()->getLocale() == 'ha' ? 'Ba a Samu Ba' : 'Not Available' }}
                 </button>     
             @endif

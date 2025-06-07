@@ -1,4 +1,4 @@
-<div class=" max-w-md mx-auto bg-gray-300 rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6"
+<div class=" max-w-md mx-auto bg-gradient-to-r from-orange-200 to-yellow-100 text-gray-800  rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6"
 x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
 <!-- title -->
 <h2 class="text-2xl font-bold text-gray-800 mb-6">إتمام عملية الدفع</h2>
@@ -72,7 +72,7 @@ x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
             </div>
         </div>
         <!-- Bank info  -->
-         <div x-show="paymentMethod === 'bank_transfer' && $wire.showBankDetails" class=" mb6 p4 bg-fuchsia-50 rounded-lg">
+         <div x-show="paymentMethod === 'bank_transfer' && $wire.showBankDetails" class=" mb6 p4 bg-gradient-to-r from-amber-200 to-yellow-100 rounded-lg">
                 <h3 class=" text-lg font-semibold text-gray-800 mb-2" >Bank Info</h3>
                 <div class=" space-y-2">
                     <p><span class="font-medium">Bank Name: </span>Wema</p>
@@ -99,7 +99,7 @@ x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
             <p><span class="font-medium">Amount: </span>{{ number_format($amount ?? 0, 2)}}  NGN </p>
             @if (!$showBankDetails ||  $paymentMethod !== 'bank_transfer')   
              <button wire:click="initiatePayment"
-             class=" mt-4 w-full bg-indigo-600 text-gray-20 py-2 px-4 rounded-md hover:bg-indigo-700 transition">
+             class=" mt-4 w-full bg-yellow-800 text-gray-50 py-2 px-4 rounded-md hover:bg-yellow-950 transition">
              Contenue To Pay 
             </button>
             @endif

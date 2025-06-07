@@ -49,7 +49,7 @@
                                 {{ app()->getLocale() == 'ha' ? 'Kayan Aiki' : 'Tools' }}
                             </button>
                             <div x-show="toolsOpen" @click.outside="toolsOpen = false" class="absolute bg-white shadow-lg rounded mt-2 p-2 min-w-[160px] z-50">
-                                <a href="{{ route('tools.index') }}" class="block px-4 py-2 hover:bg-gray-100">عرض الأدوات</a>
+                                <a href="{{ route('tools.index') }}" class="block px-4 py-2 hover:bg-gray-100 ">عرض الأدوات</a>
                                 <a href="{{ route('tools.add') }}" class="block px-4 py-2 hover:bg-gray-100">إضافة أداة</a>
                                 <a href="#" class="block px-4 py-2 hover:bg-gray-100">تعديل أداة</a>
                             </div>
@@ -77,7 +77,7 @@
                         </a>
 
                         <!-- Profile -->
-                        <a href="{{ route('profile') }}" class="text-xl font-bold text-gray-800 hover:underline">
+                        <a href="{{ route('profile') }}" class="text-xl font-bold text-gray-800 hover:underline {{ request()->routeIs('profile') ? 'bg-yellow-300 p-2 rounded' : '' }}">
                             {{ app()->getLocale() == 'ha' ? 'Bayanan Mutun' : 'Profile' }}
                         </a>
 
