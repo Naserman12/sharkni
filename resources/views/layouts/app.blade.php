@@ -22,7 +22,7 @@
             @endphp
         <div>
         <!-- navbar -->
-         <nav class=" bg-gradient-to-r from-red-300 via-orange-300 to-yellow-200 p-4 ">
+         <nav class=" bg-gradient-to-r from-red-600 via-orange-600 to-yellow-400 p-4 ">
              <div class=" container mx-auto flex justify-between items-center">
                  <a href="{{ route('dashboard') }}" class=" text-xl font-bold">{{ config('app.name', 'Sharkni') }}</a>
                  <div class="">
