@@ -75,7 +75,7 @@ class PaymentForm extends Component
                 'delivery_code' => Str::random(6),  // إذا كان موجودًا
                 'refund_status' => 'not_requested',  // حالة الاسترداد
             ]);
-            dd($this->payment);
+            // dd($this->payment);
             if ($this->paymentMethod === 'paystack') {
                 return $this->initiatePaystackPayment();
             }
