@@ -22,7 +22,7 @@
          @error('form')  
          <div class=" mb-4 p-2 bg-red-200 text-red-700">
              {{ $message }} 
-            </div>
+         </div>
          @enderror
     </div>    
 </x-app-layout>

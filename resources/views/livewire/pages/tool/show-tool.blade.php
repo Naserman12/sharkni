@@ -5,7 +5,17 @@
             <h1 class=" text-3xl font-bold mb-6 flex items-center"><span class="mr-2"><i class="fas fa-tools"></i></span>
             {{ app()->getLocale() == 'ha' ? 'Bayanai - ' : 'Details - '  }} {{ $tool->name }}
         </h1>
-
+           <!-- messages -->
+        @if (session('message'))
+        <div class=" mb-4 p-2 bg-green-200 text-green-700">
+        {{ session('message') }} 
+        </div>
+        @endif
+        @if (session('success'))
+        <div class=" mb-4 p-2 bg-green-200 text-green-700">
+        {{ session('success') }} 
+        </div>
+        @endif
         <!-- معرض الصور -->
          <div class="mb-6">
             @if ($tool->image_paths && count($tool->image_paths) > 0)
@@ -57,7 +67,7 @@
               <!-- Owner -->
                <p class=" text-gray-800">
                 <span class=" font-semibold"> <i class="fas fa-user mr-1"></i>{{  app()->getLocale() == 'ha' ? 'Mai Shi' : 'Owner' }}:</span>
-                <a href="{{ route('profile', $tool->user->id) }}" class="  bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-700 hover:underline">
+                <a href="{{ route('profile', $tool->user->id) }}" class="hover:underline">
                     {{ $tool->user->name ?? ( app()->getLocale() == 'ha' ? 'Babu Bayanin' : 'No Information') }}
                 </a>
                </p>
@@ -93,7 +103,7 @@
                     <input type="date" id="return_date" wire:model="return_date" class=" w-full p-2 border rounded">
                     @error('return_date') <span class=" text-red-500 bg-red-100 text-sm">{{ $message }}</span> @enderror
                 </div>
-                <button class=" bg-blue-500 text-white p-3 rounded-lg w-full hover:bg-blue-700">
+                <button class=" bg-yellow-700 text-white p-3 rounded-lg w-full hover:bg-yellow-900">
                   <i class="fas fa-shopping-cart mr-1"></i>  {{  app()->getLocale() == 'ha' ? 'Neman Aro' : 'Request to Borrow' }}
                 </button>
             </form>
@@ -114,7 +124,7 @@
                 <form wire:submit.prevent="addComment" class="mb-6" >
                     <textarea wire:model="newComment" class=" w-full p-2 border rounded" rows="2" placeholder="{{ app()->getLocale() == 'ha' ? 'Rubuta sharhi...' : 'Write a comment...'}}" id=""></textarea>
                     @error('newComment')  <span class=" text-red-500 bg-red-100 text-sm">{{ $message }}</span>  @enderror
-                    <button type="submit" class=" bg-blue-500 text-white p-2 rounded mt-2 hover:bg-blue-600" >
+                    <button type="submit" class="  bg-yellow-800 text-gray-200 py-2 px-4  hover:bg-yellow-950   p-2 rounded mt-2" >
                         {{ app()->getLocale() == 'ha' ? 'qara Sharhi' : 'Add Comment' }}
                     </button>
                 </form>

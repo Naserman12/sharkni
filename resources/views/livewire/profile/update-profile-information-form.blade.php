@@ -73,7 +73,7 @@ new class extends Component
         //     $user->email_verified_at = null;
         // }
 
-       return redirect()->route('profile');
+       return redirect()->route('profile')->with('nessage', app()->getLocale() == 'ha' ? 'An Tabbatar Da canza Byanayi!' : 'Saved changed!');
     }
 
     /**
@@ -155,7 +155,7 @@ new class extends Component
                 </div>   
                 <x-input-error class="mt-2" :messages="$errors->get('profile_picture')" />
         <div class="flex items-center gap-4 mt-2">
-            <x-primary-button>{{ app()->getLocale() == 'ha' ? 'A Tabbatar ' : 'Saved' }}</x-primary-button>
+            <x-primary-button>{{ app()->getLocale() == 'ha' ? 'A Tabbatar ' : 'Save' }}</x-primary-button>
 
             <x-action-message class="me-3 mt-2" on="updateProfileInformation">
                 {{ app()->getLocale() == 'ha' ? 'An Tabbatar Da canza Byanayi!' : 'Saved changed!' }}

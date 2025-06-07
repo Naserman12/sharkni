@@ -37,11 +37,11 @@ x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
              <div class="mb-6">
                 <label class=" block text-gray-700 font-semibold mb-2">Type Payment</label>
                   <div class=" flex space-x-4">
-                     <label class="inline-flex items-center">
+                     <label class="inline-flex items-center hover:underline">
                         <input type="radio" wire:model="paymentType" value="full" class="form-radio text-indigo-600">
                         <span class=" ml-2">Pay Full</span>
                      </label>
-                     <label class="inline-flex items-center">
+                     <label class="inline-flex items-center hover:underline">
                         <input type="radio" wire:model="paymentType" value="deposit" class="form-radio text-indigo-600">
                         <span class=" ml-2">Pay deposit</span>
                      </label>
@@ -54,7 +54,7 @@ x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
                     <!-- Paystack -->
                 <div @click="paymentMethod = 'paystack'; $wire.paymentMethod = 'paystack'" :class="{ 'ring-2 ring-indigo-500': paymentMethod === 'paystack'}" class="p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-slate-50 transition ">
                          <div class="flex items-center">
-                        <input type="radio" x-model="paymentMethod" value="paystack" class=" form-radio text-indigo-600">
+                        <input type="radio" wire:model="paymentMethod" value="paystack" class=" form-radio text-indigo-600">
                         <img src="#" alt="Paystack" class=" h-8 ml-2">
                          </div>
                     <p class=" mt2 text-sm text-gray-800">Pay With Paystack</p>
@@ -63,18 +63,19 @@ x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
                 <!-- BAnk Transfer -->
                  <div @click="paymentMethod = 'bank_transfer'; $wire.paymentMethod = 'bank_transfer'" :class="{ 'ring-2 ring-indigo-500': paymentMethod === 'bank_transfer'}" class="p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-slate-50 transition ">
                     <div class="flex items-center">
-                        <input type="radio" x-model="paymentMethod" value="bank_transfer" class=" form-radio text-indigo-600">
-                        <img src="#" alt="Bank_transfer" class=" h-8 ml-2">
+                        <input type="radio" wire:model="paymentMethod" value="bank_transfer" class=" form-radio text-indigo-600">
+                        <!-- <img src="#" alt="Bank_transfer" class=" h-8 ml-2"> -->
+                         <i class="fas fa-bank-transfer"></i>
                     </div>
                     <p class=" mt2 text-sm text-gray-800">Bank Transfer</p>
-                    <h1>Payment method = {{ $paymentMethod }}</h1>
                 </div>
             </div>
         </div>
         <!-- Bank info  -->
-         <div x-show="paymentMethod === 'bank_transfer' && $wire.showBankDetails" class=" mb6 p4 bg-gradient-to-r from-amber-200 to-yellow-100 rounded-lg">
-                <h3 class=" text-lg font-semibold text-gray-800 mb-2" >Bank Info</h3>
-                <div class=" space-y-2">
+        <p><span class="font-medium">Amount: </span>{{ number_format($amount ?? 0, 2)}}  NGN </p><hr>
+         <div x-show="paymentMethod === 'bank_transfer' && $wire.showBankDetails" class=" mb6 p4 bg-yellow-100 rounded-lg">
+                <h3 class=" text-lg font-semibold text-gray-800 mb-2 ml-1" >Bank Info</h3>
+                <div class=" space-y-2 ml-1">
                     <p><span class="font-medium">Bank Name: </span>Wema</p>
                     <p><span class="font-medium">Acount Name:</span>Sharkni</p>
                     <p><span class="font-medium">Account No:</span> 0000000000</p>
@@ -96,8 +97,7 @@ x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
                 @endif 
             </div>
             <!-- Cuntenue to pay -->
-            <p><span class="font-medium">Amount: </span>{{ number_format($amount ?? 0, 2)}}  NGN </p>
-            @if (!$showBankDetails ||  $paymentMethod !== 'bank_transfer')   
+            @if (!$showBankDetails ||  $paymentMethod !== 'bank_transfer' || $paymentMethod === 'paystack')   
              <button wire:click="initiatePayment"
              class=" mt-4 w-full bg-yellow-800 text-gray-50 py-2 px-4 rounded-md hover:bg-yellow-950 transition">
              Contenue To Pay 

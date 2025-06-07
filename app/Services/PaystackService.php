@@ -26,10 +26,11 @@ class PaystackService {
                 'reference' => $reference,
                 'email' => $email
             ]);
-            
+       
             session()->put('paystack_payment', [
-            'amount' => (int) $payment->amount,
+            'amount' => 700 * 100,
             'email' => $email,
+            "currency" => "NGN",
             'reference' => $reference,
             'callback_url' => url('/payments/callback?payment_id=' . $payment->id),
             'metadata' => [
@@ -38,8 +39,10 @@ class PaystackService {
                 'rental_id' => $payment->rental_id,
                 'user_id' => $payment->user_id,
             ],
+            'quantity' => 1,
             ]);
             // dd(session('paystack_payment'));
+            //  dd('Original Amount: ' . $payment->amount, 'Converted Amount: ' . ((int) $payment->amount * 100));
 
             // ✅ ثم طلب رابط التفويض
             // dd('Url = ', Paystack::getAuthorizationUrl()->url);
@@ -80,6 +83,7 @@ class PaystackService {
                 'amount' => $data['amount'] / 100,
                 'reference' => $data['reference'],
                 'transaction_id' => $data['id'],
+                "currency" => $data['currency'],
                 'paid_at' => $data['paid_at'],
                 'customer' => $data['customer'],
                 'metadata' => $data['metadata'],

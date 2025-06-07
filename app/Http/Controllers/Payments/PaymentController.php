@@ -55,7 +55,7 @@ class PaymentController extends Controller
     public function index()
     {
          // استعراض المدفوعات الخاصة بالمستخدم الحالي
-        $payments = Payment::where('user_id', Auth::id())->get();
+        $payments = Payment::where('user_id', Auth::id())->orWhere('user_id',Auth::user()->email === 'admin@gmail.com')->get();
         return view('payments.index', compact('payments'));
     }
        public function showPaymentForm(Rental $rental)

@@ -1,16 +1,23 @@
 <x-app-layout>
     <div class="py-12">
+         @php
+         $user = auth()->user();
+                app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
+                session(['locale' => $user->language]); // ت
+         @endphp
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+            <div class=" bg-gray-300 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 bg-gray-200  border-b border-gray-200">
                     <h1 class="text-2xl font-bold mb-6">{{ __('messages.your payments') }}</h1>
                     <table class="w-full border">
                         <thead>
-                            <tr class="bg-gray-100">
-                                <th class="border p-2">{{ __('messages.payment ID') }}</th>
-                                <th class="border p-2">{{ __('messages.tool') }}</th>
-                                <th class="border p-2">{{ __('messages.amount') }}</th>
+                            <tr class="bg-gray-300">
+                                <th class="border p-2">{{ __('messages.Payment ID') }}</th>
+                                <th class="border p-2">{{ __('messages.tools') }}</th>
+                                <th class="border p-2">{{ __('messages.Amount') }}</th>
                                 <th class="border p-2">{{ __('messages.status') }}</th>
+                                <th class="border p-2">{{ __('messages.Proof') }}</th>
+                                <th class="border p-2">{{ __('messages.Payment Method') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -20,6 +27,8 @@
                                     <td class="border p-2">{{ $payment->tool->name }}</td>
                                     <td class="border p-2">{{ number_format($payment->amount, 2) }} NGN</td>
                                     <td class="border p-2">{{ __($payment->status) }}</td>
+                                    <td class="border p-2">{{ __($payment->proof_of_payment) }}</td>
+                                    <td class="border p-2">{{ __($payment->payment_method) }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

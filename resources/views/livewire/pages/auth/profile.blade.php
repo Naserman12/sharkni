@@ -6,12 +6,23 @@
      session(['locale' => $user->language]); // تخزين اللغة في الجلسة
     @endphp
     <div class=" container mx-auto py-10">
-        <div class=" bg-gradient-to-r from-blue-600  to-red-300 rounded-lg p-6 max-w-2xl mx-auto">
+        <div class=" bg-gradient-to-r from-orange-200 to-yellow-100 rounded-lg p-6 max-w-2xl mx-auto">
             <h1 class=" text-3xl font-bold mb-6 flex items-center" >
                 <span class="mr-2"><i class="fas fa-user"></i></span>
                 {{ app()->getLocale() == 'ha' ? 'Bayanan Mutum: ' : 'Profile: '}} {{ $user->name }}
             </h1>
-
+            <!-- messages -->
+             @if (session('message'))
+             <div class=" mb-4 p-2 bg-green-200 text-green-700">
+             {{ session('message') }} 
+             </div>
+             @endif
+             @if (session('success'))
+             <div class=" mb-4 p-2 bg-green-200 text-green-700">
+             {{ session('success') }} 
+             </div>
+             @endif
+            
             <!-- Description -->
              <div class="space-y-4">
                 <!-- profile picture -->
@@ -79,17 +90,17 @@
                <div class=" mt-6 flex space-x-4">
                 @if ($isOwnProfile)
                     
-                <a href="{{ route('tools.add') }}" class=" bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600">
-                    <i class="fas fa-add bg-blue-500"></i> {{ app()->getLocale() == 'ha' ? 'Qara kayan akik ' : 'Add Tool' }}
+                <a href="{{ route('tools.add') }}" class=" bg-blue-700 text-white p-3 rounded-lg hover:bg-blue-800">
+                    <i class="fas fa-add "></i> {{ app()->getLocale() == 'ha' ? 'Qara kayan akik ' : 'Add Tool' }}
                 </a>
-                <a href="{{ route('profile.edit') }}" class=" bg-yellow-500 text-white p-3 rounded-lg hover:bg-yellow-700">
-                    <i class="fas fa-edit bg-yellow-500"></i>  {{ app()->getLocale() == 'ha' ? 'Gyara Bayanan Ka' : 'Edit Profile' }}
+                <a href="{{ route('profile.edit') }}" class=" bg-yellow-700 text-white p-3 rounded-lg hover:bg-yellow-800">
+                    <i class="fas fa-edit"></i>  {{ app()->getLocale() == 'ha' ? 'Gyara Bayanan Ka' : 'Edit Profile' }}
                 </a>
                 <a href="{{ route('logout') }}" class=" bg-red-500 text-white p-3 rounded-lg hover:bg-red-700">
                     <i class="fas fa-sign-out-alt"></i> {{ app()->getLocale() == 'ha' ? 'Fita' : 'Logout ' }}
                 </a>
                 @else
-                <a href="#" class=" bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-700" desabled>
+                <a href="#" class=" bg-blue-700 text-white p-3 rounded-lg hover:bg-blue-800" desabled>
                     <i class="fas fa-envelope text-blue-500 hover:bg-blue-700 "></i> {{ app()->getLocale() == 'ha' ? 'Chat' : 'Chat ' }}
                 </a>
                 @endif

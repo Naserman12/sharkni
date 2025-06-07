@@ -46,7 +46,7 @@ class PaymentForm extends Component
         $this->rentalId = $rentalId;
         $this->showBankDetails = !$this->showBankDetails;
         $this->rentalAmount = $this->rental->deposit_amount ?? 500;
-        $this->amount = 50000;
+        $this->amount = 500;
         $this->recalculateAmount();
         // dd('This Amoun = '.$this->amount);
     }
@@ -73,13 +73,15 @@ class PaymentForm extends Component
                 'status' => Payment::STATUS_AWAITING_COMFIRMATION,  // حالة الدفع (معلق)
                 'payment_method' => $this->paymentMethod,  // وسيلة الدفع
                 'delivery_code' => Str::random(6),  // إذا كان موجودًا
-                'refund_status' => 'not_requested',  // حالة الاسترداد
+                'is_delivered' => false,
+                'refund_status' => 'pending',  // حالة الاسترداد
             ]);
             // dd($this->payment);
             if ($this->paymentMethod === 'paystack') {
                 return $this->initiatePaystackPayment();
             }
-            $this->showBankDetails = true;
+            // $this->showBankDetails = true;
+            $this->uploadBankReceipt();
         } catch (\Exception $e) {
             Log::error('Payment initiation failed: ' . $e->getMessage());
             session()->flash('error', __('Failed to initiate payment.'));
@@ -110,10 +112,12 @@ class PaymentForm extends Component
         $this->validate(['bankReceipt' => 'required|image|max:2048']);
         // dd($this->payment);
         $path = $this->bankReceipt->store('receipts', 'public');
-        $this->payment->update([
+
+        $updatePaynebt = $this->payment->update([
             'proof_of_payment' => $path,
             'status' => Payment::STATUS_AWAITING_COMFIRMATION
         ]);
+            dd('Update Payment = '.$this->payment);
         $this->paymentCompleted = true;
         session()->flash('success', 'Receipt uploaded successfully! We will verify payment soon');
     }
@@ -128,9 +132,9 @@ class PaymentForm extends Component
     private function recalculateAmount()
     {
         if ($this->paymentType === 'deposit') {
-            $this->amount = 50000;
+            $this->amount = 500;
         } else {
-            $this->amount = 60000;
+            $this->amount = 600;
         }
     }
 
