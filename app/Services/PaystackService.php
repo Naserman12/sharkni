@@ -57,14 +57,46 @@ class PaystackService {
     }
     public function verifyPayment(string $reference){
         try {
-            Paystack::verifyTransactionAtGateway($reference); // استدعاء الدالة مع المرجع
-            $paymentDetails = Paystack::getPaymentData();
+                // التحقق من المرجع
+            if (empty($reference) || !is_string($reference)) {
+                Log::error('Invalid Reference', ['reference' => $reference]);
+                return [
+                    'status' => false,
+                    'message' => 'Invalid or missing reference'
+                ];
+            }
+              // التأكد من أن المرجع مخزن في الجلسة
+            $sessionData = session('paystack_payment');
+            if (!isset($sessionData['reference']) || $sessionData['reference'] !== $reference) {
+                Log::warning('Reference mismatch or missing in session', ['session' => $sessionData, 'provided_reference' => $reference]);
+                $sessionData['reference'] = $reference;
+                session()->put('paystack_payment', $sessionData);
+            }
+             $paystack = new \Unicodeveloper\Paystack\Paystack();
+              // التحقق من صحة المعاملة باستخدام isTransactionVerificationValid
+            if (!$paystack->isTransactionVerificationValid($reference)) {
+                Log::error('Transaction verification failed', ['reference' => $reference]);
+                return [
+                    'status' => false,
+                    'message' => 'Payment verification failed: Invalid transaction reference'
+                ];
+            }
+            $paymentDetails = $paystack->getPaymentData();
             $paymentDetails = json_decode(json_encode($paymentDetails), true); // تحويل إلى مصفوفة
-            $data = $paymentDetails['data'];
-            if (!$paymentDetails['reference'] !== $reference ) {
+            // التحقق من الاستجابة
+            if (!isset($paymentDetails['data']) || !is_array($paymentDetails['data'])) {
                 return[
                     'status' => false,
-                    'message' => 'Payment verification failed',
+                    'message' => 'Payment verification failed: Invalid response structure',
+                ];
+            }
+            $data = $paymentDetails['data'];
+             // التحقق من وجود مفتاح reference
+            if (!isset($data['reference']) || $data['reference'] !== $reference) {
+                Log::error('Reference key missing or mismatch in Paystack response', ['data' => $data, 'provided_reference' => $reference]);
+                return [
+                    'status' => false,
+                    'message' => 'Payment verification failed: Reference not found or mismatch'
                 ];
             }
             if($data['status'] !== 'success'){
@@ -102,7 +134,6 @@ class PaystackService {
         $payment = Payment::whereHas('paystackTransaction', function($query) use ($paymentDetails) {
             $query->where('reference', $paymentDetails['reference']);
         })->first();
-
         if (!$payment) {
             return [
                 'status' => false,
