@@ -57,6 +57,7 @@ class PaystackService {
     }
     public function verifyPayment(string $reference){
         try {
+            Paystack::verifyTransactionAtGateway($reference); // استدعاء الدالة مع المرجع
             $paymentDetails = Paystack::getPaymentData();
             $paymentDetails = json_decode(json_encode($paymentDetails), true); // تحويل إلى مصفوفة
             $data = $paymentDetails['data'];

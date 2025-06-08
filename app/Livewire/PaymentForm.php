@@ -29,18 +29,16 @@ class PaymentForm extends Component
             $bankReceipt,
             $payment;
     protected $paystackService;
-
-    protected $rules =[
-                'paymentType' => 'required|in:full,deposit',
-                'paymentMethod' => 'required|in:paystack,bank_transfer',
-                'bankReceipt' => 'nullable|file|image|max:2048',
-            ];
+    protected $rules = [
+                        'paymentType' => 'required|in:full,deposit',
+                        'paymentMethod' => 'required|in:paystack,bank_transfer',
+                        'bankReceipt' => 'nullable|file|image|max:2048',
+                        ];
     public function boot(PaystackService $paystackService)
     {
         $this->paystackService = $paystackService;
     }
-    public function mount( $rentalId, $toolId)
-    {
+    public function mount( $rentalId, $toolId){
         $this->rental = Rental::findOrFail($rentalId);
         $this->toolId = $toolId;
         $this->rentalId = $rentalId;
@@ -50,7 +48,6 @@ class PaymentForm extends Component
         $this->recalculateAmount();
         // dd('This Amoun = '.$this->amount);
     }
-    
     public function initiatePayment()
     {
         $this->validate();
@@ -103,7 +100,7 @@ class PaymentForm extends Component
         $this->payment->update(['status' => Payment::STATUS_FAILED]);
         $this->addError('payment', 'Failed to payment '.$e->getMessage());
     }
-}
+    }
     public function uploadBankReceipt(){
         if (!$this->payment) {
             echo'payment record not found. Please try again.';
@@ -121,24 +118,19 @@ class PaymentForm extends Component
         $this->paymentCompleted = true;
         session()->flash('success', 'Receipt uploaded successfully! We will verify payment soon');
     }
-    public function updatedPaymentType()    {
+    public function updatedPaymentType(){
     $this->recalculateAmount();
     }
-
     public function updatedPaymentMethod(){
         $this->recalculateAmount();
     }
-
-    private function recalculateAmount()
-    {
+    private function recalculateAmount(){
         if ($this->paymentType === 'deposit') {
             $this->amount = 500;
         } else {
             $this->amount = 600;
         }
     }
-
-
     public function render()
     {
         return view('livewire.payment-form')->layout('layouts.app');

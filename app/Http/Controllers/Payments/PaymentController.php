@@ -101,7 +101,7 @@ class PaymentController extends Controller
     }
  public function handlePaystackCallback(Request $request, PaystackService $paystackService)
 {
-    $reference = $request->query('reference');
+    $reference = $request->query('trxref') ?? $request->query('reference');
     if (!$reference) {
         session()->flash('error', 'Reference not found');
         return redirect()->route('tools.index');
