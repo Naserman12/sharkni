@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Log;
 use Unicodeveloper\Paystack\Facades\Paystack;
 
 class PaystackService {
-
     public  $payment, $email;
     public function mount(Payment $payment){
         $this->payment = $payment;
@@ -23,7 +22,6 @@ class PaystackService {
                 'reference' => $reference,
                 'email' => $email
             ]);
-       
              // إعداد بيانات الدفع
         $data = [
             'amount' => (int) (floatval($payment->amount) * 100), // تحويل المبلغ إلى كوبو
