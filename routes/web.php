@@ -96,4 +96,8 @@ Route::middleware(['auth'])->group(function () {
  Route::get('/webhooks/paystack', [PaymentController::class, 'handleWebhook'])->name('paystack.webhook');
 });
 
+Route::get('/test-session', function () {
+    session()->put('test_key', 'test_value');
+    return session('test_key'); // يجب أن يعرض 'test_value'
+});
 require __DIR__.'/auth.php';

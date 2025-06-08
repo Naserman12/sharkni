@@ -120,12 +120,12 @@ class PaymentController extends Controller
 
     public function paymentSuccess(Request $request)
 {
+
     // التحقق من وجود رسالة نجاح في الجلسة
     if (!session()->has('success')) {
         Log::warning('Access to payment success page without success session');
         return redirect()->route('tools.index')->with('error', 'لا يمكن الوصول إلى صفحة النجاح بدون دفع ناجح');
     }
-
     // محاولة استرجاع بيانات الدفع من الجلسة
     $payment = session('payment');
 
