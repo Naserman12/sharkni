@@ -96,5 +96,4 @@ Route::middleware(['auth'])->group(function () {
  Route::get('/webhooks/paystack', [PaymentController::class, 'handleWebhook'])->name('paystack.webhook');
 });
 
-
 require __DIR__.'/auth.php';

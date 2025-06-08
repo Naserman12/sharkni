@@ -118,31 +118,42 @@ class PaymentController extends Controller
     return redirect()->route('tools.index');
 }
 
-    public function paymentSuccess(){
-        // التحقق من وجود رسالة نجاح في الجلسة
-        if (!session()->has('success')) {
-            Log::warning('Access to payment success page without success session');
-            return redirect()->route('tools.index')->with('error', 'لا يمكن الوصول إلى صفحة النجاح بدون دفع ناجح');
-        }
-         // محاولة استرجاع بيانات الدفع من الجلسة
+    public function paymentSuccess(Request $request)
+{
+    // التحقق من وجود رسالة نجاح في الجلسة
+    if (!session()->has('success')) {
+        Log::warning('Access to payment success page without success session');
+        return redirect()->route('tools.index')->with('error', 'لا يمكن الوصول إلى صفحة النجاح بدون دفع ناجح');
+    }
+
+    // محاولة استرجاع بيانات الدفع من الجلسة
     $payment = session('payment');
 
     // إذا لم تكن بيانات الدفع موجودة في الجلسة، استرجعها من قاعدة البيانات
     if (!$payment) {
         $reference = $request->query('reference') ?? $request->query('trxref');
         if (!$reference) {
-            \Log::warning('Payment data and reference missing in session and request');
+            Log::warning('Payment data and reference missing in session and request');
             return redirect()->route('tools.index')->with('error', 'بيانات الدفع غير متوفرة');
         }
-        // التحقق من وجود بيانات الدفع في الجلسة
-            // if (!session()->has('payment')) {
-            //     Log::warning('Payment data missing in session');
-            //     return redirect()->route('tools.index')->with('error', 'بيانات الدفع غير متوفرة');
-            // }
-        return view('payments.success', [
-            'payment' => session('payment')
-        ]);
+
+        $payment = Payment::whereHas('paystackTransaction', function ($query) use ($reference) {
+            $query->where('reference', $reference);
+        })->first();
+
+        if (!$payment) {
+            Log::error('Payment not found in database', ['reference' => $reference]);
+            return redirect()->route('tools.index')->with('error', 'سجل الدفع غير موجود');
+        }
     }
+
+    // إزالة البيانات من الجلسة بعد الاستخدام (اختياري)
+    session()->forget(['success', 'payment']);
+
+    return view('payments.success', [
+        'payment' => $payment
+    ]);
+}
     public function paymentfailed(){
         return view('payments.failed',[
             'error' => session('error')
