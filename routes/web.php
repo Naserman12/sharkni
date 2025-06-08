@@ -89,7 +89,7 @@ Route::prefix('payments')->group(function(){
 });
 Route::get('/payment/{rentalId}/{toolId}', PaymentForm::class)->name('payment.form');
 Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
-Route::get('/payment/failed', [PaymentController::class, 'paymentfailed'])->name('payment.failed');
+Route::get('/payment/failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
 
 Route::middleware(['auth'])->group(function () {
     // Route::get('/payment/{rental}', [PaymentController::class, 'showPaymentForm'])->name('payment.form');

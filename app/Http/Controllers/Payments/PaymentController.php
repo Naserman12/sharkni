@@ -105,7 +105,7 @@ class PaymentController extends Controller
     // dd($reference);
     if (!$reference) {
         session()->flash('error', 'Reference not found');
-        return redirect()->route('tools.index');
+        return redirect()->route('payment.failure');
     }
     $result = $paystackService->handCallback($reference);
     // dd($result['status']);
@@ -115,7 +115,7 @@ class PaymentController extends Controller
         return redirect()->route('payment.success', ['reference' => $reference]); // إعادة توجيه إلى paymentSuccess
     }
     session()->flash('error', $result['message']);
-    return redirect()->route('tools.index');
+    return redirect()->route('payment.failure');
 }
 
  public function paymentSuccess(Request $request)
@@ -171,6 +171,48 @@ class PaymentController extends Controller
             'error' => session('error')
         ]);
     }
+    public function paymentFailure(Request $request)
+{
+    try {
+        Log::info('Accessing Payment Failure Page', [
+            'session' => session()->all(),
+            'request' => $request->all(),
+            'reference' => $request->query('reference')
+        ]);
+
+        // استرجاع رسالة الخطأ من الجلسة إن وجدت
+        $errorMessage = session('error', 'فشل عملية الدفع. يرجى المحاولة مرة أخرى أو التواصل مع الدعم.');
+        $reference = $request->query('reference') ?? $request->query('trxref');
+
+        // اختياري: استرجاع تفاصيل الدفع من قاعدة البيانات لعرضها
+        $payment = null;
+        if ($reference) {
+            $payment = Payment::whereHas('paystackTrans', function ($query) use ($reference) {
+                $query->where('reference', $reference);
+            })->first();
+        }
+
+        // تسجيل إذا لم يُوجد سجل دفع
+        if (!$payment) {
+            Log::warning('No payment found for reference on failure page', ['reference' => $reference]);
+        }
+
+        // عرض صفحة الفشل مع البيانات
+        return view('payments.failure', [
+            'errorMessage' => $errorMessage,
+            'reference' => $reference,
+            'payment' => $payment
+        ]);
+    } catch (\Exception $e) {
+        Log::error('Error in paymentFailure', [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine(),
+            'reference' => $request->query('reference')
+        ]);
+        return redirect()->route('tools.index')->with('error', 'حدث خطأ أثناء معالجة صفحة الفشل. حاول مرة أخرى لاحقًا.');
+    }
+}
       public function redirectToGateway($paymentId)
     {
         try{
