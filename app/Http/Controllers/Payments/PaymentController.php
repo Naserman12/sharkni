@@ -110,8 +110,8 @@ class PaymentController extends Controller
     $result = $paystackService->handCallback($reference);
     // dd($result['status']);
     if ($result['status']) {
-        session()->flash('success', 'تم الدفع بنجاح');
-         session()->flash('payment', $result['payment']);
+        session()->put('success', 'تم الدفع بنجاح');
+         session()->put('payment', $result['payment']);
         return redirect()->route('payment.success'); // إعادة توجيه إلى paymentSuccess
     }
     session()->flash('error', $result['message']);
@@ -124,11 +124,21 @@ class PaymentController extends Controller
             Log::warning('Access to payment success page without success session');
             return redirect()->route('tools.index')->with('error', 'لا يمكن الوصول إلى صفحة النجاح بدون دفع ناجح');
         }
+         // محاولة استرجاع بيانات الدفع من الجلسة
+    $payment = session('payment');
+
+    // إذا لم تكن بيانات الدفع موجودة في الجلسة، استرجعها من قاعدة البيانات
+    if (!$payment) {
+        $reference = $request->query('reference') ?? $request->query('trxref');
+        if (!$reference) {
+            \Log::warning('Payment data and reference missing in session and request');
+            return redirect()->route('tools.index')->with('error', 'بيانات الدفع غير متوفرة');
+        }
         // التحقق من وجود بيانات الدفع في الجلسة
-            if (!session()->has('payment')) {
-                Log::warning('Payment data missing in session');
-                return redirect()->route('tools.index')->with('error', 'بيانات الدفع غير متوفرة');
-            }
+            // if (!session()->has('payment')) {
+            //     Log::warning('Payment data missing in session');
+            //     return redirect()->route('tools.index')->with('error', 'بيانات الدفع غير متوفرة');
+            // }
         return view('payments.success', [
             'payment' => session('payment')
         ]);
