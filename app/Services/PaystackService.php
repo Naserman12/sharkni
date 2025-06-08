@@ -64,7 +64,7 @@ class PaystackService {
             if (!$paymentDetails['reference'] !== $reference ) {
                 return[
                     'status' => false,
-                    'message' => 'Payment verification failed'
+                    'message' => 'Payment verification failed',
                 ];
             }
             if($data['status'] !== 'success'){
@@ -109,7 +109,7 @@ class PaystackService {
                 'message' => 'Payment record not found'
             ];
         }
-        $payment->paystackTrans()->update([
+        $payment->paystackTransaction()->update([
             'transaction_id'  => $paymentDetails['transaction_id'],
             'metadata'        => $paymentDetails['metadata'],
             'customer'        => $paymentDetails['customer'],
