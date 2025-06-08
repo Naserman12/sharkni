@@ -111,16 +111,24 @@ class PaymentController extends Controller
     // dd($result['status']);
     if ($result['status']) {
         session()->flash('success', 'تم الدفع بنجاح');
-        return view('payments.success', ['payment' => $result['payment']]);
+         session()->flash('payment', $result['payment']);
+        return redirect()->route('payment.success'); // إعادة توجيه إلى paymentSuccess
     }
     session()->flash('error', $result['message']);
     return redirect()->route('tools.index');
 }
 
     public function paymentSuccess(){
+        // التحقق من وجود رسالة نجاح في الجلسة
         if (!session()->has('success')) {
-           return redirect()->route('tools.index');
+            Log::warning('Access to payment success page without success session');
+            return redirect()->route('tools.index')->with('error', 'لا يمكن الوصول إلى صفحة النجاح بدون دفع ناجح');
         }
+        // التحقق من وجود بيانات الدفع في الجلسة
+            if (!session()->has('payment')) {
+                Log::warning('Payment data missing in session');
+                return redirect()->route('tools.index')->with('error', 'بيانات الدفع غير متوفرة');
+            }
         return view('payments.success', [
             'payment' => session('payment')
         ]);
