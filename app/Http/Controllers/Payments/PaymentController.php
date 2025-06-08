@@ -108,7 +108,7 @@ class PaymentController extends Controller
         return redirect()->route('tools.index');
     }
     $result = $paystackService->handCallback($reference);
-    dd($result['status']);
+    // dd($result['status']);
     if ($result['status']) {
         session()->flash('success', 'تم الدفع بنجاح');
         return view('payments.success', ['payment' => $result['payment']]);
