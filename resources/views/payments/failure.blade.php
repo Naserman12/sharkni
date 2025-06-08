@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="container mx-auto max-w-lg px-4 py-12">
+    <div class="container mx-auto max-w-lg px-4 py-12 bg-slate-200">
         <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">فشل عملية الدفع</h1>
         <!-- عرض رسالة الخطأ -->
         @if (session('error'))
@@ -24,7 +24,7 @@
 
         <!-- تفاصيل الدفع -->
         @if ($reference)
-            <div class="bg-white shadow-md rosunded-lg p-6 mb-6">
+            <div class=" bg-slate-200 shadow-md rosunded-lg p-6 mb-6">
                 <h3 class="text-lg font-semibold text-gray-700 mb-4">تفاصيل المحاولة</h3>
                 <p class="text-gray-600 mb-2"><strong>رقم المرجع:</strong> {{ $reference }}</p>
                 @if ($payment)
@@ -53,3 +53,18 @@
         </div>
     </div>
 </x-app-layout>
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@if (session('error'))
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'فشل الدفع',
+            text: '{{ session('error') }}',
+            confirmButtonText: 'حسنًا',
+            confirmButtonColor: '#ef4444'
+        });
+    </script>
+@endif
+@endsection
