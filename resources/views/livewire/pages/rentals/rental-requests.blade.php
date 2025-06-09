@@ -23,27 +23,13 @@
         <!-- الطلبات -->
         <div class=" space-y-4">
             @forelse ($rentals as $rental )
-                <div class=" border p-4 rounded-lg">
-                    <p><strong>{{ app()->getLocale() == 'ha' ? 'Kayan Aiki' : 'Tool' }}</strong> {{ $rental->tool->name }}</p>
-                    <p><strong>{{ app()->getLocale() == 'ha' ? 'Mai Aro' : 'Borrower' }}</strong> {{ $rental->borrower->name }}</p>
-                    <p><strong>{{ app()->getLocale() == 'ha' ? 'Mai Shi' : 'Lender' }}</strong> {{ $rental->lender->name }}</p>
-                    <p><strong>{{ app()->getLocale() == 'ha' ? 'Matsyi' : 'Status' }}</strong> {{ $rental->status }}</p>
-                    <p><strong>{{ app()->getLocale() == 'ha' ? 'Ranar Aro' : 'Borrow Date' }}</strong> {{ $rental->borrow_date->format('Y-m-d') }}</p>
-                    <p><strong>{{ app()->getLocale() == 'ha' ? 'Ranar Myarwa' : 'Return Date' }}</strong> {{ $rental->return_date->format('Y-m-d')}}</p>
-                    <p><strong>{{ app()->getLocale() == 'ha' ? 'Farashin' : 'Total Cost' }}</strong> {{ $rental->total_cost}}</p>
-                </div>
-                <!-- Butttons -->
-                 <div>
-                 @if ($rental->status === 'pending')
-                     @if ($rental->lender_id === auth()->id())
-                     <button wire:click="approve({{ $rental->id }})" class=" bg-green-600 text-nowrap p-2 rounded hover:bg-green-800">
-                        {{ app()->getLocale() == 'ha' ? 'Amince' : 'Approve' }}
-                     </button>
-                     @endif
-                     <button wire:click="cancel({{ $rental->id }})" class=" bg-red-500 text-nowrap p-2 rounded hover:bg-red-700">
-                        {{ app()->getLocale() == 'ha' ? 'Soke' : 'Cancell' }}
-                     </button>
-                 @endif
+                <div class="bg-white p-4 rounded-lg shadow-sm mb-4">
+                    <p><strong>{{ __('messages.tool') }}:</strong> {{ $rental->tool->name }}</p>
+                    <p><strong>{{ __('messages.borrower') }}:</strong> {{ $rental->borrower->name }}</p>
+                    <p><strong>{{ __('messages.status') }}:</strong> {{ $rental->status }}</p>
+                    <a href="{{ route('rentals.complete', $rental->id) }}" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+                        {{ __('messages.complete') }}
+                    </a>
                 </div>
             @empty
                 <div class=" text-gray-800">{{ app()->getLocale() == 'ha' ? 'Babu neman aro.' : 'No rental requests.' }}</div>

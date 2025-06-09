@@ -93,7 +93,7 @@
             <a href="{{ route('tools.index') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                         {{ app()->getLocale() == 'ha' ? 'Komawa' : 'Back' }}
             </a>
-          @if (auth()->check())
+          @if (auth()->check() && $tool->user_id !== auth()->id())
             @if ($tool->status == 'available')
             <form wire:submit.prenent="rental({{ $tool->id }})" class=" space-y-4">
                 <div>
@@ -114,21 +114,20 @@
                   <i class="fas fa-shopping-cart mr-1"></i>  {{  app()->getLocale() == 'ha' ? 'Neman Aro' : 'Request to Borrow' }}
                 </button>
             </form>
-                @if (auth()->check() && $tool->user_id === auth()->id())
-                 <a href="{{ route('tools.edit', $tool->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 ml-2">
-                            <i class="fas fa-edit mr-1"></i>
-                            {{ app()->getLocale() == 'ha' ? 'Gyara' : 'Edit' }}
-                 </a>
-                  <button wire:click="deleteTool({{ $tool->id }})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2" onclick="return confirm('{{ app()->getLocale() == 'ha' ? 'Shin da gaske ne ka so share wannan kayan aiki?' : 'Are you sure you want to delete this tool?' }}')">
-                            <i class="fas fa-trash mr-1"></i>
-                            {{ app()->getLocale() == 'ha' ? 'Share' : 'Delete' }}
-                  </button>
-                 @endif
                  @else    
                 <button class=" bg-yellow-800 text-gray-50 py-2 px-4  hover:bg-yellow-950  p-3 rounded-lg w-full cursor-not-allowed" disabled>
                    <i class="fas fa-shoping-cart mr-1"></i> {{  app()->getLocale() == 'ha' ? 'Ba a Samu Ba' : 'Not Available' }}
                 </button> 
             @endif
+              @elseif(auth()->check() && $tool->user_id === auth()->id())
+                 <a href="{{ route('tools.edit', $tool->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 ml-2 hover:underline">
+                            <i class="fas fa-edit mr-1"></i>
+                            {{ app()->getLocale() == 'ha' ? 'Gyara' : 'Edit' }}
+                 </a>
+                  <button wire:click="deleteTool({{ $tool->id }})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 ml-2 hover:underline" onclick="return confirm('{{ app()->getLocale() == 'ha' ? 'Shin da gaske ne ka so share wannan kayan aiki?' : 'Are you sure you want to delete this tool?' }}')">
+                            <i class="fas fa-trash mr-1"></i>
+                            {{ app()->getLocale() == 'ha' ? 'Share' : 'Delete' }}
+                  </button>
             @else
               <p class="text-red-500">{{ app()->getLocale() == 'ha' ? 'Da fatan za a shiga don neman aro.' : 'Please login to request a rental.' }}</p>
            @endauth

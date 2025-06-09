@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\LangController;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +13,7 @@ use App\Livewire\Pages\Categories\AddCategory;
 use App\Livewire\Pages\Damage\ManageDamageReports;
 use App\Livewire\Pages\Damage\ReportDamage;
 use App\Livewire\Pages\Rentals\RentalRequests;
+use App\Livewire\Pages\Rentals\CompleteRental;
 use  App\Livewire\Pages\Tool\AddTool;
 use App\Livewire\Pages\Tool\ListTools;
 use App\Livewire\Pages\Tool\ShowTool;
@@ -70,6 +72,7 @@ Route::get('tools/category/{slug}', ListTools::class)->middleware('auth')->name(
 
 // Rentals
 Route::get('/rentals', RentalRequests::class)->middleware('auth')->name('rentals.index');
+Route::get('/rentals/complete/{id}', CompleteRental::class)->middleware('auth')->name('rentals.complete');
 
 // damage Reports
 Route::get('damage/report', ReportDamage::class)->middleware('auth')->name('damage.report');

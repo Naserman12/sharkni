@@ -67,6 +67,17 @@ class ShowTool extends Component
          return redirect()->route('payment.form', [ 'rentalId'=>$rental->id, 'toolId' => $toolId]);
 
     }
+     public function deleteTool($id)
+    {
+        $tool = Tool::findOrFail($id);
+        if ($tool->user_id !== Auth::id()) {
+            abort(403, app()->getLocale() == 'ha' ? 'Ba za ka iya share wannan kayan aiki ba!' : 'You are not authorized to delete this tool!');
+        }
+
+        $tool->delete();
+        session()->flash('success', app()->getLocale() == 'ha' ? 'An share kayan aiki cikin nasara!' : 'Tool deleted successfully!');
+        return redirect()->route('tools.index');
+    }
     public function render()
     {
         return view('livewire.pages.tool.show-tool')->layout('layouts.app');
