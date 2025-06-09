@@ -29,7 +29,7 @@
                         </div>
                     </header>
                     <select onchange="window.location.href = this.value;">
-                        <option value="" data-icon="fas fa-language">{{app()->getLocale()}}</option>
+                        <option value="" data-icon="fas fa-language">language</option>
                         <option value="{{   url('lang/ha')  }}">Hausa</option>
                         <option value="{{   url('lang/en')  }}">English</option>
                         <option value="{{   url('lang/ar') }}">Arabic</option>
