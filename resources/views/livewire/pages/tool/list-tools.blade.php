@@ -31,7 +31,7 @@
                 <!-- الفلترة )(على الجانب الايسر) -->
                 <div class=" w-full">
                       <!-- زرالفلترة على الجوال -->
-                    <button @click="open = !open" class=" w-full bg-blue-500 text-yellow-50 p-2 rounded mb-4 flex items-center justify-center"><i class="fas fa-filter mr-2" ></i>{{ app()->getLocale() == 'ha' ? 'Tach' : 'Filter' }} </button>
+                    <button @click="toggle()" class="md:hidden w-full bg-blue-500 text-yellow-50 p-2 rounded mb-4 flex items-center justify-center"><i class="fas fa-filter mr-2" ></i>{{ app()->getLocale() == 'ha' ? 'Tach' : 'Filter' }} </button>
                     <!-- خيارات الفلترة -->
                     <div x-show="isOpen" x-transition class="filters-panel" class="bg-blue-300 p-4 rounded-lg block md:flex md:space-x-4 md:space-y-0 mb-4" :class="{'hidden': !open, 'block': open}"><h2 class=" text-xl font-semibold mb-4 flex items-center md:hidden "><i class=" fas fa-compass mr-2"></i> {{ app()->getLocale() == 'ha' ? 'Tace' : 'Filter' }}   </h2>
                         <!-- location الموقع -->
