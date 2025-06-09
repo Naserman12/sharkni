@@ -23,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var list<string>
      */
     protected $fillable = [
-        'name', 'email','password', 'phone', 'profile_picture', 'reputation_points',
+        'name', 'email','password','role_id', 'phone', 'profile_picture', 'reputation_points',
         'language', 'address', 'national_id', 'is_verified'
     ];
 
@@ -49,6 +49,12 @@ class User extends Authenticatable implements MustVerifyEmail
      *
      * @return array<string, string>
      */
+    public function role()  {
+        return $this->belongsTo(Role::class);
+    }
+    public function isAdmin(){
+        return $this->role && $this->role->name === 'admin';
+    }
     public function tools(){
         return $this->hasMany(Tool::class);
     }

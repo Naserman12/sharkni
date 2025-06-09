@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('deposit_amount', 10,2)->nullable();
             $table->decimal('rental_amount', 10,2)->nullable();
             $table->decimal('processing_fee', 10,2)->nullable(); // paystack (1.5 + 150, 1%)
-            $table->string('payment_type');  // paystack or virtual_account
+            $table->string('payment_type');  // deposit or full
             $table->string('status');  // pending, awaiting_comfirmation, confirmed, failed, delivered,
             $table->string('transaction_id')->nullable();  // Paystack id or يدوي
             $table->string('payment_method')->nullable();  // card, ussd, mobile_money, bank_transfer

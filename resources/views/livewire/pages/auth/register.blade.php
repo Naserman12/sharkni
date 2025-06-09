@@ -1,11 +1,17 @@
 
-<div class=" min-h-screen flex items-center justify-center bg-gray-300">
-<div class="w-full max-w-md  mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-4">
+<div class=" min-h-screen flex items-center justify-center">
+<div class="w-full max-w-md  mx-auto bg-gradient-to-t from-gray-300  to-gray-400 px-4 hover:p-5">
   <h1 class="text-3xl  font-bold  mb-8 text-center">{{ app()->getLocale() == 'ha' ? 'Yi rajista' : 'Register' }}</h1>
   @if (session('message'))
   <div class="mb-4 p-2 bg-green-100 text-green-700 rounded">
     {{ session('message')}}
   </div>   
+  @endif
+  @if (session()->has($language))
+  @php 
+    app()->setLocale(session('lang')); //تعين اللغة بناء على المستخدم
+   session()->put(['locale' => session('language')]); // تخزين اللغة في الجلسة
+  @endphp
   @endif
   @error('form')
   <div class="mb-4 p-2 bg-red-100 text-red-700 rounded">
@@ -126,7 +132,7 @@
          <div class="mb-4">
             <button
               type="submit"
-              class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3 rounded-lg shadow-lg transition"
+              class="w-full bg-gradient-to-t from-pink-700 to-orange-400 hover:from-pink-950 hover:to-orange-500 text-white font-bold py-3 rounded-lg shadow-lg transition"
             >
             {{ app()->getLocale() == 'ha' ? 'Yi rajista' : 'Register' }}  
             </button>

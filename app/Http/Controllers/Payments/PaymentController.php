@@ -112,6 +112,7 @@ class PaymentController extends Controller
     if ($result['status']) {
         session()->put('success', 'تم الدفع بنجاح');
          session()->put('payment', $result['payment']);
+    
         return redirect()->route('payment.success', ['reference' => $reference]); // إعادة توجيه إلى paymentSuccess
     }
     session()->flash('error', $result['message']);
@@ -159,6 +160,7 @@ class PaymentController extends Controller
         Log::info('Payment retrieved from session', ['payment' => is_object($payment) ? $payment->toArray() : $payment]);
         session()->forget(['success', 'payment', 'paystack_payment']);
         Log::info('Session cleared after payment success');
+
         return view('payments.success', ['payment' => $payment]);
     } catch (\Exception $e) {
         dd( 'message =>' . $e->getMessage());

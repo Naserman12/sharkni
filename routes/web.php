@@ -19,6 +19,7 @@ use App\Livewire\Pages\Tool\ListTools;
 use App\Livewire\Pages\Tool\ShowTool;
 use App\Livewire\PaymentForm;
 use App\Http\Controllers\Payments\PaymentController;
+use App\Livewire\Pages\Categories\EditCategory;
 use App\Livewire\Pages\Tool\EditTool;
 
 // Logon && logout
@@ -80,6 +81,7 @@ Route::get('damage/reports', ManageDamageReports::class)->middleware('auth')->na
 
 // Catefories
 Route::get('categories/add', AddCategory::class)->middleware('auth')->name('categories.add');
+Route::get('categories/edit/{id}', EditCategory::class)->middleware('auth',)->name('categories.edit');
 
 // languages
 Route::get('/lang/{lang}', [LangController::class,'changeLang']);
@@ -102,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/test-session', function () {
+    session()->put('test_key', 'test_value');
     session()->put('test_key', 'test_value');
     return session('test_key'); // يجب أن يعرض 'test_value'
 });

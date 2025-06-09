@@ -9,26 +9,22 @@ class CompleteRental extends Component
 {
     public $rentalId;
     public $rental;
-    public $paymentStatus = 'none';
-
-    protected $rules = [
-        'paymentStatus' => 'required|in:pending,awaiting_comfirmation,comfirmed',
-    ];
+    public $payment ,$paymentMethod, $paymentType;
 
     public function mount($id)
     {
         $this->rentalId = $id;
-        $this->rental = Rental::with('tool', 'borrower')->findOrFail($id);
-        $this->paymentStatus = $this->rental->payment_status ?? 'none';
+        $this->rental = Rental::with('tool', 'borrower', 'payment')->findOrFail($id);
+        $this->paymentMethod = $this->rental->payment->payment_method ?? 'none';
+        $this->paymentType = $this->rental->payment->status ??'none';
+        // dd($this->paymentMethod, 'Type ='.$this->paymentType);
     }
 
     public function acceptRequest()
     {
-        $this->validate();
-
         $this->rental->update([
             'status' => 'approved',
-            'payment_status' => $this->paymentStatus,
+            'paymeny_status' => $this->paymentType,
         ]);
 
         session()->flash('success', __('messages.request_accepted'));
@@ -49,11 +45,11 @@ class CompleteRental extends Component
 
     public function completeRequest()
     {
-        $this->validate();
+        // $this->validate();
 
         $this->rental->update([
             'status' => 'comfirmed',
-            'payment_status' => $this->paymentStatus,
+            'paymeny_status' => $this->paymentType,
         ]);
 
         session()->flash('success', __('messages.request_completed'));

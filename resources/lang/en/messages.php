@@ -30,6 +30,19 @@ return [
     'borrowed' => 'Borrowed',
     'quantity' => 'Quantity',
 
+
+    'payment_method' => 'Payment Method',
+    'paystack' => 'Paystack',
+    'bank_transfer' => 'Bank Transfer',
+    'payment_success' => 'Payment successful!',
+    'payment_failed' => 'Payment failed, please try again.',
+    'edit_category' => 'Edit Category',
+    'name_en' => 'Name (English)',
+    'name_ha' => 'Name (Hausa)',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+    'category_updated' => 'Category updated successfully!',
+
      'rental_request' => 'Rental Request',
     'tool' => 'Tool',
     'borrower' => 'Borrower',

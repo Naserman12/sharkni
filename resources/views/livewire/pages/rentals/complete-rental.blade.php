@@ -25,11 +25,11 @@
                 <p><strong>{{ __('messages.start_date') }}:</strong> {{ date_format($rental->borrow_date, 'Y-m-d-h')}}</p>
                 <p><strong>{{ __('messages.end_date') }}:</strong> {{ date_format($rental->return_date, 'Y-m-d-h')  }}</p>
                 <p><strong>{{ __('messages.payment_status') }}:</strong>
-                    @if ($rental->payment_status === 'none')
+                    @if ($rental->paymentType === 'none')
                         {{ __('messages.no_payment') }}
-                    @elseif ($rental->payment_status === 'insurance_only')
+                    @elseif ($rental->payment_status === 'deposit')
                         {{ __('messages.insurance_paid') }}
-                    @elseif ($rental->payment_status === 'full_payment')
+                    @elseif ($rental->payment_status === 'full')
                         {{ __('messages.full_paid') }}
                     @endif
                 </p>
@@ -40,13 +40,16 @@
                 <label class="block text-gray-700 font-semibold">
                     {{ __('messages.payment_status') }}
                 </label>
-                <select wire:model="paymentStatus" class="w-full p-2 border rounded">
-                    <option value="none">{{ __('messages.none') }}</option>
-                    <option value="insurance_only">{{ __('messages.insurance_only') }}</option>
-                    <option value="full_payment">{{ __('messages.full_payment') }}</option>
+                <select wire:model="paymentType" class="w-full p-2 border rounded">
+                    <option value="pending">{{ __('messages.none') }}</option>
+                    <option value="deposit">{{ __('messages.insurance_only') }}</option>
+                    <option value="full">{{ __('messages.full_payment') }}</option>
                 </select>
                 @error('paymentStatus') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
+
+            <!-- طريقة الدفع -->
+          
 
             <!-- الأزرار -->
             <div class="flex space-x-4">

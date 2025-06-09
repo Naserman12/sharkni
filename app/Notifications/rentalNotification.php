@@ -37,8 +37,8 @@ class rentalNotification extends Notification
      public function toDatabase($notifiable){ 
        return [
             'data' => [
-            'message' =>  'You have a new borrow request for your tool: #{$this->rental->tool_id}.',
-            'message_ha' =>  'An samu sabon neman aro akan kayan aikin ka: #{$this->rental->tool_id} .',
+            'message' =>  "You have a new borrow request for your tool: #'{$this->rental->tool_id}'.",
+            'message_ha' =>  "An samu sabon neman aro akan kayan aikin ka: #'{$this->rental->tool_id}' .",
             'url' => route('dashboard'),
             ],
             'content' => 'You have a new borrow request for your tool: #{$this->rental->tool_id}.',

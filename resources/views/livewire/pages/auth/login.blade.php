@@ -1,12 +1,13 @@
 
-<div class=" min-h-screen flex items-center justify-center bg-gray-300">
-    <div class="w-full max-w-md  mx-auto bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 px-4">
+<div class=" min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md p-4  mx-auto bg-gradient-to-t from-gray-300  to-gray-400 px-4 hover:p-5">
   <h1 class="text-3xl  font-bold  mb-8 text-center">{{__( 'messages.login' )}}</h1>
   @if (session('message'))
   <div class="mb-4 p-2 bg-green-100 text-green-700 rounded">
     {{ $message }}
   </div>   
   @endif
+  
   @error('form')
   <div class="mb-4 p-2 bg-red-100 text-red-700 rounded">
     {{ $message }}
@@ -55,7 +56,7 @@
          <div class="mb-4">
             <button
               type="submit"
-              class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-pink-600 hover:to-purple-600 text-white font-bold py-3 rounded-lg shadow-lg transition"
+              class="w-full bg-gradient-to-t from-pink-700 to-orange-400 hover:from-pink-950 hover:to-orange-500 text-white font-bold py-3 rounded-lg shadow-lg transition"
             >
             {{ __( 'messages.login' ) }}  
             </button>
@@ -63,7 +64,7 @@
 
               <!-- Register Link -->
     <div class=" text-center">
-      <a href="{{ route('register') }}" class=" bg-blue-400 text-white p-2 rounded hover:bg-blue-600">
+      <a href="{{ route('register') }}" class=" bg-blue-800 text-white p-2 rounded hover:bg-blue-950">
        {{ app()->getLocale() == 'ha' ? 'Ba ka da asusu? Yi rajista' : "Don't have an account? Register" }}  
       </a>
     </div>

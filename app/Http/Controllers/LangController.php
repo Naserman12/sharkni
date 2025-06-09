@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Session;
 class LangController extends Controller
 {
     public function changeLang($lang){
-        Session::put('lang', $lang);
+        session()->put('lang', $lang);
         return redirect()->back();
     }
 }

@@ -30,7 +30,7 @@ class PaymentForm extends Component
             $payment;
     protected $paystackService;
     protected $rules = [
-                        'paymentType' => 'required|in:full,deposit',
+                        'paymentType' => 'required|in:none,full,deposit',
                         'paymentMethod' => 'required|in:paystack,bank_transfer',
                         'bankReceipt' => 'nullable|file|image|max:2048',
                         ];
