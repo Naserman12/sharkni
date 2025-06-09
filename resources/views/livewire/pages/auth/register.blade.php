@@ -1,17 +1,15 @@
 
 <div class=" min-h-screen flex items-center justify-center">
+  @php 
+        app()->setLocale(session('lang')); //تعين اللغة بناء على المستخدم
+        session()->put(['locale' => session('language')]); // تخزين اللغة في الجلسة
+   @endphp
 <div class="w-full max-w-md  mx-auto bg-gradient-to-t from-gray-300  to-gray-400 px-4 hover:p-5">
-  <h1 class="text-3xl  font-bold  mb-8 text-center">{{ app()->getLocale() == 'ha' ? 'Yi rajista' : 'Register' }}</h1>
+  <h1 class="text-3xl  font-bold  mb-8 text-center">{{__('messages.register') }}</h1>
   @if (session('message'))
   <div class="mb-4 p-2 bg-green-100 text-green-700 rounded">
     {{ session('message')}}
   </div>   
-  @endif
-  @if (session()->has($language))
-  @php 
-    app()->setLocale(session('lang')); //تعين اللغة بناء على المستخدم
-   session()->put(['locale' => session('language')]); // تخزين اللغة في الجلسة
-  @endphp
   @endif
   @error('form')
   <div class="mb-4 p-2 bg-red-100 text-red-700 rounded">
@@ -22,7 +20,7 @@
     <!-- Name -->
     <div class="mb-4">
       <label for="name" class=" block text-gray-900">
-        {{ app()->getLocale() == 'ha' ? 'Suna' : 'Name' }}
+        {{ __('messages.name')}}
       </label>
       <input
         type="text"
@@ -38,7 +36,7 @@
     <!-- Email -->
     <div class="mb-4">
       <label for="email" class=" block text-gray-900">
-        {{ app()->getLocale() == 'ha' ? 'Imel' : 'Email' }}
+        {{ __('messages.email') }}
       </label>
     <input
       type="email"
@@ -54,7 +52,7 @@
       <!-- Phone -->
        <div class="mb-4">
          <label for="phone" class=" block text-gray-900">
-           {{ app()->getLocale() == 'ha' ? 'Lambar Waya' : 'Phone' }}
+           {{ __('messages.phone') }}
       </label>
     <input
       type="text"
@@ -86,7 +84,7 @@
     <!-- Password -->
      <div class="mb-4">
        <label for="password" class=" block text-gray-900">
-         {{ app()->getLocale() == 'ha' ? 'Kalmar sirri' : 'Password' }}
+         {{ __('messages.password') }}
       </label>
     <input
       type="password"
@@ -102,7 +100,7 @@
     <!-- Confirm Password -->
      <div class="mb-4">
        <label for="password_confirmation" class=" block text-gray-900">
-         {{ app()->getLocale() == 'ha' ? 'Tabbater da kalmar sirri' : 'Confirm Password' }}
+         {{ __('messages.confirm_password')}}
         </label>
         <input
         type="password"
@@ -134,7 +132,7 @@
               type="submit"
               class="w-full bg-gradient-to-t from-pink-700 to-orange-400 hover:from-pink-950 hover:to-orange-500 text-white font-bold py-3 rounded-lg shadow-lg transition"
             >
-            {{ app()->getLocale() == 'ha' ? 'Yi rajista' : 'Register' }}  
+            {{ __('messages.register') }}  
             </button>
          </div>
          <!-- Login Link -->

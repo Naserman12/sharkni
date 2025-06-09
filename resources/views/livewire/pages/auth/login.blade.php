@@ -1,5 +1,9 @@
 
 <div class=" min-h-screen flex items-center justify-center">
+   @php 
+        app()->setLocale(session('lang')); //تعين اللغة بناء على المستخدم
+        session()->put(['locale' => session('language')]); // تخزين اللغة في الجلسة
+    @endphp
     <div class="w-full max-w-md p-4  mx-auto bg-gradient-to-t from-gray-300  to-gray-400 px-4 hover:p-5">
   <h1 class="text-3xl  font-bold  mb-8 text-center">{{__( 'messages.login' )}}</h1>
   @if (session('message'))
@@ -7,7 +11,6 @@
     {{ $message }}
   </div>   
   @endif
-  
   @error('form')
   <div class="mb-4 p-2 bg-red-100 text-red-700 rounded">
     {{ $message }}
@@ -17,7 +20,7 @@
          <!-- Email -->
     <div class="mb-4">
       <label for="email" class=" block text-gray-900">
-        {{ app()->getLocale() == 'ha' ? 'Imel' : 'Email' }}
+        {{ __('messages.email')}}
     </label>
     <input
       type="email"
@@ -33,7 +36,7 @@
      <!-- Password -->
      <div class="mb-4">
        <label for="password" class=" block text-gray-900">
-           {{ app()->getLocale() == 'ha' ? 'Kalmar sirri' : 'Password' }}
+           {{ __('messages.password')}}
         </label>
     <input
       type="password"
@@ -49,7 +52,7 @@
      <div class="mb-4 flex items-center">
         <input type="checkbox" id="remember" wire:wire:model="remember" class="mr-2">
         <label for="remember"  class=" text-gray-700">
-     {{ app()->getLocale() == 'ha' ? 'Ka tuna ni' : 'Remember Me' }}
+     {{__('messages.remember_me') }}
         </label>
      </div>
       <!-- Submit button -->

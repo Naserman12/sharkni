@@ -1,6 +1,10 @@
 <x-app-layout>
     <div class="container mx-auto max-w-lg px-4 py-12 bg-slate-200">
-        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">فشل عملية الدفع</h1>
+         @php 
+        app()->setLocale(session('lang')); //تعين اللغة بناء على المستخدم
+        session()->put(['locale' => session('language')]); // تخزين اللغة في الجلسة
+        @endphp
+        <h1 class="text-3xl font-bold text-gray-800 mb-6 text-center">{{ __('payment_failed') }}</h1>
         <!-- عرض رسالة الخطأ -->
         @if (session('error'))
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg mb-6 text-center">

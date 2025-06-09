@@ -5,6 +5,10 @@
                 app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
                 session(['locale' => $user->language]); // ت
          @endphp
+         @php 
+        app()->setLocale(session('lang')); //تعين اللغة بناء على المستخدم
+        session()->put(['locale' => session('language')]); // تخزين اللغة في الجلسة
+        @endphp
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class=" bg-gray-300 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-gray-200  border-b border-gray-200">

@@ -1,6 +1,10 @@
 <div class=" max-w-md mx-auto bg-gradient-to-r from-orange-200 to-yellow-100 text-gray-800  rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6"
 x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
 <!-- title -->
+ @php 
+        app()->setLocale(session('lang')); //تعين اللغة بناء على المستخدم
+        session()->put(['locale' => session('language')]); // تخزين اللغة في الجلسة
+ @endphp
 <h2 class="text-2xl font-bold text-gray-800 mb-6">إتمام عملية الدفع</h2>
         <!-- messages -->
         @if (session('message'))

@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     @php 
+        app()->setLocale(session('lang')); //تعين اللغة بناء على المستخدم
+        session()->put(['locale' => session('language')]); // تخزين اللغة في الجلسة
+   @endphp
     <title>تم الدفع بنجاح</title>
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"> <!-- تأكد من وجود ملف CSS إذا لزم الأمر -->
     <style>
