@@ -26,7 +26,7 @@
          <!-- الفلاتر -->    
             <div x-data="filterComponent()" x-init="init()" class="filters-container space-y-6">
                   <button @click="toggle()" class="btn-toggle-filters">
-                        <span x-text="isOpen ? 'إخفاء الفلاتر' : 'إظهار الفلاتر'"></span>
+                        <span x-text="isOpen ? '' : ''"></span>
                  </button>
                 <!-- الفلترة )(على الجانب الايسر) -->
                 <div class=" w-full">
