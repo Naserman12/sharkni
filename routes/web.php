@@ -17,6 +17,7 @@ use App\Livewire\Pages\Tool\ListTools;
 use App\Livewire\Pages\Tool\ShowTool;
 use App\Livewire\PaymentForm;
 use App\Http\Controllers\Payments\PaymentController;
+use App\Livewire\Pages\Tool\EditTool;
 
 // Logon && logout
 Route::get('/register', Register::class)->middleware('guest')->name('register');
@@ -64,6 +65,7 @@ Route::view('dashboard', 'dashboard')
 Route::get('tools/add', AddTool::class)->middleware('auth')->name('tools.add');
 Route::get('tools', ListTools::class)->name('tools.index');
 Route::get('tools/{id}', ShowTool::class)->name('tools.show');
+Route::get('tools/{id}/edit', EditTool::class)->name('tools.edit');
 Route::get('tools/category/{slug}', ListTools::class)->middleware('auth')->name('tools.by_category');
 
 // Rentals

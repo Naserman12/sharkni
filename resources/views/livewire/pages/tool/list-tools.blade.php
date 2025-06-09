@@ -65,9 +65,9 @@
                             </label>
                             <select id="price_max" wire:model.lazy="price_max" class=" w-full  md:w-48 p-2 border rounded">
                                 <option value="">{{ app()->getLocale() == 'ha' ? 'Zabi Farashi' : 'Price' }}</option>
-                                <option value="500">{{ app()->getLocale() == 'ha' ? '< 500N' : '< 500N' }}</option>
-                                <option value="1000">{{ app()->getLocale() == 'ha' ? '< 1000N' : '< 1000N' }}</option>
-                                <option value="2000">{{ app()->getLocale() == 'ha' ? '< 2000N' : '< 2000N' }}</option>
+                                <option value="500">{{ app()->getLocale() == 'ha' ? '< 500₦' : '< 500₦' }}</option>
+                                <option value="1000">{{ app()->getLocale() == 'ha' ? '< 1000₦' : '< 1000₦' }}</option>
+                                <option value="2000">{{ app()->getLocale() == 'ha' ? '< 2000₦' : '< 2000₦' }}</option>
                             </select>
                         </div>
                     </div>
@@ -96,9 +96,8 @@
                 <h3 class="text-lg font-semibold flex items-center">
                     <i class="fas fa-tools mr-2"></i>
                     {{ $tool->name }} 
-                    ({{ $tool->is_free ? (app()->getLocale() == 'ha' ? 'Kyauta' : 'Free') : 'N' . $tool->rental_price . '/' . (app()->getLocale() == 'ha' ? 'Rana' : 'Day') }})
+                    ({{ $tool->is_free ? (app()->getLocale() == 'ha' ? 'Kyauta' : 'Free') : '₦' . $tool->rental_price . '/' . (app()->getLocale() == 'ha' ? 'Rana' : 'Day') }})
                 </h3>
-
                 <a href="{{ route('tools.show', $tool->id) }}" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-800 inline-flex items-center">
                     <i class="fas fa-eye mr-2"></i>
                     {{ App()->getLocale() == 'ha' ? 'Bayani' : 'Show details' }}
@@ -106,9 +105,8 @@
                 <p class="text-gray-900 mt-1 flex items-center">
                     <i class="fas fa-map mr-2"></i>
                     {{ $tool->location }} - 
-                    ({{ app()->getLocale() == 'ha' ? 'Daraja' : 'Reputation' }}: *****)
+                    ({{ app()->getLocale() == 'ha' ? 'Daraja' : 'Reputation' }}:    ★★★★☆)
                 </p>
-
             </div>
         </div>
     @empty

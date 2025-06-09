@@ -14,7 +14,7 @@ class AddTool extends Component
     use WithFileUploads;
 
     public $category_id, $name, $description, $location, $images = [], $rental_price,
-           $is_free, $deposit_amount,
+           $is_free = false, $deposit_amount,
             $status = 'available', $condition = 'used';
     public $categories;
 
@@ -29,11 +29,11 @@ class AddTool extends Component
         'name' => ['required','string','max:255'],
         'description' => ['nullable','string'],
         'is_free' => ['boolean'],
-        'rental_price' => ['required_if:is_free,false','numeric','min:0'], //'rental_price' => ['required_if:is_free,false', 'numeric', 'min:0'],
+        'rental_price' => ['nullable','numeric','min:0','required_if:is_free,0'], //'rental_price' => ['required_if:is_free,false', 'numeric', 'min:0'],
         'deposit_amount' => ['nullable','numeric','min:0'],
         'status' => ['required', 'in:available,borrowed,unavailable'],
         'condition' => ['required', 'in:new,used,needs_repair'],
-        'images' => [ 'required','array', 'min:1'],
+        'images' => [ 'nullable','array', 'min:0'],
         'images.*' => [ 'image','max:2048'],
         'location' => ['required', 'string','max:255']
     ];

@@ -12,7 +12,7 @@ use Livewire\WithPagination;
 class ListTools extends Component
 {
     use WithPagination;
-    public  $location, $status = 'available', $price_max = '',
+    public  $location, $status, $price_max = '',
            $category_slug = '', $selected_category = null;
     public $perPage = 10; // على الشاشات الكبيرة افتراضي
     public $categories;
@@ -51,8 +51,7 @@ class ListTools extends Component
     //     }
     public function render()
     {
-        $query = Tool::query() // عرض الأدوات الماتحة فقط بشكل افتراضي
-                        
+        $query = Tool::query() // عرض الأدوات الماتحة فقط بشكل افتراضي             
                          ->with(['user', 'category']);
         // التنقية بناء على الفئة
         if ($this->category_slug && $this->selected_category) {
@@ -66,10 +65,9 @@ class ListTools extends Component
         if ($this->status) {
             $query->where('status', $this->status);
         }else{
-            $query->where('status', 'available');
+            $query->where('status',  'available');
 
         }
-        
         if ($this->price_max) {
             $query->where('is_free', false)
                   ->where('rental_price', '<=', $this->price_max);

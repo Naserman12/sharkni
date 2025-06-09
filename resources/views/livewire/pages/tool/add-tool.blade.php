@@ -1,6 +1,6 @@
 
     <div class=" min-h-screen flex items-center justify-center py-10">
-       <div class="w-full max-w-md  mx-auto bg-gradient-to-r from-blue-300  px-4">
+       <div class="w-full max-w-md  mx-auto bg-gradient-to-r from-orange-300  px-4">
             <h2 class="text-2xl font-bold mb-6 text-center">
                 {{ app()->getLocale() == 'ha' ? 'Qara Kayan Aiki ': 'Add A Tool'}}
             </h2>
@@ -83,32 +83,35 @@
                 </div>
                 <!-- Is Free -->
                 <div class=" mb-4">
-                    <input type="checkbox" wire:model.lazy="is_free" id="is_free" class="  me-2">
-                    <label for="is_free" class=" block text-gray-900">
-                        {{ app()->getLocale() == 'ha' ? 'Zaa Byia': 'Is paid'}}
+                    <label class=" block text-gray-800 font-semibold">
+                        {{ app()->getLocale() == 'ha' ? 'Tsari na Farashi': 'Price Option'}}
                     </label>
+                    <div class=" flex items-center space-x-4 mb-2">
+                        <label for="is_free" class=" block text-gray-900">
+                            <input type="radio" wire:model.lazy="is_free" value="1" id="is_free" class="  mr-2">
+                            {{ app()->getLocale() == 'ha' ? 'Kyauta': 'Free'}}
+                        </label>
+                        <label for="is_free" class=" block text-gray-900">
+                            <input type="radio" wire:model.lazy="is_free" value="0" id="is_free" class="  mr-2">
+                            {{ app()->getLocale() == 'ha' ? 'Da Farashi': 'Is paid'}}
+                        </label>
+                    </div>
                     @error('is_free')
                         <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                      @enderror
                     </div>
-                @if($is_free === false)
+                @if(!$is_free)
                 <!-- Price per day -->
                 <div class=" mb-4">
-                    <label for="rental_price" class=" block text-gray-900">
+                    <label for="rental_price" class=" block text-gray-900 font-semibold">
                         {{ app()->getLocale() == 'ha' ? 'Farashin Kowace Rana ': 'Price Per Day'}}
                     </label>
-                    <input type="number" step="0.01" min="0" wire:model="rental_price" id="rental_price" class=" w-full p-2 border rounded">
+                    <input type="number" step="0.01" min="0" wire:model="rental_price" id="rental_price" class=" w-full p-2 border rounded" placeholder="{{ app()->getLocale() == 'ha' ? 'Saka Farashi' : 'Enter price'}}">
                     @error('rental_price')
                         <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                         @enderror
                     </div>
-                    @else
-                    <!-- Price per day -->
-                        <input type="number" step="0.01" min="0" wire:model="rental_price" id="rental_price" value="0" class="hidden">
-                        @error('rental_price')
-                            <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
-                            @enderror   
-                    @endif
+                @endif
                     <!-- Deposit Amount-->
                 <div class=" mb-4">
                     <label for="deposit_amount" class=" block text-gray-900">
