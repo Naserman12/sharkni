@@ -40,6 +40,7 @@ return [
     'active' => 'Active',
     'inactive' => 'Inactive',
     'category' => 'Category',
+    'reports' => 'Damage Reports',
     'category_updated' => 'Category Updated Successfully!',
     'rental_request' => 'Rental Request',
     'tool' => 'Tool',

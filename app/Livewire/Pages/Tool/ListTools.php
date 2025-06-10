@@ -23,6 +23,7 @@ class ListTools extends Component
                $user = Auth::user();
                 app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
                 session(['locale' => $user->language]); // تخزين اللغة في الجلسة
+                
         if ($slug) {
             $this->category_slug = $slug;
             $this->selected_category = Category::where('slug', $slug)->firstOrFail();
