@@ -39,6 +39,7 @@ return [
     'name_ha' => 'Name (Hausa)',
     'active' => 'Active',
     'inactive' => 'Inactive',
+    'category' => 'Category',
     'category_updated' => 'Category Updated Successfully!',
     'rental_request' => 'Rental Request',
     'tool' => 'Tool',
@@ -99,5 +100,7 @@ return [
     'how_to_use_step3' => '3. Submit a rental request and complete the payment if required.',
     'how_to_use_step4' => '4. Manage your rentals and report any damages.',
      'No featured tools available' => 'No featured tools available',
-     'featured tools' => 'Featured Tools'
+     'featured tools' => 'Featured Tools',
+     'add' => 'Add',
+     'categories' => 'Categories'
 ];

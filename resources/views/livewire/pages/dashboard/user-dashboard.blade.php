@@ -1,11 +1,45 @@
 <div class="container mx-auto py-10">
-    {{-- The whole world belongs to you. --}}
-    <div class=" bg-yellow-200 rounded-lg shadow-lg p-6">
             @php
             $user = Auth()->user();
             app()->setLocale($user->language); //تعين اللغة بناء على المستخدم
             session()->put(['locale' => $user->language]); // تخزين اللغة في الجلسة
             @endphp
+    {{-- The whole world belongs to you. --}}
+    <div class=" bg-gray-300 p-4 rounded-lg mb-6 shadow-md">
+        <div class=" flex space-x-4 overflow-x-auto ">
+            <!-- Tools Dropdown -->
+             <div x-data="{ open: false}" class=" relative">
+                <button @click="open = !open"  class=" px-4 py-2 bg-yellow-800 text-white rounded hover:bg-yellow-900 focus:outline-none">
+                    {{ __('messages.tools') }}
+                </button>
+                <div x-show="open" x-transition:enter="transition case-out duration-100" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition case-in duration-75" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class=" absolute mt-2 w-48 bg-gray-200 border rounded shadow-lg x-10" @click.away="open = false">
+                    <a href="{{ route('tools.add') }}" class=" block px-4 py-2 text-gray-800 hover:bg-gray-300">{{ __('messages.add') }}</a>
+                    <a href="{{ route('tools.add') }}" class=" block px-4 py-2 text-gray-800 hover:bg-gray-300">{{ __('messages.tool') }}</a>
+                </div>
+             </div>
+            <!-- Tools Dropdown -->
+             <div x-data="{ open: false}" class=" relative">
+            <button @click="open = !open" class=" px-4 py-2 bg-yellow-800 text-white rounded hover:bg-yellow-900 focus:outline-none">
+                    {{ __('messages.categories') }}
+                </button>
+                <div x-show="open" x-transition:enter="transition case-out duration-100" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition case-in duration-75" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class=" absolute mt-2 w-48 bg-gray-200 border rounded shadow-lg x-10" @click.away="open = false">
+                    <a href="{{ route('categories.add') }}" class=" block px-4 py-2 text-gray-800 hover:bg-gray-300">{{ __('messages.add') }}</a>
+                    <a href="{{ route('categories.add') }}" class=" block px-4 py-2 text-gray-800 hover:bg-gray-300">{{ __('messages.category') }}</a>
+                </div>
+             </div>
+            <!-- Tools Dropdown -->
+             <div x-data="{ open: false}" class=" relative">
+                <button @click="open = !open"  class=" px-4 py-2 bg-yellow-800 text-white rounded hover:bg-yellow-900 focus:outline-none">
+                    {{ __('messages.reports') }}
+                </button>
+                <div x-show="open" x-transition:enter="transition case-out duration-100" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition case-in duration-75" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class=" absolute mt-2 w-48 bg-gray-200 border rounded shadow-lg x-10" @click.away="open = false">
+                    <a href="{{ route('damage.report') }}" class=" block px-4 py-2 text-gray-800 hover:bg-gray-300">{{ __('messages.add') }}</a>
+                    <a href="{{ route('damage.reports') }}" class=" block px-4 py-2 text-gray-800 hover:bg-gray-300">{{ __('messages.reports') }}</a>
+                </div>
+             </div>
+        </div>
+    </div>
+    <div class=" bg-yellow-200 rounded-lg shadow-lg p-6">
         <!-- ttile -->
          <h1 class=" text-3xl font-bold mb-6 flex items-center ">
             <i class="fas fa-tools"></i>

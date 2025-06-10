@@ -8,6 +8,7 @@ return [
     'email' => 'Imel',
     'status' => 'Matsayi',
     'tools' => 'Kayan aiki',
+    'tool' => 'Kayan aiki',
     'payment for tool rental' => 'Biyan kuɗi don haya kayan aiki',
     'password' => 'Kalmar sirri',
     'confirm_password' => 'Tabbatar da kalmar sirri',
@@ -36,9 +37,10 @@ return [
     'active' => 'Aiki',
     'inactive' => 'A kashe',
     'category_updated' => 'An sabunta rukunin cikin nasara!',
-
+    'categories' => 'Nau\uka',
+    'category' => 'Naui',
+    'reports' => 'Rahoto Lalacewa',
     'rental_request' => 'Neman haya',
-    'tool' => 'Kayan aiki',
     'borrower' => 'Mai aro',
     'start_date' => 'Ranar farawa',
     'end_date' => 'Ranar ƙarewa',
@@ -118,4 +120,5 @@ return [
     'how_to_use_step4' => '4. Sarrafa hayarku da rahoton duk wani lalacewa.',
     'No featured tools available' => 'Babu kayan aiki na musamman da ake da su.',
     'featured tools' => 'Kayan Aiki Na Musamman',
+    'add' => 'Qara'
 ];
