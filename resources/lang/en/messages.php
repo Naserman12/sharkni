@@ -84,6 +84,20 @@ return [
     'proof' => 'Proof',
     'view proof' => 'View Proof',
     'confirm' => 'Confirm',
-    'reject' => 'Reject',
-    'new payment proof uploaded' => 'New Payment Proof Uploaded'
+    'new payment proof uploaded' => 'New Payment Proof Uploaded',
+    'no image' => 'No image',
+    'show tool' => 'Details',
+
+
+    'welcome_title' => 'Welcome to Sharkni',
+    'welcome_description' => 'Sharkni is a platform that allows you to borrow or rent tools easily with others in your community. Join us to share and save!',
+    'payment_methods_title' => 'Payment Methods',
+    'payment_methods_description' => 'We support secure payments through Paystack. Choose your preferred method during the rental process.',
+    'how_to_use_title' => 'How to Use Sharkni',
+    'how_to_use_step1' => '1. Sign up or log in to create your account.',
+    'how_to_use_step2' => '2. Add your tools or browse available tools to rent.',
+    'how_to_use_step3' => '3. Submit a rental request and complete the payment if required.',
+    'how_to_use_step4' => '4. Manage your rentals and report any damages.',
+     'No featured tools available' => 'No featured tools available',
+     'featured tools' => 'Featured Tools'
 ];

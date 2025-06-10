@@ -20,6 +20,8 @@ use App\Livewire\Pages\Tool\ShowTool;
 use App\Livewire\PaymentForm;
 use App\Http\Controllers\Payments\PaymentController;
 use App\Livewire\Pages\Categories\EditCategory;
+use App\Livewire\Pages\Dashboard\UserDashboard;
+use App\Livewire\Pages\Home\HomePage;
 use App\Livewire\Pages\Tool\EditTool;
 
 // Logon && logout
@@ -56,28 +58,36 @@ Route::get('/email/verify/{id}/{hash}', function($id, $hash){
 })->middleware('auth','signed')->name('verification.verify');
 
 // Home Routes
-Route::get('/', function(){
-    // dd(app()->getLocale());
-    return view('welcome');
-})->name('home');
+Route::get('/', HomePage::class)->name('home');
+Route::get('/dashboard', UserDashboard::class)->name('dashboard');
+// Route::get('/', function(){
+//     // dd(app()->getLocale());
+//     return view('welcome');
+// })->name('home');
+// Route::view('dashboard', 'dashboard')
+//     ->middleware(['auth'])
+//     ->name('dashboard');
 Route::view('/send','livewire.email.send-email-test');
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth'])
-    ->name('dashboard');
     // Tools
-Route::get('tools/add', AddTool::class)->middleware('auth')->name('tools.add');
-Route::get('tools', ListTools::class)->name('tools.index');
-Route::get('tools/{id}', ShowTool::class)->name('tools.show');
-Route::get('tools/{id}/edit', EditTool::class)->name('tools.edit');
-Route::get('tools/category/{slug}', ListTools::class)->middleware('auth')->name('tools.by_category');
+Route::prefix('tools')->middleware('auth')->group(function (){
+    Route::get('/add', AddTool::class)->name('tools.add');
+    Route::get('/', ListTools::class)->name('tools.index');
+    Route::get('/{id}', ShowTool::class)->name('tools.show');
+    Route::get('/{id}/edit', EditTool::class)->name('tools.edit');
+    Route::get('/category/{slug}', ListTools::class)->name('tools.by_category');
+});
 
 // Rentals
-Route::get('/rentals', RentalRequests::class)->middleware('auth')->name('rentals.index');
-Route::get('/rentals/complete/{id}', CompleteRental::class)->middleware('auth')->name('rentals.complete');
+Route::prefix('rentals')->middleware('auth')->group(function(){
+    Route::get('/', RentalRequests::class)->middleware('auth')->name('rentals.index');
+    Route::get('/complete/{id}', CompleteRental::class)->middleware('auth')->name('rentals.complete');
+});
 
 // damage Reports
-Route::get('damage/report', ReportDamage::class)->middleware('auth')->name('damage.report');
-Route::get('damage/reports', ManageDamageReports::class)->middleware('auth')->name('damage.reports');
+route::prefix('damages')->middleware('auth')->group(function(){
+    Route::get('/report', ReportDamage::class)->name('damage.report');
+    Route::get('/reports', ManageDamageReports::class)->name('damage.reports');
+});
 
 // Catefories
 Route::get('categories/add', AddCategory::class)->middleware('auth')->name('categories.add');
@@ -86,18 +96,17 @@ Route::get('categories/edit/{id}', EditCategory::class)->middleware('auth',)->na
 // languages
 Route::get('/lang/{lang}', [LangController::class,'changeLang']);
 // payments
-Route::get('/pay/{paymentId}', [PaymentController::class,"redirectToGateway"])->name('pay');
-Route::prefix('payments')->group(function(){
+// Route::get('/pay/{paymentId}', [PaymentController::class,"redirectToGateway"])->name('pay');
+Route::prefix('payments')->middleware('auth')->group(function(){
     Route::get('/', [PaymentController::class, 'index'])->name('payments.index');
     Route::post('/initiate', action: [PaymentController::class, 'initiatePayment'])->name('paystack.initiate');
     Route::get('/callback', [PaymentController::class, 'handlePaystackCallback'])->name('paystack.callback');
     Route::post('/verify', [PaymentController::class, 'verifyPayment'])->name('paystack.verify');
     Route::get('/redirect/{payment}', [PaymentController::class, 'redirectToPayment'])->name('paystack.redirect');
+    Route::get('/{rentalId}/{toolId}', PaymentForm::class)->name('payment.form');
+    Route::get('/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
 });
-Route::get('/payment/{rentalId}/{toolId}', PaymentForm::class)->name('payment.form');
-Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
-Route::get('/payment/failure', [PaymentController::class, 'paymentFailure'])->name('payment.failure');
-
 Route::middleware(['auth'])->group(function () {
     // Route::get('/payment/{rental}', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
  Route::get('/webhooks/paystack', [PaymentController::class, 'handleWebhook'])->name('paystack.webhook');
