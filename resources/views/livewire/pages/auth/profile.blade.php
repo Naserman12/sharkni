@@ -28,7 +28,7 @@
                 <!-- profile picture -->
                  <div class="mb-6">
                     @if ($user->profile_picture)
-                     <img src="{{ asset('storage/profile_picture' . $user->profile_picture) }}" alt="{{ $user->name }}" class=" w-32 h-32 bg-gray-200 rounded-full mx-auto flex items-center justify-center">
+                     <img src="{{ asset('storage/'.$user->profile_picture) }}" alt="{{ $user->name }}" class=" w-32 h-32 bg-gray-200 rounded-full mx-auto flex items-center justify-center">
                     @else
                         <div class=" w-32 h-32 bg-gray-200 rounded-full mx-auto flex items-center justify-center">
                             <i class="fas fa-user text-gray-800 text-2xl"></i>

@@ -106,8 +106,8 @@
                     </div>
                       <!-- عرض اسما الصور المختارة -->
                     <div class=" mt-2">
-                        @if ($images)
-                            @foreach ($images as $image)
+                        @if ($image_paths)
+                            @foreach ($image_paths as $image)
                                 <p class=" text-gray-700 text-sm">{{ $image->getClientOriginalName() }}</p>
                             @endforeach
                         @endif
