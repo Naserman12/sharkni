@@ -27,6 +27,7 @@ class PaymentForm extends Component
             $showBankDetails = false,
             $paymentCompleted = false,
             $bankReceipt,
+            $processingFee,
             $payment;
     protected $paystackService;
     protected $rules = [
@@ -43,8 +44,7 @@ class PaymentForm extends Component
         $this->toolId = $toolId;
         $this->rentalId = $rentalId;
         $this->showBankDetails = !$this->showBankDetails;
-        $this->rentalAmount = $this->rental->deposit_amount ?? 500;
-        $this->amount = 500;
+        $this->rental->deposit_amount;
         $this->recalculateAmount();
         // dd('This Amoun = '.$this->amount);
     }
@@ -52,9 +52,10 @@ class PaymentForm extends Component
     {
         $this->validate();
         // dd($this->paystackService);
-        $depositAmount = $this->amount  +100;
-        $processingFee = $this->rentalAmount + 200;
-        $totalAmount = $this->rentalAmount + $depositAmount + $processingFee;
+        $depositAmount = $this->amount;
+        $this->rentalAmount = $this->rental->deposit_amount;
+        $this->processingFee = 0.02;
+        $this->amount = $this->rentalAmount + $depositAmount + $this->processingFee;
 
         // إنشاء السجل في جدول المدفوعات
         try {
@@ -62,10 +63,10 @@ class PaymentForm extends Component
                 'user_id' => Auth::id(),
                 'rental_id' => $this->rentalId,  // الربط مع الطلب
                 'tool_id' => $this->toolId,  // الربط مع الأداة
-                'amount' => $totalAmount,  // المبلغ الإجمالي
+                'amount' => $this->amount,  // المبلغ الإجمالي
                 'deposit_amount' => $depositAmount,  // مبلغ التأمين
                 'rental_amount' => $this->rentalAmount,  // مبلغ الإيجار
-                'processing_fee' => $processingFee,  // رسوم المعالجة
+                'processing_fee' => $this->processingFee,  // رسوم المعالجة
                 'payment_type' => $this->paymentType,  // نوع الدفع (في هذه الحالة Paystack)
                 'status' => Payment::STATUS_AWAITING_COMFIRMATION,  // حالة الدفع (معلق)
                 'payment_method' => $this->paymentMethod,  // وسيلة الدفع
@@ -126,9 +127,11 @@ class PaymentForm extends Component
     }
     private function recalculateAmount(){
         if ($this->paymentType === 'deposit') {
+            $this->amount = $this->rental->deposit_amount;
+        }elseif($this->paymentType === 'full') {
+            $this->amount = $this->rental->total_cost;
+        }else{
             $this->amount = 500;
-        } else {
-            $this->amount = 600;
         }
     }
     public function render()

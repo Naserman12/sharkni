@@ -47,7 +47,8 @@ class ShowTool extends Component
             'return_date' => 'required|date|after:borrow_date',
         ]);
         $days = Carbon::parse($this->borrow_date)->diffInDays($this->return_date);
-        $total_cost = $this->tool->is_free ? 0 : $this->tool->rental_price * $days;
+        $deposit_amount = $this->tool->deposit_amount;
+        $total_cost = $this->tool->deposit_amount + $this->tool->rental_price * $days;
 
         $rental = Rental::create([
             'tool_id' => $this->tool->id,
@@ -55,6 +56,7 @@ class ShowTool extends Component
             'lender_id' => $this->tool->user_id,
             'status' => 'pending',
             'borrow_date' => $this->borrow_date,
+            'deposit_amount' => $deposit_amount,
             'return_date' => $this->return_date,
             'is_paid' => $this->tool->is_free,
             'total_cost' => $total_cost,
