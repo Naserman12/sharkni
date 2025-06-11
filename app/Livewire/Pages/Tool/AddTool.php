@@ -69,7 +69,6 @@ class AddTool extends Component
                 'condition' => $this->condition,
                 'image_paths' => $imagePaths,
                 'location'=> $this->location,
-              
             ]);
             session()->flash('message', app()->getLocale() == 'ha' ? 'An qara kayan aiki cikin nasara! ' : 'Tool added successfully!');
             return redirect()->route('dashboard');

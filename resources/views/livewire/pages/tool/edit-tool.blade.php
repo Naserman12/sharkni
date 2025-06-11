@@ -85,13 +85,40 @@
                 @error('category_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
              <!-- الصور -->
-            <div>
+            <!-- <div>
                 <label for="image_paths" class="block text-gray-700 font-semibold">
                     {{ app()->getLocale() == 'ha' ? 'Hotuna' : 'Images' }}
                 </label>
                 <input type="file" id="image_paths" wire:model="image_paths" multiple class="w-full p-2 border rounded">
                 @error('image_paths') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
+            </div> -->
+             <!-- images -->
+                <div class="mb-4">
+                    <label for="image_paths" class=" block text-gray-900">
+                        {{ app()->getLocale() == 'ha' ? 'Hotunan kayan aiki ': 'Tool Image'}}
+                    </label>
+                     <div class=" relative">
+                        <button type="button" onclick="document.getElementById('image_paths').click()" class=" bg-blue-600 text-gray-200 px-4 py-2 rounded hover:bg-blue-700 flex items-center">
+                            <i class="fas fa-image mr-2"></i>
+                            {{ app()->getLocale() == 'ha' ? 'Zabi Hotuna ' : 'Choose Images ' }}
+                        </button>
+                        <input type="file" id="image_paths" wire:model="image_paths" multiple class="hidden" accept="image/*">
+                    </div>
+                      <!-- عرض اسما الصور المختارة -->
+                    <div class=" mt-2">
+                        @if ($images)
+                            @foreach ($images as $image)
+                                <p class=" text-gray-700 text-sm">{{ $image->getClientOriginalName() }}</p>
+                            @endforeach
+                        @endif
+                    </div>
+                    @error('image_paths')
+                    <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>      
+                    @enderror
+                    @error('image_paths.*')
+                    <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>      
+                    @enderror
+                </div>
             <!-- الأزرار -->
             <div class="flex space-x-4">
                 <button type="submit" class="bg-blue-500 text-white p-3 rounded-lg w-full hover:bg-blue-600 flex items-center justify-center">

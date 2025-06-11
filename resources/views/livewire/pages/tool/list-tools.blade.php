@@ -81,7 +81,7 @@
             <!-- صورة صغيرة -->
             <div class="w-24 h-24 mr-4">
                 @if ($tool->image_paths && count($tool->image_paths) > 0 )
-                    <img src="{{ asset('storage/' . $tool->image_paths[0]) }}" alt="{{ $tool->name }}" class="w-full h-full object-cover rounded-lg">
+                    <img src="{{ asset('storage/tools' . $tool->image_paths[0]) }}" alt="{{ $tool->name }}" class="w-full h-full object-cover rounded-lg">
                 @else
                     <div class="w-full h-full bg-gray-200 flex items-center justify-center rounded-lg">
                         <span class="text-gray-800 text-sm text-center">

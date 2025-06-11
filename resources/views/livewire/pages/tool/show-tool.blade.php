@@ -21,7 +21,7 @@
             @if ($tool->image_paths && count($tool->image_paths) > 0)
                 <div class=" relative">
                     @foreach ($tool->image_paths as $image)
-                        <img src="{{ asset('storage/' . $image) }}" alt="{{ $tool->name }}">                        
+                        <img src="{{ asset('storage/tools' . $image) }}" alt="{{ $tool->name }}">                        
                     @endforeach
                 </div>
             @else
