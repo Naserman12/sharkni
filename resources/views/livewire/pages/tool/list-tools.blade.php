@@ -1,7 +1,6 @@
 <div class=" container mx-auto py-10">
     {{-- Close your eyes. Count to one. That is how long forever feels. --}}
     <div class="p-6 rounded-lg shadow-lg">
-
     <h1 class=" text-3xl font-bold mb-6 text-center "><i class="fas fa-search mr-2"></i> {{ app()->getLocale() == 'ha' ? 'Ado Available don Aro/Kira' : 'Tools availabel for Borrowing/Reting' }}
      @if ($selected_category)
             <span class=" text-xl ml-2">- {{ app()->getLocale() == 'ha' ? $selected_category->name_ha : $selected_category->name }}</span>
@@ -115,7 +114,6 @@
         </p>
     @endforelse
 </div>
-
 <div class="mt-6">
     {{ $tools->links() }}
 </div>
