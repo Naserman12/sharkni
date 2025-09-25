@@ -57,7 +57,7 @@
               <p class=" text-gray-800">
                 <span class=" font-semibold"> <i class="fas fa-wrench  mr-1"></i>{{  app()->getLocale() == 'ha' ? 'Yanayi' : 'Condition' }}:</span>
                 @if ($tool->condition == 'new')
-                    {{  app()->getLocale() == 'ha' ? 'Saboni' : 'New' }}
+                    {{  app()->getLocale() == 'ha' ? 'Sabu' : 'New' }}
                 @elseif ($tool->condition == 'used')
                     {{  app()->getLocale() == 'ha' ? 'An Yi Amfani' : 'Used' }}
                 @else

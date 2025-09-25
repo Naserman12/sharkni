@@ -54,7 +54,7 @@
                     <span class="text-sm text-red-600 bg-red-200">{{ $message }}</span>
                     @enderror
                 </div>
-         <!-- images -->
+         <!-- images --> 
                 <div class="mb-4">
                     <label for="images" class=" block text-gray-900">
                         {{ app()->getLocale() == 'ha' ? 'Hotunan kayan aiki ': 'Tool Image'}}

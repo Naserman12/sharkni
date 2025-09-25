@@ -39,7 +39,6 @@ class AddTool extends Component
     ];
     public function addTool(){
         try {
-            
             $this->validate();
             // اذا كان مجاني السعر غير مطلوب
             if ($this->is_free === false && is_null($this->rental_price)) {
