@@ -34,6 +34,6 @@ class Login extends Component
     }
     public function render()
     {
-        return view('livewire.pages.auth.login')->layout('layouts.guest');
+        return view('livewire.pages.auth.login')->layout('layouts.app');
     }
 }

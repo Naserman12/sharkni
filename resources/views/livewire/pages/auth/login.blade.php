@@ -1,76 +1,75 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-700 via-pink-600 to-orange-500 py-10">
 
-<div class=" min-h-screen flex items-center justify-center">
-   @php 
-        app()->setLocale(session('lang')); //تعين اللغة بناء على المستخدم
-        session()->put(['locale' => session('language')]); // تخزين اللغة في الجلسة
+    @php 
+        app()->setLocale(session('lang'));
+        session()->put(['locale' => session('language')]);
     @endphp
-    <div class="w-full max-w-md p-4  mx-auto bg-gradient-to-t from-gray-300  to-gray-400 px-4 hover:p-5">
-  <h1 class="text-3xl  font-bold  mb-8 text-center">{{__( 'messages.login' )}}</h1>
-  @if (session('message'))
-  <div class="mb-4 p-2 bg-green-100 text-green-700 rounded">
-    {{ $message }}
-  </div>   
-  @endif
-  @error('form')
-  <div class="mb-4 p-2 bg-red-100 text-red-700 rounded">
-    {{ $message }}
-  </div>   
-  @enderror
-    <form wire:submit.prevent="login">
-         <!-- Email -->
-    <div class="mb-4">
-      <label for="email" class=" block text-gray-900">
-        {{ __('messages.email')}}
-    </label>
-    <input
-      type="email"
-      wire:model="email"
-      id="email"
-      class="w-full mb-4 px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-400 transition"
-      />
-       @error('email')
-      <span class=" text-red-500 text-sm" >{{ $message }}</span>
-      @enderror
-    </div>
 
-     <!-- Password -->
-     <div class="mb-4">
-       <label for="password" class=" block text-gray-900">
-           {{ __('messages.password')}}
-        </label>
-    <input
-      type="password"
-      wire:model="password"
-      id="password"
-      class="w-full mb-4 px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-4 focus:ring-purple-400 transition"
-      />
-       @error('password')
-      <span class=" text-red-500 text-sm" >{{ $message }}</span>
-      @enderror
-    </div>
-    <!-- Remember Me -->
-     <div class="mb-4 flex items-center">
-        <input type="checkbox" id="remember" wire:wire:model="remember" class="mr-2">
-        <label for="remember"  class=" text-gray-700">
-     {{__('messages.remember_me') }}
-        </label>
-     </div>
-      <!-- Submit button -->
-         <div class="mb-4">
-            <button
-              type="submit"
-              class="w-full bg-gradient-to-t from-pink-700 to-orange-400 hover:from-pink-950 hover:to-orange-500 text-white font-bold py-3 rounded-lg shadow-lg transition"
-            >
-            {{ __( 'messages.login' ) }}  
+    <div class="w-full max-w-md mx-auto backdrop-blur-xl bg-white/20 shadow-2xl rounded-2xl p-8 border border-white/30">
+
+        <h1 class="text-4xl font-extrabold text-center text-white drop-shadow mb-8">
+            {{ __('messages.login') }}
+        </h1>
+
+        @if (session('message'))
+            <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-lg shadow">
+                {{ session('message') }}
+            </div>
+        @endif
+
+        @error('form')
+            <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-lg shadow">
+                {{ $message }}
+            </div>
+        @enderror
+
+        <form wire:submit.prevent="login" class="space-y-5">
+
+            <!-- Email -->
+            <div>
+                <label for="email" class="block text-white font-semibold mb-1">
+                    {{ __('messages.email') }}
+                </label>
+                <input type="email" wire:model="email" id="email"
+                    class="w-full px-5 py-3 rounded-xl bg-white/30 text-white placeholder-white/70 border border-white/40 focus:ring-4 focus:ring-pink-300 focus:outline-none shadow-lg" />
+                @error('email')
+                    <span class="text-red-200 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Password -->
+            <div>
+                <label for="password" class="block text-white font-semibold mb-1">
+                    {{ __('messages.password') }}
+                </label>
+                <input type="password" wire:model="password" id="password"
+                    class="w-full px-5 py-3 rounded-xl bg-white/30 text-white placeholder-white/70 border border-white/40 focus:ring-4 focus:ring-pink-300 focus:outline-none shadow-lg" />
+                @error('password')
+                    <span class="text-red-200 text-sm">{{ $message }}</span>
+                @enderror
+            </div>
+
+            <!-- Remember Me -->
+            <div class="flex items-center space-x-2 text-white">
+                <input type="checkbox" id="remember" wire:model="remember"
+                    class="w-5 h-5 rounded border-white/50 bg-white/20">
+                <label for="remember">{{ __('messages.remember_me') }}</label>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit"
+                class="w-full py-3 rounded-xl bg-gradient-to-r from-pink-600 to-orange-400 hover:from-pink-700 hover:to-orange-500 text-white font-bold text-lg shadow-xl transition transform hover:scale-[1.03]">
+                {{ __('messages.login') }}
             </button>
-         </div>
 
-              <!-- Register Link -->
-    <div class=" text-center">
-      <a href="{{ route('register') }}" class=" bg-blue-800 text-white p-2 rounded hover:bg-blue-950">
-       {{ app()->getLocale() == 'ha' ? 'Ba ka da asusu? Yi rajista' : "Don't have an account? Register" }}  
-      </a>
+            <!-- Register Link -->
+            <div class="text-center mt-4">
+                <a href="{{ route('register') }}"
+                    class="inline-block bg-white/20 text-white px-4 py-2 rounded-lg shadow hover:bg-white/30 transition">
+                    {{ app()->getLocale() == 'ha' ? 'Ba ka da asusu? Yi rajista' : "Don't have an account? Register" }}
+                </a>
+            </div>
+
+        </form>
     </div>
-    </form>
-  </div>
-  </div>
+</div>
