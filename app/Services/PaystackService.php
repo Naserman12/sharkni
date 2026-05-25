@@ -144,7 +144,7 @@ class PaystackService {
             'transaction_id'  => $paymentDetails['transaction_id'],
             'metadata'        => $paymentDetails['metadata'],
             'customer'        => $paymentDetails['customer'],
-            'paid_at'         => $paymentDetails['paid_at'],
+            'paid_at' => Carbon::parse($paymentDetails['paid_at'] ?? now()),
             'gateway_response'=> json_encode($paymentDetails),
         ]);
         $payment->update([
