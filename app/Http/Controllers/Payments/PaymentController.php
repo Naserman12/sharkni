@@ -111,7 +111,7 @@ class PaymentController extends Controller
     // dd($result['status']);
     if ($result['status']) {
         session()->put('success', 'تم الدفع بنجاح');
-         session()->put('payment', $result['payment']);
+         session()->put('payment_id', $result['payment']->id);
     
         return redirect()->route('payment.success', ['reference' => $reference]); // إعادة توجيه إلى paymentSuccess
     }
