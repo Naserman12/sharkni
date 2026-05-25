@@ -14,16 +14,16 @@ x-data="{ paymentMethod: @entangle('paymentMethod').defer }">
         @endif
         @if (session('success'))
         <div class=" mb-4 p-2 bg-green-200 text-green-700">
-        {{ session('success') }} 
+         {{ session('success') }} 
         </div>
         @endif
-        @if (session('payment'))
+        @if (session('payment_id'))
         <div class=" mb-4 p-2 bg-green-200 text-green-700">
-        {{ session('payment') }} 
+         Payment ID: {{ session('payment_id') }} 
         </div>
         @endif
         
-        @error('payment')  <span class="text-red-500 bg-red-100">{{$message}}</span> @enderror
+        @error('payment_id')  <span class="text-red-500 bg-red-100">{{$message}}</span> @enderror
        @if (session()->has('paystack_reference'))
            <div class=" mb-4 p-4 bg-violet-100 text-blue-600 rounded-lg">
             u have order if <a href="{{ session('paystack_reference_redirect_url') }}" >Click Here</a>
