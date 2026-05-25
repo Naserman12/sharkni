@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Payment;
 use App\Models\PaystackTransaction;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Unicodeveloper\Paystack\Facades\Paystack;
@@ -111,7 +112,7 @@ class PaystackService {
                 'reference' => $data['reference'],
                 'transaction_id' => $data['id'],
                 "currency" => $data['currency'],
-                'paid_at' => $data['paid_at'],
+                'paid_at' => Carbon::parse($data['paid_at']) || null,
                 'customer' => $data['customer'],
                 'metadata' => $data['metadata'],
             ];
