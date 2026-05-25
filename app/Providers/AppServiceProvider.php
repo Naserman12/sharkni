@@ -5,6 +5,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator ;
+use Illuminate\Support\Facades\URL;
 use App\Services\PaystackService;
 
 class AppServiceProvider extends ServiceProvider
@@ -20,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::defaultView('vendor.pagination.tailwind');
+    if (app()->environment('production')) {
+        URL::forceScheme('https');
+    }
     }
 
     public function register()
