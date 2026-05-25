@@ -3,7 +3,7 @@ namespace App\Services;
 
 use App\Models\Payment;
 use App\Models\PaystackTransaction;
-use Illuminate\Support\Carbon;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Unicodeveloper\Paystack\Facades\Paystack;
