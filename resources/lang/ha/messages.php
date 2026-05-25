@@ -120,5 +120,13 @@ return [
     'how_to_use_step4' => '4. Sarrafa hayarku da rahoton duk wani lalacewa.',
     'No featured tools available' => 'Babu kayan aiki na musamman da ake da su.',
     'featured tools' => 'Kayan Aiki Na Musamman',
-    'add' => 'Qara'
+    'add' => 'Qara',
+
+   
+    'payment_details' => 'Bayanan Biyan Kuɗi',
+    'reference' => 'Lambar Tunani',
+    
+    'paid_at' => 'Ranar Biyan Kuɗi',
+    'status_pay' => 'Yanayin Biyan Kuɗi',
+    'back_to_tools' => 'Komawa zuwa Kayan Aiki',
 ];

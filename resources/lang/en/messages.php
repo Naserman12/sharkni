@@ -103,5 +103,12 @@ return [
      'No featured tools available' => 'No featured tools available',
      'featured tools' => 'Featured Tools',
      'add' => 'Add',
-     'categories' => 'Categories'
+     'categories' => 'Categories',
+
+    'payment_details' => 'Payment Details',
+    'reference' => 'Reference Number',
+
+    'paid_at' => 'Payment Date',
+
+    'back_to_tools' => 'Back to Tools',
 ];

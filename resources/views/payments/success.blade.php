@@ -35,10 +35,40 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="success-message">تم الدفع بنجاح!</h1>
-        @if (session('success'))
-            <p>{{ session('success') }}</p>
-        @endif
+        <h1 class="success-message">
+    {{ __('messages.payment_success') }}
+</h1>
+
+<div class="details">
+    
+    <h2>{{ __('messages.payment_details') }}</h2>
+
+    <p>
+        <strong>{{ __('messages.reference') }}:</strong>
+        {{ $payment->paystackTransaction->reference ?? 'N/A' }}
+    </p>
+
+    <p>
+        <strong>{{ __('messages.amount') }}:</strong>
+        {{ number_format($payment->amount, 2) }}
+        {{ $payment->paystackTransaction->currency ?? 'NGN' }}
+    </p>
+
+    <p>
+        <strong>{{ __('messages.paid_at') }}:</strong>
+        {{ $payment->paystackTransaction->paid_at ?? 'N/A' }}
+    </p>
+
+    <p>
+        <strong>{{ __('messages.status') }}:</strong>
+        {{ $payment->status }}
+    </p>
+</div>
+
+<a href="{{ route('tools.index') }}" class="btn btn-primary mt-4">
+    {{ __('messages.back_to_tools') }}
+</a>
+        <!-- <h1 class="success-message">تم الدفع بنجاح!</h1>
 
         <div class="details">
             <h2>تفاصيل الدفع</h2>
@@ -48,7 +78,7 @@
             <p><strong>حالة الدفع:</strong> {{ $payment->status }}</p>
         </div>
 
-        <a href="{{ route('tools.index') }}" class="btn btn-primary mt-4">العودة إلى الأدوات</a>
+        <a href="{{ route('tools.index') }}" class="btn btn-primary mt-4">العودة إلى الأدوات</a> -->
     </div>
 </body>
 </html>
