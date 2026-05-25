@@ -112,7 +112,9 @@ class PaystackService {
                 'reference' => $data['reference'],
                 'transaction_id' => $data['id'],
                 "currency" => $data['currency'],
-                'paid_at' => Carbon::parse($data['paid_at']) || null,
+                'paid_at' => isset($paymentDetails['paid_at'])
+    ? Carbon::parse($paymentDetails['paid_at'])
+    : null,
                 'customer' => $data['customer'],
                 'metadata' => $data['metadata'],
             ];

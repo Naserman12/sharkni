@@ -152,12 +152,12 @@ class PaymentController extends Controller
             }
             return redirect()->route('tools.index')->with('error', 'لا يمكن الوصول إلى صفحة النجاح بدون دفع ناجح');
         }
-        $payment = session('payment');
+        $payment = Payment::find(session('payment_id'));
+        Log::info('Payment retrieved from session', ['payment_id' => session('payment_id'), 'payment' => is_object($payment) ? $payment->toArray() : $payment]);
         if (!$payment) {
             Log::warning('Payment data missing in session', ['reference' => $request->query('reference')]);
             return redirect()->route('tools.index')->with('error', 'بيانات الدفع غير متوفرة');
         }
-        Log::info('Payment retrieved from session', ['payment' => is_object($payment) ? $payment->toArray() : $payment]);
         session()->forget(['success', 'payment', 'paystack_payment']);
         Log::info('Session cleared after payment success');
 
