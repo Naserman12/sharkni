@@ -90,9 +90,7 @@
 
           <!-- زر طلب الإستعارة ?Borrowed submit -->
           <div class="mt-6">
-            <a href="{{ route('tools.index') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                        {{ app()->getLocale() == 'ha' ? 'Komawa' : 'Back' }}
-            </a>
+            
           @if (auth()->check() && $tool->user_id !== auth()->id())
             @if ($tool->status == 'available')
             <form wire:submit.prenent="rental({{ $tool->id }})" class=" space-y-4">
@@ -131,9 +129,13 @@
             @else
               <p class="text-red-500">{{ app()->getLocale() == 'ha' ? 'Da fatan za a shiga don neman aro.' : 'Please login to request a rental.' }}</p>
            @endauth
-          </div>
-          <!-- Comments -->
-          <div class="mt-8">
+          
+        </div>
+        <!-- Comments -->
+        <div class="mt-8">
+              <a href="{{ route('tools.index') }}" class=" bg-yellow-600 text-gray-50 py-2 px-4  hover:bg-yellow-700  p-3 rounded-lg w-full cursor-not-allowed">
+                             {{ app()->getLocale() == 'ha' ? 'Komawa Gida' : 'Back to home' }}
+                 </a>
             <h1 class="text-2xl font-bold mb-4">{{ app()->getLocale() == 'ha' ?  'Bar Tsoka' : 'Leave a Comment' }}</h1>
             <!-- add comment form -->
             @if (auth()->check())

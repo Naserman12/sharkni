@@ -2,6 +2,7 @@
 namespace App\Http\Livewire\Admin;
 
 use App\Models\Payment;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class AdminPaymentConfirmation extends Component
@@ -25,9 +26,8 @@ class AdminPaymentConfirmation extends Component
             'payment_status' => 'confirmed',
         ]);
 
-        \Mail::to($payment->user->email)->queue(new \App\Mail\PaymentConfirmed($payment));
-        \Mail::to($payment->tool->user->email)->queue(new \App\Mail\PaymentConfirmed($payment));
-
+        Mail::to($payment->user->email)->queue(new \App\Mail\PaymentConfirmed($payment));
+        Mail::to($payment->tool->user->email)->queue(new \App\Mail\PaymentConfirmed($payment));
         session()->flash('message', __('Payment confirmed successfully.'));
         $this->mount();
     }
